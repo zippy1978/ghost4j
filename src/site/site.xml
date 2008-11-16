@@ -5,11 +5,11 @@
         <artifactId>maven-stylus-skin</artifactId>
         <version>1.0.1</version>
     </skin>
-    <!--<bannerLeft>
+    <bannerLeft>
         <name>Ghost4J</name>
-        <src>http://maven.apache.org/images/apache-maven-project.png</src>
-        <href>http://maven.apache.org/</href>
-    </bannerLeft>-->
+        <src>images/banner.png</src>
+        <href>http://ghost4j.sourceforge.net/</href>
+    </bannerLeft>
     <!--<bannerRight>
         <src>http://maven.apache.org/images/maven-small.gif</src>
     </bannerRight>-->
