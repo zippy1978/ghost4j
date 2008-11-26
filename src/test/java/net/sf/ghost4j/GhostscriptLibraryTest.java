@@ -29,6 +29,7 @@ public class GhostscriptLibraryTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
+
     }
 
     protected void tearDown() throws Exception {
@@ -39,6 +40,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_revision method, of class GhostscriptLibrary.
      */
     public void testGsapi_revision() {
+        
+        System.out.println("Test gsapi_revision");
 
         //prepare revision structure and call revision function
         GhostscriptLibrary.gsapi_revision_s revision = new GhostscriptLibrary.gsapi_revision_s();
@@ -52,6 +55,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_new_instance method, of class GhostscriptLibrary.
      */
     public void testGsapi_new_instance() {
+        
+        System.out.println("Test gsapi_new_instance");
 
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -72,6 +77,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_exit method, of class GhostscriptLibrary.
      */
     public void testGsapi_exit() {
+        
+        System.out.println("Test gsapi_exit");
 
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -101,6 +108,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_init_with_args method, of class GhostscriptLibrary.
      */
     public void testGsapi_init_with_args() {
+        
+        System.out.println("Test gsapi_init_with_args");
 
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -140,6 +149,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_run_string method, of class GhostscriptLibrary.
      */
     public void testGsapi_run_string() {
+        
+        System.out.println("Test gsapi_run_string");
 
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -173,6 +184,8 @@ public class GhostscriptLibraryTest extends TestCase {
      */
     public void testGsapi_run_string_with_length(){
         
+        System.out.println("Test gsapi_run_string_with_length");
+        
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
 
@@ -205,6 +218,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_run_string_continue method, of class GhostscriptLibrary.
      */
     public void testGsapi_run_string_continue() {
+        
+        System.out.println("Test gsapi_run_string_continue");
 
        //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -240,6 +255,8 @@ public class GhostscriptLibraryTest extends TestCase {
      */
     public void testGsapi_run_file(){
         
+        System.out.println("Test gsapi_run_file");
+        
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
 
@@ -273,6 +290,7 @@ public class GhostscriptLibraryTest extends TestCase {
      */
     public void testGsapi_set_stdio() {
 
+        System.out.println("Test gsapi_set_stdio");
         
         //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -327,8 +345,9 @@ public class GhostscriptLibraryTest extends TestCase {
         ghostscriptLibrary.gsapi_init_with_args(instanceByRef.getValue(), args.length, args);
         
         IntByReference exitCode = new IntByReference();
-        ghostscriptLibrary.gsapi_run_string(instanceByRef.getValue(), "devicenames ==\n", 0, exitCode);
-
+        String command = "devicenames ==\n";
+        ghostscriptLibrary.gsapi_run_string_with_length(instanceByRef.getValue(), command,command.length(), 0, exitCode);
+        
         //exit
         ghostscriptLibrary.gsapi_exit(instanceByRef.getValue());
 
@@ -345,6 +364,8 @@ public class GhostscriptLibraryTest extends TestCase {
      * Test of gsapi_set_display_callback method, of class GhostscriptLibrary.
      */
     public void testGsapi_set_display_callback(){
+        
+        System.out.println("Test gsapi_set_display_callback");
         
          //create pointer to hold Ghostscript instance
         GhostscriptLibrary.gs_main_instance.ByReference instanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
@@ -439,7 +460,8 @@ public class GhostscriptLibraryTest extends TestCase {
        
         //run command
         IntByReference exitCode = new IntByReference();
-        ghostscriptLibrary.gsapi_run_string(instanceByRef.getValue(), "showpage\n", 0, exitCode);
+        String command = "showpage\n";
+        ghostscriptLibrary.gsapi_run_string_with_length(instanceByRef.getValue(), command,command.length(), 0, exitCode);
         
         //exit interpreter
         ghostscriptLibrary.gsapi_exit(instanceByRef.getValue());
