@@ -103,7 +103,7 @@ public class GhostscriptTest extends TestCase {
 
         //run string
         try {
-            gs.runString("devicenames ==\n");
+            gs.runString("devicenames ==");
         } catch (GhostscriptException e) {
             fail(e.getMessage());
         }

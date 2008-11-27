@@ -20,32 +20,31 @@ public class Ghostscript {
      * Holds Ghostscript interpreter native instance (C pointer).
      */
     private static GhostscriptLibrary.gs_main_instance.ByReference nativeInstanceByRef;
-
     /**
      * Holds singleton instance.
      */
     private static Ghostscript instance;
-    
+
     /**
      * Singleton access method.
      * @return The singleton instance.
      */
-    public static synchronized Ghostscript getInstance(){
-        
-        if (instance == null){
+    public static synchronized Ghostscript getInstance() {
+
+        if (instance == null) {
             instance = new Ghostscript();
         }
-        
+
         return instance;
     }
-    
+
     /**
      * Private constructor.
      */
-    private Ghostscript(){
-        
+    private Ghostscript() {
+
     }
-    
+
     /**
      * Singleton factory method for getting a Ghostscript,interpreter instance. Only called from class itself.
      * @return Ghostscript instance.
@@ -54,7 +53,7 @@ public class Ghostscript {
     private synchronized GhostscriptLibrary.gs_main_instance.ByReference getNativeInstanceByRef() throws GhostscriptException {
 
         if (nativeInstanceByRef == null) {
-            
+
             //prepare instance
             nativeInstanceByRef = new GhostscriptLibrary.gs_main_instance.ByReference();
             //create instance
@@ -117,78 +116,82 @@ public class Ghostscript {
             throw new GhostscriptException("Cannot initialize Ghostscript interpreter. Error code is " + result);
         }
     }
-    
+
     /**
      * Exits Ghostscript interpreter. Must be called after initialize.
      * @throws net.sf.ghost4j.GhostscriptException
      */
-    public void exit() throws GhostscriptException{
-        
-        if (nativeInstanceByRef == null){
+    public void exit() throws GhostscriptException {
+
+        if (nativeInstanceByRef == null) {
             int result = GhostscriptLibrary.instance.gsapi_exit(getNativeInstanceByRef().getValue());
-            
+
             if (result != 0) {
-            throw new GhostscriptException("Cannot exit Ghostscript interpreter. Error code is " + result);
-        }
+                throw new GhostscriptException("Cannot exit Ghostscript interpreter. Error code is " + result);
+            }
         }
     }
-    
+
     /**
      * Sends command string to Ghostscript interpreter. Must be called after initialize method.
      * @param string Command string
      * @throws net.sf.ghost4j.GhostscriptException
      */
-    public void runString(String string) throws GhostscriptException{
-        
+    public void runString(String string) throws GhostscriptException {
+
         IntByReference exitCode = new IntByReference();
-        
-        
+
+
         GhostscriptLibrary.instance.gsapi_run_string_begin(getNativeInstanceByRef().getValue(), 0, exitCode);
-          
+
         //test exit code
-        if (exitCode.getValue() !=0){
+        if (exitCode.getValue() != 0) {
             throw new GhostscriptException("Cannot run command on Ghostscript interpreter. gsapi_run_string_begin failed with error code " + exitCode.getValue());
         }
-        
-        //TODO must split string if too long here !!!!
-        GhostscriptLibrary.instance.gsapi_run_string_continue(getNativeInstanceByRef().getValue(), string, string.length(),0, exitCode);
-       
-        //test exit code
-        if (exitCode.getValue() !=0){
-            throw new GhostscriptException("Cannot run command on Ghostscript interpreter. gsapi_run_string_continue failed with error code " + exitCode.getValue());
+
+        //split string on carriage return
+        String[] slices = string.split("\n");
+
+        for (int i = 0; i < slices.length; i++) {
+            String slice = slices[i] + "\n";
+            GhostscriptLibrary.instance.gsapi_run_string_continue(getNativeInstanceByRef().getValue(), slice, slice.length(), 0, exitCode);
+
+            //test exit code
+            if (exitCode.getValue() != 0) {
+                throw new GhostscriptException("Cannot run command on Ghostscript interpreter. gsapi_run_string_continue failed with error code " + exitCode.getValue());
+            }
         }
-        
+
         GhostscriptLibrary.instance.gsapi_run_string_end(getNativeInstanceByRef().getValue(), 0, exitCode);
-        
+
         //test exit code
-        if (exitCode.getValue() !=0){
+        if (exitCode.getValue() != 0) {
             throw new GhostscriptException("Cannot run command on Ghostscript interpreter. gsapi_run_string_end failed with error code " + exitCode.getValue());
         }
-        
-        
+
+
     }
-    
+
     /**
      * Deletes the singleton instance of the Ghostscript object.
      * This ensures that the native Ghostscrit interpreter instance is deleted.
      * This method must be called if Ghostscript is not used anymore or maybe reinitialized.
      * @throws net.sf.ghost4j.GhostscriptException
      */
-    public static synchronized void deleteInstance() throws GhostscriptException{
-        
+    public static synchronized void deleteInstance() throws GhostscriptException {
+
         //clear instance
-        if (instance != null){
+        if (instance != null) {
             //exit interpreter
             instance.exit();
             //unreference singleton instance
             instance = null;
         }
-        
+
         //delete native interpeter instance
         if (nativeInstanceByRef != null) {
             GhostscriptLibrary.instance.gsapi_delete_instance(nativeInstanceByRef.getValue());
             nativeInstanceByRef = null;
         }
     }
-
 }
