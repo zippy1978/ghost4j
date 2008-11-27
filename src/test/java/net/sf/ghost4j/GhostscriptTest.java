@@ -27,8 +27,7 @@ public class GhostscriptTest extends TestCase {
         super.tearDown();
 
         //delete loaded Ghostscript instance after each test
-        Ghostscript gs = new Ghostscript();
-        gs.deleteInstance();
+        Ghostscript.deleteInstance();
     }
 
     /**
@@ -54,7 +53,7 @@ public class GhostscriptTest extends TestCase {
 
         System.out.println("Test initialize");
 
-        Ghostscript gs = new Ghostscript();
+        Ghostscript gs = Ghostscript.getInstance();
 
         try {
             gs.initialize(null);
@@ -71,7 +70,7 @@ public class GhostscriptTest extends TestCase {
 
         System.out.println("Test exit");
 
-        Ghostscript gs = new Ghostscript();
+        Ghostscript gs = Ghostscript.getInstance();
 
         //initialize
         try {
@@ -93,8 +92,8 @@ public class GhostscriptTest extends TestCase {
 
         System.out.println("Test runString");
 
-        Ghostscript gs = new Ghostscript();
-
+        Ghostscript gs = Ghostscript.getInstance();
+        
         //initialize
         try {
             gs.initialize(null);
