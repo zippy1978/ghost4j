@@ -20,7 +20,7 @@ public class GhostscriptTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        
+
     }
 
     protected void tearDown() throws Exception {
@@ -93,7 +93,7 @@ public class GhostscriptTest extends TestCase {
         System.out.println("Test runString");
 
         Ghostscript gs = Ghostscript.getInstance();
-        
+
         //initialize
         try {
             gs.initialize(null);
@@ -115,5 +115,41 @@ public class GhostscriptTest extends TestCase {
             fail(e.getMessage());
         }
 
+    }
+
+    /**
+     * Test of runFile method, of class Ghostscript.
+     */
+    public void testRunFile() {
+
+        System.out.println("Test runFile");
+
+        Ghostscript gs = Ghostscript.getInstance();
+
+        //initialize
+        try {
+            String[] args = new String[4];
+            args[0] = "-dQUIET";
+            args[1] = "-dNOPAUSE";
+            args[2] = "-dBATCH";
+            args[3] = "-dSAFER";
+            gs.initialize(args);
+        } catch (GhostscriptException e) {
+            fail(e.getMessage());
+        }
+
+        //run file
+        try {
+            gs.runFile("input.ps");
+        } catch (GhostscriptException e) {
+            fail(e.getMessage());
+        }
+
+        //exit
+        try {
+            gs.exit();
+        } catch (GhostscriptException e) {
+            fail(e.getMessage());
+        }
     }
 }

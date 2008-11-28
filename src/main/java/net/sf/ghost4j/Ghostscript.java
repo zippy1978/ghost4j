@@ -141,7 +141,6 @@ public class Ghostscript {
 
         IntByReference exitCode = new IntByReference();
 
-
         GhostscriptLibrary.instance.gsapi_run_string_begin(getNativeInstanceByRef().getValue(), 0, exitCode);
 
         //test exit code
@@ -169,6 +168,25 @@ public class Ghostscript {
             throw new GhostscriptException("Cannot run command on Ghostscript interpreter. gsapi_run_string_end failed with error code " + exitCode.getValue());
         }
 
+
+    }
+    
+    /**
+     * Sends file Ghostscript interpreter. Must be called after initialize method.
+     * @param fileName File name
+     * @throws net.sf.ghost4j.GhostscriptException
+     */
+    public void runFile(String fileName) throws GhostscriptException {
+        
+        
+         IntByReference exitCode = new IntByReference();
+
+        GhostscriptLibrary.instance.gsapi_run_file(getNativeInstanceByRef().getValue(), fileName, 0, exitCode);
+
+        //test exit code
+        if (exitCode.getValue() != 0) {
+            throw new GhostscriptException("Cannot run file on Ghostscript interpreter. Error code " + exitCode.getValue());
+        }
 
     }
 
