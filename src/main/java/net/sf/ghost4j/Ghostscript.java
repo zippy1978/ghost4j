@@ -6,7 +6,11 @@
  */
 package net.sf.ghost4j;
 
+import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -24,6 +28,18 @@ public class Ghostscript {
      * Holds singleton instance.
      */
     private static Ghostscript instance;
+    /**
+     * Standard input stream.
+     */
+    private static InputStream stdIn;
+    /**
+     * Standard output stream.
+     */
+    private static OutputStream stdOut;
+    /**
+     * Error output stream.
+     */
+    private static OutputStream stdErr;
 
     /**
      * Singleton access method.
@@ -39,10 +55,57 @@ public class Ghostscript {
     }
 
     /**
+     * Gets the error output stream of the Ghostscript interpreter (may be null is not set).
+     * @return The OutputStream or null
+     */
+    public synchronized OutputStream getStdErr() {
+        return stdErr;
+    }
+
+    /**
+     * Sets the error output stream of the Ghostscript interpreter.
+     * @param stdErr OutputStream object
+     */
+    public synchronized void setStdErr(OutputStream stdErr) {
+        this.stdErr = stdErr;
+    }
+
+    /**
+     * Gets the standard output stream of the Ghostscript interpreter (may be null is not set).
+     * @return The OutputStream or null
+     */
+    public synchronized OutputStream getStdOut() {
+        return stdOut;
+    }
+
+    /**
+     * Sets the standard output stream of the Ghostscript interpreter.
+     * @param stdOut OutputStream object
+     */
+    public synchronized void setStdOut(OutputStream stdOut) {
+        this.stdOut = stdOut;
+    }
+
+    /**
+     * Gets the standard input stream of the Ghostscript interpreter (may be null is not set).
+     * @return The InputStream or null
+     */
+    public synchronized InputStream getStdIn() {
+        return stdIn;
+    }
+
+    /**
+     * Sets the standard input stream of the Ghostscript interpreter.
+     * @param stdIn InputStream object
+     */
+    public synchronized void setStdIn(InputStream stdIn) {
+        this.stdIn = stdIn;
+    }
+
+    /**
      * Private constructor.
      */
     private Ghostscript() {
-
     }
 
     /**
@@ -105,10 +168,85 @@ public class Ghostscript {
 
         int result = 0;
 
+        //stdin callback
+        GhostscriptLibrary.stdin_fn stdinCallback = null;
+        if (getStdIn() != null) {
+            stdinCallback = new GhostscriptLibrary.stdin_fn() {
+
+                public int callback(Pointer caller_handle, Pointer buf, int len) {
+
+
+                    try {
+                        byte[] buffer = new byte[1000];
+                        int read = getStdIn().read(buffer);
+                        if (read != -1) {
+                            buf.setString(0, new String(buffer, 0, read));
+                            buffer = null;
+                            return read;
+                        }
+                    } catch (Exception e) {
+                        //an error occurs: do nothing
+                    }
+
+                    return 0;
+                }
+            };
+        }
+
+        //stdout callback
+        GhostscriptLibrary.stdout_fn stdoutCallback = null;
+        if (getStdOut() != null) {
+            stdoutCallback = new GhostscriptLibrary.stdout_fn() {
+
+                public int callback(Pointer caller_handle, String str, int len) {
+
+                    try {
+                        getStdOut().write(str.getBytes(), 0, len);
+                    } catch (IOException ex) {
+                        //do nothing
+                    }
+
+                    return len;
+                }
+            };
+        }
+
+        //stderr callback
+        GhostscriptLibrary.stderr_fn stderrCallback = null;
+        if (getStdErr() != null) {
+            stderrCallback = new GhostscriptLibrary.stderr_fn() {
+
+                public int callback(Pointer caller_handle, String str, int len) {
+
+                    try {
+                        getStdErr().write(str.getBytes(), 0, len);
+                    } catch (IOException ex) {
+                        //do nothing
+                    }
+
+                    return len;
+                }
+            };
+        }
+
+        //io setting
+        result = GhostscriptLibrary.instance.gsapi_set_stdio(getNativeInstanceByRef().getValue(), stdinCallback, stdoutCallback, stderrCallback);
+
+        //test result
+        if (result != 0) {
+            throw new GhostscriptException("Cannot set IO on Ghostscript interpreter. Error code is " + result);
+        }
+
         if (args != null) {
             result = GhostscriptLibrary.instance.gsapi_init_with_args(getNativeInstanceByRef().getValue(), args.length, args);
         } else {
             result = GhostscriptLibrary.instance.gsapi_init_with_args(getNativeInstanceByRef().getValue(), 0, null);
+        }
+
+        //interpreter exited: this is not an error
+        if (result == -101) {
+            exit();
+            result = 0;
         }
 
         //test result
@@ -170,16 +308,16 @@ public class Ghostscript {
 
 
     }
-    
+
     /**
      * Sends file Ghostscript interpreter. Must be called after initialize method.
      * @param fileName File name
      * @throws net.sf.ghost4j.GhostscriptException
      */
     public void runFile(String fileName) throws GhostscriptException {
-        
-        
-         IntByReference exitCode = new IntByReference();
+
+
+        IntByReference exitCode = new IntByReference();
 
         GhostscriptLibrary.instance.gsapi_run_file(getNativeInstanceByRef().getValue(), fileName, 0, exitCode);
 

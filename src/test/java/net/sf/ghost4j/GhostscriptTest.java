@@ -6,6 +6,12 @@
  */
 package net.sf.ghost4j;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import junit.framework.TestCase;
 
 /**
@@ -150,6 +156,128 @@ public class GhostscriptTest extends TestCase {
             gs.exit();
         } catch (GhostscriptException e) {
             fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test Ghostscript standard input.
+     */
+    public void testStdIn() {
+
+        System.out.println("Test stdIn");
+
+        Ghostscript gs = Ghostscript.getInstance();
+
+        InputStream is = null;
+
+        //initialize
+        try {
+
+            is = new FileInputStream("input.ps");
+
+            gs.setStdIn(is);
+
+            String[] args = new String[6];
+            args[0] = "-dQUIET";
+            args[1] = "-dNOPAUSE";
+            args[2] = "-dBATCH";
+            args[3] = "-sOutputFile=%stdout";
+            args[4] = "-f";
+            args[5] = "-";
+
+            gs.initialize(args);
+
+            is.close();
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test Ghostscript standard output.
+     */
+    public void testStdOut() {
+
+        System.out.println("Test stdOut");
+
+        Ghostscript gs = Ghostscript.getInstance();
+
+        InputStream is = null;
+        ByteArrayOutputStream os = null;
+
+        //initialize
+        try {
+
+            //input
+            is = new ByteArrayInputStream(new String("devicenames ==\n").getBytes());
+            gs.setStdIn(is);
+
+            //output
+            os = new ByteArrayOutputStream();
+            gs.setStdOut(os);
+
+            String[] args = new String[3];
+            args[0] = "-sOutputFile=%stdout";
+            args[1] = "-f";
+            args[2] = "-";
+
+            gs.initialize(args);
+
+            assertTrue(os.toString().length() > 0);
+
+            os.close();
+            is.close();
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+     /**
+     * Test Ghostscript standard error output.
+     */
+    public void testStdErr() {
+
+        System.out.println("Test stdErr");
+
+        Ghostscript gs = Ghostscript.getInstance();
+
+        InputStream is = null;
+        ByteArrayOutputStream os = null;
+
+        //initialize
+        try {
+
+            //input
+            is = new ByteArrayInputStream(new String("stupid\n").getBytes());
+            gs.setStdIn(is);
+
+            //output
+            os = new ByteArrayOutputStream();
+            gs.setStdErr(os);
+
+            String[] args = new String[3];
+            args[0] = "-sOutputFile=%stdout";
+            args[1] = "-f";
+            args[2] = "-";
+
+            gs.initialize(args);
+
+            is.close();
+
+        } catch (Exception e) {
+            //do not notice error because we want to test error output
+            if (!e.getMessage().contains("Error code is -100")){
+                fail(e.getMessage());
+            }
+        } finally{
+            try {
+                assertTrue(os.toString().length() > 0);
+                os.close();
+            } catch (IOException e2) {
+                fail(e2.getMessage());
+            }
         }
     }
 }
