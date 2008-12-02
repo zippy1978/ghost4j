@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.sf</groupId>
+    <artifactId>ghost4j</artifactId>
+    <packaging>jar</packaging>
+    <version>0.2</version>
+    <name>Ghost4J</name>
+    <description>Java wrapper for Ghostscript API</description>
+    <url>http://ghost4j.sourceforge.net</url>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:svn:https://ghost4j.svn.sourceforge.net/svnroot/ghost4j/trunk</connection>
+        <url>http://ghost4j.svn.sourceforge.net/viewvc/ghost4j</url>
+    </scm>
+    <developers>
+           <developer>
+               <name>Gilles Grousset</name>
+               <email>gi.grousset@gmail.com</email>
+           </developer>
+    </developers>
+    
+    <repositories>
+        <repository>
+            <releases />
+            <snapshots />
+            <id>jboss</id>
+            <url>http://repository.jboss.com/maven2</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.0.5</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    
+    <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>2.0.1</version>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>dependencies</report>
+                  <report>project-team</report>
+                  <report>license</report>
+                  <report>scm</report>
+                </reports>
+              </reportSet>
+        </reportSets>
+
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+                <stylesheet>maven</stylesheet>
+            </configuration>
+          </plugin>
+        </plugins>
+  </reporting>
+
+  <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                      <descriptors>
+                        <descriptor>src/main/assembly/dist.xml</descriptor>
+                      </descriptors>
+                </configuration>
+            </plugin>
+       </plugins>
+  </build>
+    
+</project>
