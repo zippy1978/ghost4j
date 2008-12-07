@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import junit.framework.TestCase;
+import net.sf.ghost4j.display.DisplayCallback;
+import net.sf.ghost4j.display.ImageWriterDisplayCallback;
 
 /**
  * GhostscriptLibrary tests.
@@ -234,7 +236,7 @@ public class GhostscriptTest extends TestCase {
         }
     }
 
-     /**
+    /**
      * Test Ghostscript standard error output.
      */
     public void testStdErr() {
@@ -268,10 +270,10 @@ public class GhostscriptTest extends TestCase {
 
         } catch (Exception e) {
             //do not notice error because we want to test error output
-            if (!e.getMessage().contains("Error code is -100")){
+            if (!e.getMessage().contains("Error code is -100")) {
                 fail(e.getMessage());
             }
-        } finally{
+        } finally {
             try {
                 assertTrue(os.toString().length() > 0);
                 os.close();
@@ -279,5 +281,48 @@ public class GhostscriptTest extends TestCase {
                 fail(e2.getMessage());
             }
         }
+    }
+
+    /**
+     * Test Ghostscript set with custom display.
+     */
+    public void testDisplayCallback() {
+
+        System.out.println("Test displayCallback");
+
+        Ghostscript gs = Ghostscript.getInstance();
+
+        try {
+
+            //create display callback
+            ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
+
+            //set display callback
+            gs.setDisplayCallback(displayCallback);
+
+            String[] args = new String[7];
+            args[0] = "-dQUIET";
+            args[1] = "-dNOPAUSE";
+            args[2] = "-dBATCH";
+            args[3] = "-dSAFER";
+            args[4] = "-sDEVICE=display";
+            args[5] = "-dDisplayHandle=0";
+            args[6] = "-dDisplayFormat=16#804";
+
+
+            gs.initialize(args);
+
+            gs.runFile("input.ps");
+
+            gs.exit();
+
+            assertEquals(1, displayCallback.getImages().size());
+
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+
     }
 }

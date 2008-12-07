@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import net.sf.ghost4j.display.DisplayCallback;
+import net.sf.ghost4j.display.DisplayData;
 
 /**
  * Class representing the Ghostscript interpreter.
@@ -40,6 +42,18 @@ public class Ghostscript {
      * Error output stream.
      */
     private static OutputStream stdErr;
+    /**
+     * Display callback used to handle display.
+     */
+    private static DisplayCallback displayCallback;
+    /**
+     * Stores display data when working with display callback.
+     */
+    private static DisplayData displayData;
+    /**
+     * Holds the native display callback.
+     */
+    private static GhostscriptLibrary.display_callback nativeDisplayCallback;
 
     /**
      * Singleton access method.
@@ -55,7 +69,23 @@ public class Ghostscript {
     }
 
     /**
-     * Gets the error output stream of the Ghostscript interpreter (may be null is not set).
+     * Gets the display callback set on the Ghostscript interpreter (may be null if not set).
+     * @return The DisplayCallback or null
+     */
+    public synchronized DisplayCallback getDisplayCallback() {
+        return displayCallback;
+    }
+
+    /**
+     * Sets a display callback for the Ghostscript interpreter.
+     * @param displayCallback DisplayCallback object
+     */
+    public synchronized void setDisplayCallback(DisplayCallback displayCallback) {
+        this.displayCallback = displayCallback;
+    }
+
+    /**
+     * Gets the error output stream of the Ghostscript interpreter (may be null if not set).
      * @return The OutputStream or null
      */
     public synchronized OutputStream getStdErr() {
@@ -71,7 +101,7 @@ public class Ghostscript {
     }
 
     /**
-     * Gets the standard output stream of the Ghostscript interpreter (may be null is not set).
+     * Gets the standard output stream of the Ghostscript interpreter (may be null if not set).
      * @return The OutputStream or null
      */
     public synchronized OutputStream getStdOut() {
@@ -87,7 +117,7 @@ public class Ghostscript {
     }
 
     /**
-     * Gets the standard input stream of the Ghostscript interpreter (may be null is not set).
+     * Gets the standard input stream of the Ghostscript interpreter (may be null if not set).
      * @return The InputStream or null
      */
     public synchronized InputStream getStdIn() {
@@ -131,6 +161,15 @@ public class Ghostscript {
         }
 
         return nativeInstanceByRef;
+    }
+
+    private synchronized DisplayData getDisplayData() {
+
+        if (displayData == null) {
+            displayData = new DisplayData();
+        }
+
+        return displayData;
     }
 
     /**
@@ -237,6 +276,17 @@ public class Ghostscript {
             throw new GhostscriptException("Cannot set IO on Ghostscript interpreter. Error code is " + result);
         }
 
+        //display callback setting
+        if (getDisplayCallback() != null) {
+            result = GhostscriptLibrary.instance.gsapi_set_display_callback(getNativeInstanceByRef().getValue(), buildNativeDisplayCallback(getDisplayCallback()));
+
+            //test result
+            if (result != 0) {
+                throw new GhostscriptException("Cannot set display callback on Ghostscript interpreter. Error code is " + result);
+            }
+        }
+
+        //init
         if (args != null) {
             result = GhostscriptLibrary.instance.gsapi_init_with_args(getNativeInstanceByRef().getValue(), args.length, args);
         } else {
@@ -253,6 +303,150 @@ public class Ghostscript {
         if (result != 0) {
             throw new GhostscriptException("Cannot initialize Ghostscript interpreter. Error code is " + result);
         }
+    }
+
+    /**
+     * Builds a native display callback from a DisplayCallback object.
+     * @param displayCallback DisplayCallback to use.
+     * @return The created native display callback.
+     */
+    private synchronized GhostscriptLibrary.display_callback buildNativeDisplayCallback(DisplayCallback displayCallback) {
+
+        nativeDisplayCallback = new GhostscriptLibrary.display_callback();
+
+        nativeDisplayCallback.version_major = 2;
+        nativeDisplayCallback.version_minor = 0;
+
+        nativeDisplayCallback.display_open = new GhostscriptLibrary.display_callback.display_open() {
+
+            public int callback(Pointer handle, Pointer device) {
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displayOpen();
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_preclose = new GhostscriptLibrary.display_callback.display_preclose() {
+
+            public int callback(Pointer handle, Pointer device) {
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displayPreClose();
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_close = new GhostscriptLibrary.display_callback.display_close() {
+
+            public int callback(Pointer handle, Pointer device) {
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displayClose();
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_presize = new GhostscriptLibrary.display_callback.display_presize() {
+
+            public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format) {
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displayPreSize(width, height, raster, format);
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_size = new GhostscriptLibrary.display_callback.display_size() {
+
+            public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format, Pointer pimage) {
+
+                //prepare current page data
+                getDisplayData().setWidth(width);
+                getDisplayData().setHeight(height);
+                getDisplayData().setRaster(raster);
+                getDisplayData().setFormat(format);
+                getDisplayData().setPimage(pimage);
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displaySize(width, height, raster, format);
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_sync = new GhostscriptLibrary.display_callback.display_sync() {
+
+            public int callback(Pointer handle, Pointer device) {
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displaySync();
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_page = new GhostscriptLibrary.display_callback.display_page() {
+
+            public int callback(Pointer handle, Pointer device, int copies, int flush) {
+
+                byte[] data = getDisplayData().getPimage().getByteArray(0, getDisplayData().getRaster() * getDisplayData().getHeight());
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displayPage(getDisplayData().getWidth(), getDisplayData().getHeight(), getDisplayData().getRaster(), getDisplayData().getFormat(), copies, flush, data);
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+        nativeDisplayCallback.display_update = new GhostscriptLibrary.display_callback.display_update() {
+
+            public int callback(Pointer handle, Pointer device, int x, int y, int w, int h) {
+
+                //call to java callback
+                try {
+                    getDisplayCallback().displayUpdate(x, y, w, h);
+                } catch (GhostscriptException e) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+
+
+        nativeDisplayCallback.display_memalloc = null;
+        nativeDisplayCallback.display_memfree = null;
+        nativeDisplayCallback.display_separation = null;
+
+        nativeDisplayCallback.size = nativeDisplayCallback.size();
+
+        return nativeDisplayCallback;
     }
 
     /**
