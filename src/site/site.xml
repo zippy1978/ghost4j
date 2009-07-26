@@ -22,8 +22,9 @@
         <menu name="About Ghost4J">
             <item name="What is Ghost4J" href="index.html"/>
             <item name="Download" href="download.html"/>
-            <!--<item name="Release Notes" href="release-notes.html" />
-            <item name="Road Map" href="roadmap.html" />-->
+            <item name="Code samples" href="codesamples.html"/>
+            <item name="Release Notes" href="releasenotes.html"/>
+            <!--<item name="Road Map" href="roadmap.html" />-->
         </menu>
         <menu ref="reports"/>
     </body>
