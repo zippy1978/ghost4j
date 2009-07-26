@@ -21,8 +21,9 @@ public class PDFConvertExample {
         Ghostscript gs = Ghostscript.getInstance();
 
         //prepare Ghostscript interpreter parameters
-        String[] gsArgs = new String[8];
-        gsArgs[0] = "-dQUIET";
+        //refer to Ghostscript documentation for parameter usage
+        String[] gsArgs = new String[10];
+        gsArgs[0] = "-ps2pdf";
         gsArgs[1] = "-dNOPAUSE";
         gsArgs[2] = "-dBATCH";
         gsArgs[3] = "-dSAFER";
@@ -30,12 +31,13 @@ public class PDFConvertExample {
         gsArgs[5] = "-sOutputFile=output.pdf";
         gsArgs[6] = "-c";
         gsArgs[7] = ".setpdfwrite";
+        gsArgs[8] = "-f";
+        gsArgs[9] = "input.ps";
 
         //execute and exit interpreter
         try {
 
             gs.initialize(gsArgs);
-            gs.runFile("input.ps");
             gs.exit();
 
         } catch (GhostscriptException e) {

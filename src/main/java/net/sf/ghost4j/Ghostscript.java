@@ -455,7 +455,7 @@ public class Ghostscript {
      */
     public void exit() throws GhostscriptException {
 
-        if (nativeInstanceByRef == null) {
+        if (nativeInstanceByRef != null) {
             int result = GhostscriptLibrary.instance.gsapi_exit(getNativeInstanceByRef().getValue());
 
             if (result != 0) {
@@ -532,8 +532,6 @@ public class Ghostscript {
 
         //clear instance
         if (instance != null) {
-            //exit interpreter
-            instance.exit();
             //unreference singleton instance
             instance = null;
         }
