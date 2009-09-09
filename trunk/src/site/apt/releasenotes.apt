@@ -1,0 +1,10 @@
+Release notes
+
+* Version 0.3 - 07/26/2009
+
+  * Added display callback support to interact with Ghostscript raster output.
+
+  * Fixed bug on Ghostscript.exit() method: did not call the native API exit function.
+    This bug resulted in: unable to delete output files, output file not completly written.
+
+  * Added code samples in net.sf.ghost4j.example package.
