@@ -36,7 +36,7 @@ public interface GhostscriptLibrary extends Library {
     /**
      * Name of the dynamic library on Linux / Mac OSX systems.
      */
-    public static final String otherCLib = "libgs";    
+    public static final String otherCLib = "gs";    
     
     /**
      * Static instance of the library itself.
