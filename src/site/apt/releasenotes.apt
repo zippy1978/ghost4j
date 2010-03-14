@@ -1,5 +1,9 @@
 Release notes
 
+* Version 0.3.2 - 03/14/2010
+
+  * Added Log4J support for messages outputted by the Ghostscript interpreter on stdout / stderr.
+
 * Version 0.3 - 07/26/2009
 
   * Added display callback support to interact with Ghostscript raster output.
