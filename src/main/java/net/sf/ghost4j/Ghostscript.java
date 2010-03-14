@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import net.sf.ghost4j.display.DisplayCallback;
 import net.sf.ghost4j.display.DisplayData;
+import org.apache.log4j.Level;
 
 /**
  * Class representing the Ghostscript interpreter.
@@ -232,41 +233,47 @@ public class Ghostscript {
             };
         }
 
-        //stdout callback
+        //stdout callback, if no stdout explicitly defined, use a GhostscriptLoggerOutputStream to log messages
         GhostscriptLibrary.stdout_fn stdoutCallback = null;
-        if (getStdOut() != null) {
-            stdoutCallback = new GhostscriptLibrary.stdout_fn() {
-
-                public int callback(Pointer caller_handle, String str, int len) {
-
-                    try {
-                        getStdOut().write(str.getBytes(), 0, len);
-                    } catch (IOException ex) {
-                        //do nothing
-                    }
-
-                    return len;
-                }
-            };
+        if (getStdOut() == null){
+            setStdOut(new GhostscriptLoggerOutputStream(Level.INFO));
         }
+        
+        stdoutCallback = new GhostscriptLibrary.stdout_fn() {
 
-        //stderr callback
+            public int callback(Pointer caller_handle, String str, int len) {
+
+                try {
+                    getStdOut().write(str.getBytes(), 0, len);
+                } catch (IOException ex) {
+                    //do nothing
+                }
+
+                return len;
+            }
+        };
+
+
+        //stderr callback, if no stdout explicitly defined, use a GhostscriptLoggerOutputStream to log messages
         GhostscriptLibrary.stderr_fn stderrCallback = null;
-        if (getStdErr() != null) {
-            stderrCallback = new GhostscriptLibrary.stderr_fn() {
-
-                public int callback(Pointer caller_handle, String str, int len) {
-
-                    try {
-                        getStdErr().write(str.getBytes(), 0, len);
-                    } catch (IOException ex) {
-                        //do nothing
-                    }
-
-                    return len;
-                }
-            };
+        if (getStdErr() == null){
+            setStdErr(new GhostscriptLoggerOutputStream(Level.ERROR));
         }
+    
+        stderrCallback = new GhostscriptLibrary.stderr_fn() {
+
+            public int callback(Pointer caller_handle, String str, int len) {
+
+                try {
+                    getStdErr().write(str.getBytes(), 0, len);
+                } catch (IOException ex) {
+                    //do nothing
+                }
+
+                return len;
+            }
+        };
+
 
         //io setting
         result = GhostscriptLibrary.instance.gsapi_set_stdio(getNativeInstanceByRef().getValue(), stdinCallback, stdoutCallback, stderrCallback);

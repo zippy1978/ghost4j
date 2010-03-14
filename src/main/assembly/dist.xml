@@ -7,6 +7,9 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>lib</outputDirectory>
+            <excludes>
+                <exclude>net.sf:ghost4j</exclude>
+            </excludes>
         </dependencySet>
     </dependencySets>
     <fileSets>
