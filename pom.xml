@@ -45,13 +45,11 @@
             <groupId>com.sun.jna</groupId>
             <artifactId>jna</artifactId>
             <version>3.0.9</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.15</version>
-            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <artifactId>jmxtools</artifactId>
@@ -70,6 +68,11 @@
                     <groupId>javax.jms</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>xmlgraphics-commons</artifactId>
+            <version>1.3.1</version>
         </dependency>
     </dependencies>
 
