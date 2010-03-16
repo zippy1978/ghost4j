@@ -34,16 +34,19 @@ public class PDFDocument extends AbstractDocument{
         }
 
         ByteArrayInputStream bais = null;
+        PdfReader reader = null;
 
         try{
 
             bais = new ByteArrayInputStream(content);
-            PdfReader reader = new PdfReader(bais);
+            reader = new PdfReader(bais);
             pageCount = reader.getNumberOfPages();
+            reader.close();
 
         } catch(Exception e){
             throw new DocumentException(e);
         }  finally{
+            if (reader != null) reader.close();
             IOUtils.closeQuietly(bais);
         }
 
