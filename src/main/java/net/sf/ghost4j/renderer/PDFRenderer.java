@@ -25,17 +25,18 @@ public class PDFRenderer extends AbstractRenderer{
         Ghostscript gs = Ghostscript.getInstance();
 
         //prepare Ghostscript interpreter parameters
-        String[] gsArgs = new String[10];
+        String[] gsArgs = new String[11];
         gsArgs[0] = "-ps2pdf";
         gsArgs[1] = "-dNOPAUSE";
         gsArgs[2] = "-dBATCH";
         gsArgs[3] = "-dSAFER";
         gsArgs[4] = "-sDEVICE=pdfwrite";
         gsArgs[5] = "-sOutputFile=%stdout";
-        gsArgs[6] = "-c";
-        gsArgs[7] = ".setpdfwrite";
-        gsArgs[8] = "-f";
-        gsArgs[9] = "-";
+        gsArgs[6] = "-q";
+        gsArgs[7] = "-c";
+        gsArgs[8] = ".setpdfwrite";
+        gsArgs[9] = "-f";
+        gsArgs[10] = "-";
 
         //execute and exit interpreter
         try {
