@@ -41,7 +41,6 @@ public class PDFDocument extends AbstractDocument{
             bais = new ByteArrayInputStream(content);
             reader = new PdfReader(bais);
             pageCount = reader.getNumberOfPages();
-            reader.close();
 
         } catch(Exception e){
             throw new DocumentException(e);
