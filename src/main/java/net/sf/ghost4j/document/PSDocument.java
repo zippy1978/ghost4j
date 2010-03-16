@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.xmlgraphics.ps.DSCConstants;
+import org.apache.xmlgraphics.ps.dsc.DSCException;
 import org.apache.xmlgraphics.ps.dsc.DSCParser;
 import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
 
@@ -22,9 +23,26 @@ import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
 public class PSDocument extends AbstractDocument{
 
     public void load(InputStream inputStream) throws IOException {
+
         super.load(inputStream);
 
-        //TODO check that te file is a PostScript
+        //check that the file is a PostScript
+        ByteArrayInputStream bais = null;
+        try {
+
+            bais = new ByteArrayInputStream(content);
+
+            DSCParser parser = new DSCParser(bais);
+            if (parser.nextDSCComment(DSCConstants.END_COMMENTS) == null){
+                throw new IOException("PostScript document is not valid");
+            }
+
+
+        } catch (DSCException e) {
+           throw new IOException(e);
+        } finally{
+            IOUtils.closeQuietly(bais);
+        }
     }
 
     public int getPageCount() throws DocumentException{

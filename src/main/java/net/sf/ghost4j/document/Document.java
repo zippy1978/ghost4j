@@ -51,4 +51,10 @@ public interface Document {
      */
     public int getSize();
 
+    /**
+     * Return an InputStream on the document content
+     * @return InputStream
+     */
+    public InputStream getInputStream();
+
 }

@@ -7,6 +7,7 @@
 
 package net.sf.ghost4j.document;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,6 +61,11 @@ public abstract class AbstractDocument implements Document{
         } else{
             return content.length;
         }
+    }
+
+    public InputStream getInputStream() {
+
+        return new ByteArrayInputStream(content);
     }
 
 

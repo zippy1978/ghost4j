@@ -1,6 +1,8 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Ghost4J: a Java wrapper for Ghostscript API.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
 
 package net.sf.ghost4j.document;
@@ -20,12 +22,24 @@ public class PDFDocument extends AbstractDocument{
     public void load(InputStream inputStream) throws IOException {
         super.load(inputStream);
 
-        //TODO check that te file is a PDF
+        //check that the file is a PDF
+        ByteArrayInputStream bais = null;
+        PdfReader reader = null;
+
+        try{
+
+            bais = new ByteArrayInputStream(content);
+            reader = new PdfReader(bais);
+
+        } catch(Exception e){
+            throw new IOException("PDF document is not valid");
+        }  finally{
+            if (reader != null) reader.close();
+            IOUtils.closeQuietly(bais);
+        }
     }
 
     public int getPageCount() throws DocumentException {
-
-        //TODO add unit test for this method
 
         int pageCount = 0;
 

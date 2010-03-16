@@ -12,12 +12,12 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 /**
- * PSDocument tests.
+ * PDFDocument tests.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public class PSDocumentTest extends TestCase {
+public class PDFDocumentTest extends TestCase {
     
-    public PSDocumentTest(String testName) {
+    public PDFDocumentTest(String testName) {
         super(testName);
     }
 
@@ -30,31 +30,31 @@ public class PSDocumentTest extends TestCase {
     }
 
     /**
-     * Test of getPageCount method, of class PSDocument.
+     * Test of getPageCount method, of class PDFDocument.
      */
     public void testGetPageCount() throws Exception {
-        
+
         System.out.println("Test getPageCount");
 
         //load document
-        PSDocument document = new PSDocument();
-        document.load(new File("input.ps"));
+        PDFDocument document = new PDFDocument();
+        document.load(new File("input.pdf"));
 
         //test
         assertEquals(1, document.getPageCount());
     }
 
-    public void testLoadWrongFormat() throws Exception{
+     public void testLoadWrongFormat() throws Exception{
 
         System.out.println("Test load wrong format");
 
-        //load document (PDF when PS expected)
+        //load document (PS when PDF expected)
         try{
-            PSDocument document = new PSDocument();
-            document.load(new File("input.pdf"));
+            PDFDocument document = new PDFDocument();
+            document.load(new File("input.ps"));
             fail("Test failed");
         } catch(IOException e){
-            assertEquals("PostScript document is not valid", e.getMessage());
+            assertEquals("PDF document is not valid", e.getMessage());
         }
     }
 
