@@ -8,6 +8,8 @@
 package net.sf.ghost4j.document;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.xmlgraphics.ps.DSCConstants;
 import org.apache.xmlgraphics.ps.dsc.DSCParser;
@@ -18,6 +20,12 @@ import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class PSDocument extends AbstractDocument{
+
+    public void load(InputStream inputStream) throws IOException {
+        super.load(inputStream);
+
+        //TODO check that te file is a PostScript
+    }
 
     public int getPageCount() throws DocumentException{
 
