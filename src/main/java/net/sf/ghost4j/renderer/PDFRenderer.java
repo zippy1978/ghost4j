@@ -8,6 +8,7 @@
 package net.sf.ghost4j.renderer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
@@ -42,7 +43,8 @@ public class PDFRenderer extends AbstractRenderer{
         try {
 
             synchronized(gs){
-                gs.setStdIn(document.getInputStream());
+                InputStream is = document.getInputStream();
+                gs.setStdIn(is);
                 gs.setStdOut(outputStream);
                 gs.initialize(gsArgs);
                 gs.deleteInstance();
