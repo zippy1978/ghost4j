@@ -7,7 +7,6 @@
 
 package net.sf.ghost4j.example;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import net.sf.ghost4j.document.PSDocument;
@@ -34,6 +33,11 @@ public class PDFRendererExample {
 
             //create renderer
             PDFRenderer renderer = new PDFRenderer();
+
+            //set options
+            renderer.setPDFSettings(PDFRenderer.OPTION_PDFSETTINGS_PREPRESS);
+
+            //render
             renderer.render(document, fos);
 
         } catch (Exception e) {
