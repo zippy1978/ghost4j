@@ -38,8 +38,8 @@ public class PSDocument extends AbstractDocument{
             }
 
 
-        } catch (Exception e) {
-           throw new IOException(e);
+        } catch (DSCException e) {
+           throw new IOException(e.getMessage());
         } finally{
             IOUtils.closeQuietly(bais);
         }
