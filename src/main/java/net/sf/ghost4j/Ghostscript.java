@@ -77,11 +77,12 @@ public class Ghostscript {
             GhostscriptRevision revision = getRevision();
             float version = Float.parseFloat(revision.getNumber());
             //some Ghostscript versions report 8.15 as 815.05
-            if (version < 8.50 || version > 100) {
+            displayCallbackVersion = 2;
+            /*if (version < 8.50 || version > 100) {
                 displayCallbackVersion = 1;
             } else {
                 displayCallbackVersion = 2;
-            }
+            }*/
 
         }
 
