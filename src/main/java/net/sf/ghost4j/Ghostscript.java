@@ -75,7 +75,6 @@ public class Ghostscript {
 
             //determine display_callback version
             GhostscriptRevision revision = getRevision();
-            System.out.println("--> NUM " + revision.getNumber());
             float version = Float.parseFloat(revision.getNumber());
             //some Ghostscript versions report 8.15 as 815.05
             if (version < 8.50 || version > 100) {
