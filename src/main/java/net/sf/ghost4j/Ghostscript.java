@@ -33,11 +33,6 @@ public class Ghostscript {
     private static Ghostscript instance;
 
     /**
-     * Version of the display call back to use.
-     * May be 1 or 2 (for version 1 or 2).
-     */
-    private static int displayCallbackVersion;
-    /**
      * Standard input stream.
      */
     private static InputStream stdIn;
@@ -60,7 +55,7 @@ public class Ghostscript {
     /**
      * Holds the native display callback.
      */
-    private static GhostscriptLibrary.display_callback_v1_s nativeDisplayCallback;
+    private static GhostscriptLibrary.display_callback nativeDisplayCallback;
 
     /**
      * Singleton access method.
@@ -72,17 +67,6 @@ public class Ghostscript {
 
             //new instance
             instance = new Ghostscript();
-
-            //determine display_callback version
-            GhostscriptRevision revision = getRevision();
-            float version = Float.parseFloat(revision.getNumber());
-            //some Ghostscript versions report 8.15 as 815.05
-            displayCallbackVersion = 2;
-            /*if (version < 8.50 || version > 100) {
-                displayCallbackVersion = 1;
-            } else {
-                displayCallbackVersion = 2;
-            }*/
 
         }
 
@@ -337,20 +321,12 @@ public class Ghostscript {
      * @param displayCallback DisplayCallback to use.
      * @return The created native display callback.
      */
-    private synchronized GhostscriptLibrary.display_callback_v1_s buildNativeDisplayCallback(DisplayCallback displayCallback)
+    private synchronized GhostscriptLibrary.display_callback buildNativeDisplayCallback(DisplayCallback displayCallback)
             throws GhostscriptException {
 
-        //build native callback depending on the required version
-        switch(displayCallbackVersion){
-            case 1:
-                nativeDisplayCallback = new GhostscriptLibrary.display_callback_v1_s();
-                break;
-            case 2:
-                nativeDisplayCallback = new GhostscriptLibrary.display_callback();
-                break;
-        }
+        nativeDisplayCallback = new GhostscriptLibrary.display_callback();
 
-        nativeDisplayCallback.version_major = displayCallbackVersion;
+        nativeDisplayCallback.version_major = 2;
         nativeDisplayCallback.version_minor = 0;
 
         nativeDisplayCallback.display_open = new GhostscriptLibrary.display_callback.display_open() {
@@ -479,11 +455,7 @@ public class Ghostscript {
         nativeDisplayCallback.display_memalloc = null;
         nativeDisplayCallback.display_memfree = null;
         nativeDisplayCallback.size = nativeDisplayCallback.size();
-
-        //define color separation callback, only if callback version is V2
-        if (displayCallbackVersion == 2){
-            ((GhostscriptLibrary.display_callback)nativeDisplayCallback).display_separation = null;
-        }
+        nativeDisplayCallback.display_separation = null;
 
         return nativeDisplayCallback;
     }

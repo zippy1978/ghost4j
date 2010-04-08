@@ -67,28 +67,10 @@ public interface GhostscriptLibrary extends Library {
     /**
      * Structure defining display callback functions (V2).
      */
-    public class display_callback extends display_callback_v1_s {
+    public class display_callback extends Structure {
 
 
-        public static interface display_separation extends Callback {
-
-            public int callback(Pointer handle, Pointer device, int component, String component_name, short c, short m, short y, short k);
-        }
-
-        /**
-         * Holds a display_separation callback.
-         * Set this to null if not required.
-         * Ghostscript must only use this callback if version_major >= 2.
-         */
-        public display_separation display_separation;
-    }
-
-    /**
-     * Structure defining display callback functions (V1).
-     */
-    public class display_callback_v1_s extends Structure {
-
-               /**
+         /**
          * Callback called when new device has been opened.
          * This is the first event from this device.
          */
@@ -179,6 +161,11 @@ public interface GhostscriptLibrary extends Library {
             public int callback(Pointer handle, Pointer device, Pointer mem);
         }
 
+        public static interface display_separation extends Callback {
+
+            public int callback(Pointer handle, Pointer device, int component, String component_name, short c, short m, short y, short k);
+        }
+
         /**
          * Size of this structure.
          * Used for checking if we have been handed a valid structure.
@@ -238,6 +225,20 @@ public interface GhostscriptLibrary extends Library {
          * Set this to null if not required.
          */
         public display_memfree display_memfree;
+        /**
+         * Holds a display_separation callback.
+         * Set this to null if not required.
+         * Ghostscript must only use this callback if version_major >= 2.
+         */
+        public display_separation display_separation;
+    }
+
+    /**
+     * Structure defining display callback functions (V1).
+     */
+    public class display_callback_v1_s extends Structure {
+
+       
        
     }
 
