@@ -1,10 +1,9 @@
 /*
  * Ghost4J: a Java wrapper for Ghostscript API.
- * 
+ *
  * Distributable under LGPL license.
- * See terms of license at http://www.gnu.org/licenses/lgpl.html. 
+ * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
-
 package net.sf.ghost4j;
 
 import com.sun.jna.Callback;
@@ -36,13 +35,12 @@ public interface GhostscriptLibrary extends Library {
     /**
      * Name of the dynamic library on Linux / Mac OSX systems.
      */
-    public static final String otherCLib = "gs";    
-    
+    public static final String otherCLib = "gs";
     /**
      * Static instance of the library itself.
      */
     public static GhostscriptLibrary instance = (GhostscriptLibrary) Native.loadLibrary(Platform.isWindows() ? winCLib : otherCLib, GhostscriptLibrary.class);
-    
+
     /**
      * Structure in charge of holding Ghostscript revision data.
      */
@@ -67,11 +65,30 @@ public interface GhostscriptLibrary extends Library {
     }
 
     /**
-     * Structure defining display callback functions.
+     * Structure defining display callback functions (V2).
      */
-    public class display_callback extends Structure {
+    public class display_callback extends display_callback_v1_s {
+
+
+        public static interface display_separation extends Callback {
+
+            public int callback(Pointer handle, Pointer device, int component, String component_name, short c, short m, short y, short k);
+        }
 
         /**
+         * Holds a display_separation callback.
+         * Set this to null if not required.
+         * Ghostscript must only use this callback if version_major >= 2.
+         */
+        public display_separation display_separation;
+    }
+
+    /**
+     * Structure defining display callback functions (V1).
+     */
+    public class display_callback_v1_s extends Structure {
+
+               /**
          * Callback called when new device has been opened.
          * This is the first event from this device.
          */
@@ -107,6 +124,7 @@ public interface GhostscriptLibrary extends Library {
 
             public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format);
         }
+
         /**
          * Callback called when device has been resized.
          * New pointer to raster is returned in pimage.
@@ -123,7 +141,7 @@ public interface GhostscriptLibrary extends Library {
 
             public int callback(Pointer handle, Pointer device);
         }
-        
+
         /**
          * Callback called on show page.
          * If you want to pause on showpage, then don't return immediately.
@@ -144,8 +162,8 @@ public interface GhostscriptLibrary extends Library {
 
         /**
          * Callback called to allocate memory for bitmap
-         * This is provided in case you need to create memory in a special way, e.g. shared.  
-         * This will only be called to allocate the image buffer. 
+         * This is provided in case you need to create memory in a special way, e.g. shared.
+         * This will only be called to allocate the image buffer.
          * The first row will be placed at the address returned by display_memalloc.
          */
         public static interface display_memalloc extends Callback {
@@ -162,20 +180,6 @@ public interface GhostscriptLibrary extends Library {
         }
 
         /**
-         * Callback called when using separation color space (DISPLAY_COLORS_SEPARATION),
-         * give a mapping for one separation component.
-         * This is called for each new component found.
-         * It may be called multiple times for each component.
-         * It may be called at any time between display_size and display_close.
-         * The client uses this to map from the separations to CMYK and hence to RGB for display.
-         * The unsigned short c,m,y,k values are 65535 = 1.0.
-         */
-        public static interface display_separation extends Callback {
-
-            public int callback(Pointer handle, Pointer device, int component, String component_name, short c, short m, short y, short k);
-        }
-        
-        /**
          * Size of this structure.
          * Used for checking if we have been handed a valid structure.
          */
@@ -187,14 +191,14 @@ public interface GhostscriptLibrary extends Library {
         public int version_major;
         /**
          * Minor version of this structure.
-         * The minor version number will change if new features are added without changes to this structure.  
+         * The minor version number will change if new features are added without changes to this structure.
          * For example, a new color format.
          */
-        public int version_minor;   
+        public int version_minor;
         /**
-         * Holds a display_open callback. 
+         * Holds a display_open callback.
          */
-        public display_open display_open;  
+        public display_open display_open;
         /**
          * Holds a display_preclose callback.
          */
@@ -234,14 +238,9 @@ public interface GhostscriptLibrary extends Library {
          * Set this to null if not required.
          */
         public display_memfree display_memfree;
-        /**
-         * Holds a display_separation callback.
-         * Set this to null if not required.
-         * Ghostscript must only use this callback if version_major >= 2.
-         */
-        public display_separation display_separation;
+       
     }
-    
+
     /**
      * Pointer holding a native Ghostscript instance.
      */
@@ -258,7 +257,7 @@ public interface GhostscriptLibrary extends Library {
             }
         }
     }
-    
+
     /**
      * Callback called to provide a custom input to Ghostscript.
      * buf is a pointer to a char array.
@@ -268,7 +267,7 @@ public interface GhostscriptLibrary extends Library {
 
         public int callback(Pointer caller_handle, Pointer buf, int len);
     }
-    
+
     /**
      * Callback called to provide a custom output to Ghostscript.
      * Important: The output is not the resulting file, but the output of the Postscript interpreter.
@@ -289,11 +288,10 @@ public interface GhostscriptLibrary extends Library {
 
         public int callback(Pointer caller_handle, String str, int len);
     }
-    
-    
+
     /**
-     * This function returns the revision numbers and strings of the Ghostscript interpreter library. 
-     * You should call it before any other interpreter library functions to make sure that the correct version of the Ghostscript interpreter has been loaded. 
+     * This function returns the revision numbers and strings of the Ghostscript interpreter library.
+     * You should call it before any other interpreter library functions to make sure that the correct version of the Ghostscript interpreter has been loaded.
      * @param pr Pointer to the gsapi_revision_s that will hold return values.
      * @param len pr Length
      * @see gsapi_revision_s
@@ -302,9 +300,9 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_revision(Structure pr, int len);
 
     /**
-     * Create a new instance of Ghostscript. This instance is passed to most other gsapi functions. 
-     * The caller_handle will be provided to callback functions. 
-     * At this stage, Ghostscript supports only one instance. 
+     * Create a new instance of Ghostscript. This instance is passed to most other gsapi functions.
+     * The caller_handle will be provided to callback functions.
+     * At this stage, Ghostscript supports only one instance.
      * @param pinstance Pointer to gs_main_instance that will hold the Ghostscript instance.
      * @param caller_handle Caller handler pointer (may be null).
      * @return 0 if everything is OK, < 0 otherwise
@@ -312,14 +310,14 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_new_instance(Pointer pinstance, Pointer caller_handle);
 
     /**
-     * Destroy an instance of Ghostscript. Before you call this, Ghostscript must have finished. 
+     * Destroy an instance of Ghostscript. Before you call this, Ghostscript must have finished.
      * If Ghostscript has been initialised, you must call gsapi_exit before gsapi_delete_instance.
      * @param instance Pointer to the Ghostscript instance.
      */
     public void gsapi_delete_instance(Pointer instance);
 
     /**
-     * Exit the interpreter. 
+     * Exit the interpreter.
      * This must be called on shutdown if gsapi_init_with_args() has been called, and just before gsapi_delete_instance().
      * @param instance Pointer to the Ghostscript instance.
      * @return 0 if everything is OK, < 0 otherwise
@@ -327,9 +325,9 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_exit(Pointer instance);
 
     /**
-     * Initialise the interpreter. 
-     * This calls gs_main_init_with_args() in imainarg.c. 
-     * The arguments are the same as the "C" main function: argv[0] is ignored and the user supplied arguments are argv[1] to argv[argc-1]. 
+     * Initialise the interpreter.
+     * This calls gs_main_init_with_args() in imainarg.c.
+     * The arguments are the same as the "C" main function: argv[0] is ignored and the user supplied arguments are argv[1] to argv[argc-1].
      * @param instance Pointer to the Ghostscript instance.
      * @param argc Argument count
      * @param argv Argument array
@@ -339,7 +337,7 @@ public interface GhostscriptLibrary extends Library {
 
     /**
      * Send instruction to the Ghostscript interpreter.
-     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error. 
+     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error.
      * @param instance Pointer to the Ghostscript instance.
      * @param str Instructions. Max length for the string is 65535.
      * @param user_errors If set to 0 errors are returned the normal way (to the interpreter output), if a negative value is used errors are returns directly by the function.
@@ -350,7 +348,7 @@ public interface GhostscriptLibrary extends Library {
 
     /**
      * Send instruction to the Ghostscript interpreter.
-     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error. 
+     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error.
      * @param instance Pointer to the Ghostscript instance.
      * @param str Instructions. Max length for the string is 65535.
      * @param length str length.
@@ -362,7 +360,7 @@ public interface GhostscriptLibrary extends Library {
 
     /**
      * Open an instruction block to the Ghostscript interpreter.
-     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error. 
+     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error.
      * @param instance Pointer to the Ghostscript instance.
      * @param user_errors If set to 0 errors are returned the normal way (to the interpreter output), if a negative value is used errors are returns directly by the function.
      * @param pexit_code Pointer to the exit return code
@@ -371,9 +369,9 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_run_string_begin(Pointer instance, int user_errors, IntByReference pexit_code);
 
     /**
-     * Send instruction to the Ghostscript interpreter. 
+     * Send instruction to the Ghostscript interpreter.
      * Must be used after gsapi_run_string_begin is called.
-     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error. 
+     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error.
      * @param instance Pointer to the Ghostscript instance.
      * @param str Instructions. Max length for the string is 65535.
      * @param length str length.
@@ -385,7 +383,7 @@ public interface GhostscriptLibrary extends Library {
 
     /**
      * Close an instruction block to the Ghostscript interpreter.
-     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error. 
+     * The address passed in pexit_code will be used to return the exit code for the interpreter in case of a quit or fatal error.
      * @param instance Pointer to the Ghostscript instance.
      * @param user_errors If set to 0 errors are returned the normal way (to the interpreter output), if a negative value is used errors are returns directly by the function.
      * @param pexit_code Pointer to the exit return code
@@ -394,7 +392,7 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_run_string_end(Pointer instance, int user_errors, IntByReference pexit_code);
 
     /**
-     * Send instructions from a file to the Ghostscript interpreter. 
+     * Send instructions from a file to the Ghostscript interpreter.
      * @param instance Pointer to the Ghostscript instance.
      * @param file_name File name.
      * @param user_errors If set to 0 errors are returned the normal way (to the interpreter output), if a negative value is used errors are returns directly by the function.
@@ -404,9 +402,9 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_run_file(Pointer instance, String file_name, int user_errors, IntByReference pexit_code);
 
     /**
-     * Set the callback functions for stdio. 
-     * The stdin callback function should return the number of characters read, 0 for EOF, or -1 for error. 
-     * The stdout and stderr callback functions should return the number of characters written. 
+     * Set the callback functions for stdio.
+     * The stdin callback function should return the number of characters read, 0 for EOF, or -1 for error.
+     * The stdout and stderr callback functions should return the number of characters written.
      * @param instance Pointer to the Ghostscript instance.
      * @param stdin_fn Stdin callback function.
      * @param stdout_fn Stdout callback function.
@@ -416,9 +414,9 @@ public interface GhostscriptLibrary extends Library {
     public int gsapi_set_stdio(Pointer instance, stdin_fn stdin_fn, stdout_fn stdout_fn, stderr_fn stderr_fn);
 
     /**
-     * Set the callback structure for the display device. 
-     * If the display device is used, this must be called after gsapi_new_instance() and before gsapi_init_with_args(). 
-     * See gdevdsp.h for more details. 
+     * Set the callback structure for the display device.
+     * If the display device is used, this must be called after gsapi_new_instance() and before gsapi_init_with_args().
+     * See gdevdsp.h for more details.
      * @param instance Pointer to the Ghostscript instance.
      * @param callback display_callback Structure holding display callback functions.
      * @return 0 if everything is OK, < 0 otherwise
