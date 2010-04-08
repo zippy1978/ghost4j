@@ -33,11 +33,6 @@ public class Ghostscript {
     private static Ghostscript instance;
 
     /**
-     * Version of the display call back to use.
-     * May be 1 or 2 (for version 1 or 2).
-     */
-    private static int displayCallbackVersion;
-    /**
      * Standard input stream.
      */
     private static InputStream stdIn;
@@ -72,17 +67,6 @@ public class Ghostscript {
 
             //new instance
             instance = new Ghostscript();
-
-            //determine display_callback version
-            GhostscriptRevision revision = getRevision();
-            System.out.println("--> NUM " + revision.getNumber());
-            float version = Float.parseFloat(revision.getNumber());
-            //some Ghostscript versions report 8.15 as 815.05
-            if (version < 8.50 || version > 100) {
-                displayCallbackVersion = 1;
-            } else {
-                displayCallbackVersion = 2;
-            }
 
         }
 
@@ -341,19 +325,13 @@ public class Ghostscript {
             throws GhostscriptException {
 
         //build native callback depending on the required version
-        switch(displayCallbackVersion){
-            case 1:
-                nativeDisplayCallback = new GhostscriptLibrary.display_callback_v1_s();
-                break;
-            case 2:
-                nativeDisplayCallback = new GhostscriptLibrary.display_callback();
-                break;
-        }
+        nativeDisplayCallback = new GhostscriptLibrary.display_callback_v1_s();
 
-        nativeDisplayCallback.version_major = displayCallbackVersion;
+        //for compatibility reasons (with older versions of Ghostscript), only V1.0 display_callback structure is used
+        nativeDisplayCallback.version_major = 1;
         nativeDisplayCallback.version_minor = 0;
 
-        nativeDisplayCallback.display_open = new GhostscriptLibrary.display_callback.display_open() {
+        nativeDisplayCallback.display_open = new GhostscriptLibrary.display_callback_v1_s.display_open() {
 
             public int callback(Pointer handle, Pointer device) {
 
@@ -367,7 +345,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_preclose = new GhostscriptLibrary.display_callback.display_preclose() {
+        nativeDisplayCallback.display_preclose = new GhostscriptLibrary.display_callback_v1_s.display_preclose() {
 
             public int callback(Pointer handle, Pointer device) {
 
@@ -381,7 +359,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_close = new GhostscriptLibrary.display_callback.display_close() {
+        nativeDisplayCallback.display_close = new GhostscriptLibrary.display_callback_v1_s.display_close() {
 
             public int callback(Pointer handle, Pointer device) {
 
@@ -395,7 +373,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_presize = new GhostscriptLibrary.display_callback.display_presize() {
+        nativeDisplayCallback.display_presize = new GhostscriptLibrary.display_callback_v1_s.display_presize() {
 
             public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format) {
 
@@ -409,7 +387,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_size = new GhostscriptLibrary.display_callback.display_size() {
+        nativeDisplayCallback.display_size = new GhostscriptLibrary.display_callback_v1_s.display_size() {
 
             public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format, Pointer pimage) {
 
@@ -430,7 +408,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_sync = new GhostscriptLibrary.display_callback.display_sync() {
+        nativeDisplayCallback.display_sync = new GhostscriptLibrary.display_callback_v1_s.display_sync() {
 
             public int callback(Pointer handle, Pointer device) {
 
@@ -444,7 +422,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_page = new GhostscriptLibrary.display_callback.display_page() {
+        nativeDisplayCallback.display_page = new GhostscriptLibrary.display_callback_v1_s.display_page() {
 
             public int callback(Pointer handle, Pointer device, int copies, int flush) {
 
@@ -460,7 +438,7 @@ public class Ghostscript {
                 return 0;
             }
         };
-        nativeDisplayCallback.display_update = new GhostscriptLibrary.display_callback.display_update() {
+        nativeDisplayCallback.display_update = new GhostscriptLibrary.display_callback_v1_s.display_update() {
 
             public int callback(Pointer handle, Pointer device, int x, int y, int w, int h) {
 
@@ -479,11 +457,6 @@ public class Ghostscript {
         nativeDisplayCallback.display_memalloc = null;
         nativeDisplayCallback.display_memfree = null;
         nativeDisplayCallback.size = nativeDisplayCallback.size();
-
-        //define color separation callback, only if callback version is V2
-        if (displayCallbackVersion == 2){
-            ((GhostscriptLibrary.display_callback)nativeDisplayCallback).display_separation = null;
-        }
 
         return nativeDisplayCallback;
     }
