@@ -1,0 +1,19 @@
+Core API
+
+    Core API is the lowest level of the library that allows direct interaction with the Ghostscript interpreter.
+
+    It is composed of :
+
+      * <<GhostscriptLibrary interface:>> the JNA interface with all the native Ghostscript API bindings. Important: this interface must never be used directly, but only through the Ghostscript class.
+
+      * <<Ghostscript singleton class:>> the object used to control the Ghostscript interpreter.
+
+      * <<Classes of the net.sf.ghost4j.display package:>> a set of classes to write custom display callbacks.
+
+* Ghostscript singleton
+
+TODO.
+
+* Display callbacks
+
+TODO.

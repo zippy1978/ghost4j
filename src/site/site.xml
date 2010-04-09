@@ -22,9 +22,15 @@
         <menu name="About Ghost4J">
             <item name="What is Ghost4J" href="index.html"/>
             <item name="Download" href="download.html"/>
-            <item name="Code samples" href="codesamples.html"/>
+            <item name="Hih level API samples" href="highlevelapisamples.html"/>
+            <item name="Core API samples" href="coreapisamples.html"/>
             <item name="Release Notes" href="releasenotes.html"/>
             <!--<item name="Road Map" href="roadmap.html" />-->
+        </menu>
+        <menu name="Documentation">
+            <item name="High level API" href="highlevelapi.html"/>
+            <item name="Core API" href="coreapi.html"/>
+            <item name="Thread safety and multi threading" href="threadsafetyandmultithreading.html"/>
         </menu>
         <menu ref="reports"/>
     </body>
