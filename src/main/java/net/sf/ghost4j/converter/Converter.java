@@ -5,18 +5,18 @@
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
 
-package net.sf.ghost4j.renderer;
+package net.sf.ghost4j.converter;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import net.sf.ghost4j.document.Document;
 
 /**
- * Interface defining a renderer used to render a Document to a given format.
+ * Interface defining a converter used to convert a Document to a given format.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface Renderer {
+public interface Converter {
 
-    public void render(Document document, OutputStream outputStream) throws IOException, RenderException;
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException;
 
 }

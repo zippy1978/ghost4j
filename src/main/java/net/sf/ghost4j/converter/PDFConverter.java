@@ -5,7 +5,7 @@
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
 
-package net.sf.ghost4j.renderer;
+package net.sf.ghost4j.converter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,10 +19,10 @@ import net.sf.ghost4j.document.PSDocument;
 import net.sf.ghost4j.util.DiskStore;
 
 /**
- * PDF renderer.
+ * PDF converter.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public class PDFRenderer extends AbstractRenderer{
+public class PDFConverter extends AbstractConverter{
 
     public static final int OPTION_AUTOROTATEPAGES_NONE = 0;
     public static final int OPTION_AUTOROTATEPAGES_ALL = 1;
@@ -44,14 +44,14 @@ public class PDFRenderer extends AbstractRenderer{
     private String compatibilityLevel = "1.4";
     private boolean PDFX = false;
 
-    public PDFRenderer() {
+    public PDFConverter() {
 
         //set supported classes
         supportedDocumentClasses = new Class[1];
         supportedDocumentClasses[0] = PSDocument.class;
     }
 
-    public void render(Document document, OutputStream outputStream) throws IOException, RenderException {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
 
         //if no output = nothing to do
         if (outputStream == null){
@@ -156,7 +156,7 @@ public class PDFRenderer extends AbstractRenderer{
 
         } catch (GhostscriptException e) {
 
-           throw new RenderException(e);
+           throw new ConverterException(e);
 
         } finally{
 

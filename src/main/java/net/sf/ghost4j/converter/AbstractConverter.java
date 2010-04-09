@@ -5,29 +5,29 @@
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
 
-package net.sf.ghost4j.renderer;
+package net.sf.ghost4j.converter;
 
 import net.sf.ghost4j.document.Document;
 
 
 /**
- * Abstract renderer implementation.
- * Contains methods that are common to the different renderer types
+ * Abstract converter implementation.
+ * Contains methods that are common to the different converter types
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public abstract class AbstractRenderer implements Renderer{
+public abstract class AbstractConverter implements Converter{
 
     /**
-     * Classes of Document supported by the renderer.
+     * Classes of Document supported by the converter.
      */
     protected Class[] supportedDocumentClasses;
 
     /**
-     * Assert a given document instance is supported by the rendered
+     * Assert a given document instance is supported by the converter
      * @param document
      * @return
      */
-    protected void assertDocumentSupported(Document document) throws RenderException{
+    protected void assertDocumentSupported(Document document) throws ConverterException{
 
         if (supportedDocumentClasses != null){
 
@@ -39,7 +39,7 @@ public abstract class AbstractRenderer implements Renderer{
             }
 
             //document not supported
-            throw new RenderException("Documents of class " + document.getClass().getName() + " are not supported by the renderer");
+            throw new ConverterException("Documents of class " + document.getClass().getName() + " are not supported by the converter");
         }
     }
 }

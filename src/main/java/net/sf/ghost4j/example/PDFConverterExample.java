@@ -10,14 +10,14 @@ package net.sf.ghost4j.example;
 import java.io.File;
 import java.io.FileOutputStream;
 import net.sf.ghost4j.document.PSDocument;
-import net.sf.ghost4j.renderer.PDFRenderer;
+import net.sf.ghost4j.converter.PDFConverter;
 import org.apache.commons.io.IOUtils;
 
 /**
- * Example showing how to render a Postscript document to PDF using the high level API.
+ * Example showing how to convert a Postscript document to PDF using the high level API.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public class PDFRendererExample {
+public class PDFConverterExample {
 
     public static void main(String[] args) {
 
@@ -31,14 +31,14 @@ public class PDFRendererExample {
             //create OutputStream
             fos = new FileOutputStream(new File("rendition.pdf"));
 
-            //create renderer
-            PDFRenderer renderer = new PDFRenderer();
+            //create converter
+            PDFConverter converter = new PDFConverter();
 
             //set options
-            renderer.setPDFSettings(PDFRenderer.OPTION_PDFSETTINGS_PREPRESS);
+            converter.setPDFSettings(PDFConverter.OPTION_PDFSETTINGS_PREPRESS);
 
-            //render
-            renderer.render(document, fos);
+            //convert
+            converter.convert(document, fos);
 
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());

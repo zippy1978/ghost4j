@@ -5,8 +5,10 @@
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
 
-package net.sf.ghost4j.renderer;
+package net.sf.ghost4j.converter;
 
+import net.sf.ghost4j.converter.ConverterException;
+import net.sf.ghost4j.converter.PDFConverter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -16,12 +18,12 @@ import net.sf.ghost4j.document.PDFDocument;
 import net.sf.ghost4j.document.PSDocument;
 
 /**
- * PDFRenderer tests.
+ * PDFConverter tests.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public class PDFRendererTest extends TestCase {
+public class PDFConverterTest extends TestCase {
     
-    public PDFRendererTest(String testName) {
+    public PDFConverterTest(String testName) {
         super(testName);
     }
 
@@ -35,7 +37,7 @@ public class PDFRendererTest extends TestCase {
         super.tearDown();
     }
 
-    public void testRenderWithPS() throws Exception {
+    public void testConvertWithPS() throws Exception {
 
         PSDocument document = new PSDocument();
         document.load(new File("input.ps"));
@@ -43,26 +45,26 @@ public class PDFRendererTest extends TestCase {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        PDFRenderer renderer = new PDFRenderer();
-        renderer.render(document, baos);
+        PDFConverter converter = new PDFConverter();
+        converter.convert(document, baos);
 
         assertTrue(baos.size() > 0);
 
         baos.close();
     }
 
-    public void testRenderWithUnsupportedDocument() throws Exception {
+    public void testConvertWithUnsupportedDocument() throws Exception {
 
         PDFDocument document = new PDFDocument();
         document.load(new File("input.pdf"));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        PDFRenderer renderer = new PDFRenderer();
+        PDFConverter converter = new PDFConverter();
         try{
-            renderer.render(document, baos);
+            converter.convert(document, baos);
             fail("Test failed");
-        } catch(RenderException e){
+        } catch(ConverterException e){
             assertTrue(e.getMessage().startsWith("Documents of class"));
         }
 
