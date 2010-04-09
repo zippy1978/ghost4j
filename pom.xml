@@ -24,6 +24,14 @@
                <email>gi.grousset@gmail.com</email>
            </developer>
     </developers>
+    <contributors>
+        <contributor>
+            <name>Dave Smith</name>
+            <email>dave.smith@candata.com</email>
+            <organization>CANdata Systems</organization>
+            <organizationUrl>http://www.candata.com</organizationUrl>
+        </contributor>
+    </contributors>
     
     <repositories>
         <repository>
