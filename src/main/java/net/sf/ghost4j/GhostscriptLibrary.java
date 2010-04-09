@@ -65,12 +65,11 @@ public interface GhostscriptLibrary extends Library {
     }
 
     /**
-     * Structure defining display callback functions (V2).
+     * Structure defining display callback functions.
      */
-    public class display_callback extends Structure {
+    public class display_callback_s extends Structure {
 
-
-         /**
+               /**
          * Callback called when new device has been opened.
          * This is the first event from this device.
          */
@@ -225,20 +224,13 @@ public interface GhostscriptLibrary extends Library {
          * Set this to null if not required.
          */
         public display_memfree display_memfree;
+
         /**
          * Holds a display_separation callback.
          * Set this to null if not required.
          * Ghostscript must only use this callback if version_major >= 2.
          */
         public display_separation display_separation;
-    }
-
-    /**
-     * Structure defining display callback functions (V1).
-     */
-    public class display_callback_v1_s extends Structure {
-
-       
        
     }
 
@@ -419,7 +411,7 @@ public interface GhostscriptLibrary extends Library {
      * If the display device is used, this must be called after gsapi_new_instance() and before gsapi_init_with_args().
      * See gdevdsp.h for more details.
      * @param instance Pointer to the Ghostscript instance.
-     * @param callback display_callback Structure holding display callback functions.
+     * @param callback display_callback_s Structure holding display callback functions.
      * @return 0 if everything is OK, < 0 otherwise
      */
     public int gsapi_set_display_callback(Pointer instance, Structure callback);
