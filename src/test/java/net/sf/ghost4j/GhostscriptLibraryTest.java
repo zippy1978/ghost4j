@@ -377,60 +377,59 @@ public class GhostscriptLibraryTest extends TestCase {
         final StringBuffer result = new StringBuffer();
         
         //set display callbacks
-        GhostscriptLibrary.display_callback displayCallback = new GhostscriptLibrary.display_callback();
-        displayCallback.version_major=2;
-        displayCallback.version_minor=0;
-        displayCallback.display_open = new GhostscriptLibrary.display_callback.display_open() {
+        GhostscriptLibrary.display_callback_s displayCallback = new GhostscriptLibrary.display_callback_s();
+        displayCallback.version_major = 2;
+        displayCallback.version_minor = 0;
+        displayCallback.display_open = new GhostscriptLibrary.display_callback_s.display_open() {
 
             public int callback(Pointer handle, Pointer device) {
-                System.out.println("OPEN " + handle + " " + device);
                 result.append("OPEN-");
                 return 0;
             }
         };
-        displayCallback.display_preclose = new GhostscriptLibrary.display_callback.display_preclose() {
+        displayCallback.display_preclose = new GhostscriptLibrary.display_callback_s.display_preclose() {
 
             public int callback(Pointer handle, Pointer device) {
                 result.append("PRECLOSE-");
                 return 0;
             }
         };
-        displayCallback.display_close = new GhostscriptLibrary.display_callback.display_close() {
+        displayCallback.display_close = new GhostscriptLibrary.display_callback_s.display_close() {
 
             public int callback(Pointer handle, Pointer device) {
                 result.append("CLOSE");
                 return 0;
             }
         };
-        displayCallback.display_presize = new GhostscriptLibrary.display_callback.display_presize() {
+        displayCallback.display_presize = new GhostscriptLibrary.display_callback_s.display_presize() {
 
             public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format) {
                 result.append("PRESIZE-");
                 return 0;
             }
         };
-        displayCallback.display_size = new GhostscriptLibrary.display_callback.display_size() {
+        displayCallback.display_size = new GhostscriptLibrary.display_callback_s.display_size() {
 
             public int callback(Pointer handle, Pointer device, int width, int height, int raster, int format, Pointer pimage) {
                 result.append("SIZE-");
                 return 0;
             }
         };
-        displayCallback.display_sync = new GhostscriptLibrary.display_callback.display_sync() {
+        displayCallback.display_sync = new GhostscriptLibrary.display_callback_s.display_sync() {
 
             public int callback(Pointer handle, Pointer device) {
                 result.append("SYNC-");
                 return 0;
             }
         };
-        displayCallback.display_page = new GhostscriptLibrary.display_callback.display_page() {
+        displayCallback.display_page = new GhostscriptLibrary.display_callback_s.display_page() {
 
             public int callback(Pointer handle, Pointer device, int copies, int flush) {
                 result.append("PAGE-");
                 return 0;
             }
         };
-        displayCallback.display_update = new GhostscriptLibrary.display_callback.display_update() {
+        displayCallback.display_update = new GhostscriptLibrary.display_callback_s.display_update() {
 
             public int callback(Pointer handle, Pointer device, int x, int y, int w, int h) {
                 result.append("UPDATE-");
@@ -440,7 +439,6 @@ public class GhostscriptLibraryTest extends TestCase {
         
         displayCallback.display_memalloc = null;
         displayCallback.display_memfree = null;
-        displayCallback.display_separation = null;
         
         displayCallback.size = displayCallback.size();
         
