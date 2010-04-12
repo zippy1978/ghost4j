@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -21,7 +22,7 @@ import org.apache.commons.io.IOUtils;
  * Contains methods that are common to the different document types
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public abstract class AbstractDocument implements Document{
+public abstract class AbstractDocument implements Document, Serializable{
 
     /**
      * Buffer size used while reading (loading) document content.

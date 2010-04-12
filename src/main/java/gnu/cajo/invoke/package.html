@@ -1,0 +1,31 @@
+<body>
+
+This package is the foundation for completely transparent local/remote
+inter-VM communication. It provides a standard interface between local/remote
+objects, and prevents having to generate unique RMI stubs for every
+application specific class. <i>(either explicitly or implicitly)</i><p>
+
+The rationale behind this paradim is to enable seamless dynamic and
+interchangeable linking between remote and local objects; in order to
+accomplish advanced functionality. Objects can also be mobile, i.e. moving
+from one JVM to another, even providing graphical user interfaces to itself,
+on remote hosts. Objects can even be dynamically linked, with objects from
+other applications, at runtime.  This can support and harness such concepts
+as scale-free networking, and the emergent phenomena of collective networking.
+<p>
+
+For the purposes of this paradigm, any object implementing the
+{@link gnu.cajo.invoke.Invoke Invoke} interface is considered an
+<b>Item</b>. If a JVM allows the loading of mobile code, and an item is
+sent to it, either as an argument, or a return value, that item is referred
+to as a <b>Proxy</b>, in this architecture.<p>
+
+Also included in the package is the {@link gnu.cajo.invoke.Client Client}
+and {@link gnu.cajo.invoke.JClient JClient} Application/Applet. While
+strictly non topical to this package, they provide another standard paradigm
+for creating, hosting, and using graphical proxy items. They could be likened
+to a successor to <a href=http://en.wikipedia.org/wiki/Xwindows>
+X Windows</a>. They are far more capable, being able to perform application
+specific computation at the client, offloading the server.<p>
+
+</body>

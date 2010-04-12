@@ -7,6 +7,7 @@
 package net.sf.ghost4j.util;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * This class allows launching another JVM from the current JVM.
@@ -32,6 +33,11 @@ public class JavaFork implements Runnable {
      * If set to TRUE, main JVM will wait for this JVM to stop before exiting.
      */
     private boolean waitBeforeExiting = false;
+
+    /**
+     * Additional environment variables.
+     */
+    private Map<String, String> environment;
 
     public void start(Class startClass) {
 
@@ -84,7 +90,9 @@ public class JavaFork implements Runnable {
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-cp", classPath, startClass.getName());
         processBuilder.directory(new File(System.getProperty("user.dir")));
         processBuilder.environment().putAll(System.getenv());
-
+        if (getEnvironment() != null){
+           processBuilder.environment().putAll(getEnvironment());
+        }
 
         //start
         try {
@@ -129,5 +137,13 @@ public class JavaFork implements Runnable {
 
     public void setWaitBeforeExiting(boolean waitBeforeExiting) {
         this.waitBeforeExiting = waitBeforeExiting;
+    }
+
+    public Map<String, String> getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Map<String, String> environment) {
+        this.environment = environment;
     }
 }

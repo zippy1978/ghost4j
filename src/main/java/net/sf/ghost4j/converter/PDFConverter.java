@@ -7,6 +7,7 @@
 
 package net.sf.ghost4j.converter;
 
+import gnu.cajo.Cajo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import net.sf.ghost4j.util.DiskStore;
  * PDF converter.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public class PDFConverter extends AbstractConverter{
+public class PDFConverter extends AbstractRemoteConverter{
 
     public static final int OPTION_AUTOROTATEPAGES_NONE = 0;
     public static final int OPTION_AUTOROTATEPAGES_ALL = 1;
@@ -50,8 +51,47 @@ public class PDFConverter extends AbstractConverter{
         supportedDocumentClasses = new Class[1];
         supportedDocumentClasses[0] = PSDocument.class;
     }
+    
+    /**
+     * Main method used to start the converter in standalone 'slave mode'.
+     * @param args
+     * @throws ConverterException
 
-    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
+     */
+    public static void main(String args[]) throws ConverterException {
+
+        try {
+
+            //get port
+            if (System.getenv("cajo.port") == null){
+                throw new ConverterException("No Cajo port defined for remote converter");
+            }
+            int cajoPort = Integer.parseInt(System.getenv("cajo.port"));
+
+            //start cajo server
+            Cajo cajo = new Cajo(cajoPort, null, null);
+
+            //export converter
+            RemoteConverter converter = new PDFConverter();
+            converter.setMaxProcessCount(0);
+            cajo.export(converter);
+
+
+        } catch (Exception e) {
+            throw new ConverterException(e);
+        }
+
+    }
+
+
+    /**
+     * Run method called to perform the actual process of the converter.
+     * @param document
+     * @param outputStream
+     * @throws IOException
+     * @throws ConverterException
+     */
+    public void run(Document document, OutputStream outputStream) throws IOException, ConverterException {
 
         //if no output = nothing to do
         if (outputStream == null){

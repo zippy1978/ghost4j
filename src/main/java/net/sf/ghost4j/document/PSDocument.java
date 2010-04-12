@@ -10,6 +10,7 @@ package net.sf.ghost4j.document;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import org.apache.commons.io.IOUtils;
 import org.apache.xmlgraphics.ps.DSCConstants;
 import org.apache.xmlgraphics.ps.dsc.DSCException;
@@ -20,7 +21,7 @@ import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
  * Class representing a PostScript document.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public class PSDocument extends AbstractDocument{
+public class PSDocument extends AbstractDocument implements Serializable{
 
     public void load(InputStream inputStream) throws IOException {
 

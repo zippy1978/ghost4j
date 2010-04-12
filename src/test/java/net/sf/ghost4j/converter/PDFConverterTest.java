@@ -53,6 +53,23 @@ public class PDFConverterTest extends TestCase {
         baos.close();
     }
 
+    public void testConvertWithPSMultiProcess() throws Exception {
+
+        PSDocument document = new PSDocument();
+        document.load(new File("input.ps"));
+
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        PDFConverter converter = new PDFConverter();
+        converter.setMaxProcessCount(2);
+        converter.convert(document, baos);
+
+        assertTrue(baos.size() > 0);
+
+        baos.close();
+    }
+
     public void testConvertWithUnsupportedDocument() throws Exception {
 
         PDFDocument document = new PDFDocument();
