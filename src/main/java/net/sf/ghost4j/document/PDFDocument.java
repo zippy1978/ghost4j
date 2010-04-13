@@ -11,14 +11,13 @@ import com.lowagie.text.pdf.PdfReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author ggrousset
  */
-public class PDFDocument extends AbstractDocument implements Serializable{
+public class PDFDocument extends AbstractDocument{
 
     public void load(InputStream inputStream) throws IOException {
         super.load(inputStream);

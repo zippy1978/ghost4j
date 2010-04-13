@@ -7,7 +7,7 @@
 
 package net.sf.ghost4j.converter;
 
-import gnu.cajo.Cajo;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -60,27 +60,7 @@ public class PDFConverter extends AbstractRemoteConverter{
      */
     public static void main(String args[]) throws ConverterException {
 
-        try {
-
-            //get port
-            if (System.getenv("cajo.port") == null){
-                throw new ConverterException("No Cajo port defined for remote converter");
-            }
-            int cajoPort = Integer.parseInt(System.getenv("cajo.port"));
-
-            //start cajo server
-            Cajo cajo = new Cajo(cajoPort, null, null);
-
-            //export converter
-            RemoteConverter converter = new PDFConverter();
-            converter.setMaxProcessCount(0);
-            cajo.export(converter);
-
-
-        } catch (Exception e) {
-            throw new ConverterException(e);
-        }
-
+        startRemoteConverter(new PDFConverter());
     }
 
 
@@ -178,10 +158,11 @@ public class PDFConverter extends AbstractRemoteConverter{
 
             //execute and exit interpreter
             synchronized(gs){
-                InputStream is = document.getInputStream();
+                InputStream is = new ByteArrayInputStream(document.getContent());
                 gs.setStdIn(is);
                 gs.initialize(gsArgs);
                 Ghostscript.deleteInstance();
+                is.close();
             }
 
             // write obtained file to output stream
@@ -202,6 +183,20 @@ public class PDFConverter extends AbstractRemoteConverter{
 
             //remove temporary file
             diskStore.removeFile(diskStoreKey);
+        }
+
+    }
+
+    public void cloneSettings(RemoteConverter remoteConverter){
+
+        if ((remoteConverter instanceof PDFConverter)){
+            PDFConverter pdfConverter = (PDFConverter) remoteConverter;
+
+            this.setAutoRotatePages(pdfConverter.getAutoRotatePages());
+            this.setCompatibilityLevel(pdfConverter.getCompatibilityLevel());
+            this.setPDFSettings(pdfConverter.getPDFSettings());
+            this.setPDFX(pdfConverter.isPDFX());
+            this.setProcessColorModel(pdfConverter.getProcessColorModel());
         }
 
     }

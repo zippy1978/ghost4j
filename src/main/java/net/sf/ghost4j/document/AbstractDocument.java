@@ -64,9 +64,8 @@ public abstract class AbstractDocument implements Document, Serializable{
         }
     }
 
-    public InputStream getInputStream() {
-
-        return new ByteArrayInputStream(content);
+    public byte[] getContent() {
+        return content;
     }
 
 

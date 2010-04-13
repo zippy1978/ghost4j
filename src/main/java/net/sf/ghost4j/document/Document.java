@@ -53,9 +53,9 @@ public interface Document{
     public int getSize();
 
     /**
-     * Return an InputStream on the document content
-     * @return InputStream
+     * Return document content as a byte array
+     * @return Byte array
      */
-    public InputStream getInputStream();
+    public byte[] getContent();
 
 }

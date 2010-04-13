@@ -71,6 +71,13 @@ public class JavaFork implements Runnable {
 
     }
 
+    public void stop(){
+
+        if (process != null){
+            process.destroy();
+        }
+    }
+
     public void run() {
 
         //check if process is not already running

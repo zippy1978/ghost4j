@@ -17,6 +17,13 @@ import net.sf.ghost4j.document.Document;
  */
 public interface Converter {
 
+    /**
+     * Converts a given document and output results in provided output stream.
+     * @param document Document to convert. Document type may or may no be supported (support left to the convert final implementation).
+     * @param outputStream Output stream where converted document is written.
+     * @throws IOException
+     * @throws ConverterException
+     */
     public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException;
 
 }

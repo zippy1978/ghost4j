@@ -6,17 +6,9 @@
  */
 package net.sf.ghost4j.converter;
 
-import gnu.cajo.Cajo;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.ghost4j.document.Document;
-import net.sf.ghost4j.util.JavaFork;
-import java.rmi.RemoteException;
 
 /**
  * Abstract converter implementation.
