@@ -43,7 +43,7 @@ public abstract class AbstractConverter implements Converter {
         }
     }
 
-    public synchronized void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
 
         //perform actual processing
         run(document, outputStream);

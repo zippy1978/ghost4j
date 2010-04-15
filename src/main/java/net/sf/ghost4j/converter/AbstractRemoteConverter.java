@@ -61,7 +61,7 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
     }
 
     @Override
-    public synchronized byte[] remoteConvert(Document document) throws IOException, ConverterException {
+    public byte[] remoteConvert(Document document) throws IOException, ConverterException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         run(document, baos);
@@ -148,8 +148,11 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
                 outputStream.write(result);
 
 
-            } catch (Exception e) {
-                throw new IOException(e);
+            } catch (IOException e) {
+                throw e;
+            }
+            catch (Exception e) {
+                throw new ConverterException(e);
             } finally {
                 fork.stop();
             }
