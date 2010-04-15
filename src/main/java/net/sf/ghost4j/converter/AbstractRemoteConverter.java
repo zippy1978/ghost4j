@@ -73,7 +73,7 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
     }
 
     @Override
-    public synchronized void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
 
         if (maxProcessCount == 0) {
 
