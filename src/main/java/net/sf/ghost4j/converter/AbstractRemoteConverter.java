@@ -60,7 +60,6 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
         }
     }
 
-    @Override
     public byte[] remoteConvert(Document document) throws IOException, ConverterException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
