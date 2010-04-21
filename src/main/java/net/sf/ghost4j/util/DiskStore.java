@@ -79,11 +79,11 @@ public class DiskStore {
 
     /**
      * Retrieve a File from a store key.
-     * If key iss unknow, null is returned.
+     * If key is unknown, null is returned.
      * @param key Unique file resource identifier.
      * @return File or null (if not found).
      */
-    public File getFile(String key){
+    public synchronized File getFile(String key){
 
         return map.get(key);
 
@@ -95,7 +95,7 @@ public class DiskStore {
      * @param key Unique file resource identifier.
      * @throws IOException In case the file cannot be deleted.
      */
-    public void removeFile(String key) throws IOException{
+    public synchronized void removeFile(String key) throws IOException{
 
         File file = this.getFile(key);
 
@@ -115,7 +115,7 @@ public class DiskStore {
      * @param key File unique identifier.
      * @return The generated (empty) file.
      */
-    public File addFile(String key){
+    public synchronized File addFile(String key){
 
         //prepare file
         File file = new File(ROOT_PATH, key);

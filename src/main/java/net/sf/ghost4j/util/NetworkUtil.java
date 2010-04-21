@@ -25,7 +25,7 @@ public class NetworkUtil {
 	 * @param endPort Port number ending the range
 	 * @return An available port number, or 0 if none is available.
 	 */
-	public static int findAvailablePort(String hostname, int startPort, int endPort){
+	public static synchronized int findAvailablePort(String hostname, int startPort, int endPort){
 		
 		for ( int port = startPort; port < (endPort +1); port++) {
             

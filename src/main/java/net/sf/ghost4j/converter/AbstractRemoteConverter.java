@@ -162,11 +162,9 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             catch (Exception e) {
                 throw new ConverterException(e);
             } finally {
+            	processCount--;
                 fork.stop();
             }
-
-
-            processCount--;
         }
 
     }

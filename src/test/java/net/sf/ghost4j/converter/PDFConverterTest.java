@@ -55,26 +55,72 @@ public class PDFConverterTest extends TestCase {
 
     public void testConvertWithPSMultiProcess() throws Exception {
 
-        PSDocument document = new PSDocument();
+        final PSDocument document = new PSDocument();
         document.load(new File("input.ps"));
 
+        final Boolean convertion1finsihed = false;
+        final Boolean convertion2finsihed = false;
+        final Boolean convertion3finsihed = false;
 
-        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
 
-        PDFConverter converter = new PDFConverter();
+        final PDFConverter converter = new PDFConverter();
         converter.setMaxProcessCount(2);
-        converter.convert(document, baos1);
-        converter.convert(document, baos2);
+        
+        Thread thread1 = new Thread(){
+        	public void run() {
+        		try{
+        			System.out.println("START 1 " + Thread.currentThread());
+        			converter.convert(document, baos1);
+        			System.out.println("END 1 " + Thread.currentThread());
+        		}catch(Exception e){
+        			e.printStackTrace();
+        		}
+        	};
+        };
+        thread1.start();
+        
+        Thread thread2 = new Thread(){
+        	public void run() {
+        		try{
+        			System.out.println("START 2 " + Thread.currentThread());
+        			converter.convert(document, baos2);
+        			System.out.println("END 2 " + Thread.currentThread());
+        		}catch(Exception e){
+        			e.printStackTrace();
+        		}
+        	};
+        };
+        thread2.start();
+        
         //the last one will block until a previous one finishes
-        converter.convert(document, baos3);
-
+        Thread thread3 = new Thread(){
+        	public void run() {
+        		try{
+        			System.out.println("START 3 " + Thread.currentThread());
+        			converter.convert(document, baos3);
+        			System.out.println("END 3 " + Thread.currentThread());
+        		}catch(Exception e){
+        			e.printStackTrace();
+        		}
+        	};
+        };
+        thread3.start();
+        
+        thread1.join();
+        thread2.join();
+        thread3.join();
+        
         assertTrue(baos1.size() > 0);
-        assertTrue(baos2.size() > 0);
-        assertTrue(baos3.size() > 0);
-
         baos1.close();
+        
+        assertTrue(baos2.size() > 0);
+        baos2.close();
+        
+        assertTrue(baos3.size() > 0);
+        baos3.close();
     }
 
     public void testConvertWithUnsupportedDocument() throws Exception {

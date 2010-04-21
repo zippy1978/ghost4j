@@ -86,7 +86,7 @@ public class PDFConverter extends AbstractRemoteConverter{
 
         //generate a unique diskstore key
         DiskStore diskStore = DiskStore.getInstance();
-        String diskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis());
+        String diskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
 
         //prepare Ghostscript interpreter parameters
         String[] gsArgs = new String[14];
@@ -167,6 +167,9 @@ public class PDFConverter extends AbstractRemoteConverter{
 
             // write obtained file to output stream
             File outputFile = diskStore.getFile(diskStoreKey);
+            if (outputFile == null){
+            	throw new ConverterException("Cannot retrieve file with key " + diskStoreKey + " from disk store");
+            }
 
             FileInputStream fis = new FileInputStream(outputFile);
             byte[] content = new byte[(int)outputFile.length()];
