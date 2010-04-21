@@ -13,6 +13,9 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.util.JavaFork;
 import net.sf.ghost4j.util.NetworkUtil;
@@ -24,6 +27,11 @@ import net.sf.ghost4j.util.NetworkUtil;
  */
 public abstract class AbstractRemoteConverter extends AbstractConverter implements RemoteConverter {
 
+    /**
+     * Log4J logger used to log messages.
+     */
+    private Logger logger = Logger.getLogger(AbstractRemoteConverter.class.getName());
+    
     /**
      * Maximum number of parallel processes allowed for the converter.
      */
@@ -106,7 +114,8 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             if (cajoPort == 0){
             	throw new IOException("No port available to start remote converter");
             }
-
+            logger.debug(Thread.currentThread() + " use " + cajoPort + " as server port");
+            
             //start new JVM with current converter
             JavaFork fork = new JavaFork();
             fork.setRedirectStreams(true);
@@ -132,6 +141,7 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
                 if (cajoClientPort == 0){
                 	throw new IOException("No port available to connect to remote converter");
                 }
+                logger.debug(Thread.currentThread() + " use " + cajoPort + " as client port");
                 
                 //register cajo
                 Cajo cajo = new Cajo(cajoClientPort, null, null);
