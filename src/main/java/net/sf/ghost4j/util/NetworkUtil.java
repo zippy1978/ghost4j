@@ -46,14 +46,34 @@ public class NetworkUtil {
 	 * Waits until a port is listening on a given host. An exception is thrown if the timeout is excedeed.
 	 * @param hostname Host name
 	 * @param port Port number
-	 * @param timeout Timeout in milliseconds
-	 * @throws UnknownHostException If host name is unknown
+	 * @param timeout Timeout in seconds
 	 * @throws IOException If a connection error occurs or if the timeout is exceeded
 	 */
-	public static void waitUntilPortListening(String hostname, int port, int timeout) throws UnknownHostException, IOException{
+	public static void waitUntilPortListening(String hostname, int port, int timeout) throws IOException{
 		
-		Socket socket = new Socket();
-		socket.connect(new InetSocketAddress(InetAddress.getByName(hostname), port),timeout);
-		socket.close();
+		int i = 0;
+		while (i < timeout){
+			
+			//try to get connection
+			try {
+				Socket socket = new Socket(InetAddress.getByName(hostname),port);
+				//connection OK: exit
+				socket.close();
+				return;
+			} catch (IOException e) {
+				//nothing
+			}
+			
+			i++;
+			
+			//wait for 1 second
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				//nothing
+			}
+		}
+		
+		throw new IOException("Timeout waiting for port " + port + " to listen");
 	}
 }
