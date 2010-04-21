@@ -59,15 +59,22 @@ public class PDFConverterTest extends TestCase {
         document.load(new File("input.ps"));
 
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
 
         PDFConverter converter = new PDFConverter();
         converter.setMaxProcessCount(2);
-        converter.convert(document, baos);
+        converter.convert(document, baos1);
+        converter.convert(document, baos2);
+        //the last one will block until a previous one finishes
+        converter.convert(document, baos3);
 
-        assertTrue(baos.size() > 0);
+        assertTrue(baos1.size() > 0);
+        assertTrue(baos2.size() > 0);
+        assertTrue(baos3.size() > 0);
 
-        baos.close();
+        baos1.close();
     }
 
     public void testConvertWithUnsupportedDocument() throws Exception {

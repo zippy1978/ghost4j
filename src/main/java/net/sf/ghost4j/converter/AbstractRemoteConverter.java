@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.util.JavaFork;
+import net.sf.ghost4j.util.NetworkUtil;
 
 /**
  * Abstract remote converter implementation.
@@ -28,7 +29,7 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
      */
     protected int maxProcessCount = 0;
     /**
-     * Number of parallel processes running
+     * Number of parallel processes running.
      */
     protected int processCount = 0;
 
@@ -100,8 +101,11 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
                 throw new ConverterException("Standalone mode is not supported by this converter: no 'main' method found");
             }
 
-            //TODO get free TCP port to run Cajo on
-            int cajoPort = 1198;
+            //get free TCP port to run Cajo server on
+            int cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 1195, 2000);
+            if (cajoPort == 0){
+            	throw new IOException("No port available to start remote converter");
+            }
 
             //start new JVM with current converter
             JavaFork fork = new JavaFork();
@@ -120,12 +124,17 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             //send document to new JVM
             try {
 
-                //TODO wait for the remote JVM to start
-                Thread.sleep(800);
+                //wait for the remote JVM to start
+            	NetworkUtil.waitUntilPortListening("127.0.0.1", cajoPort, 10000);
 
+                //find Cajo client port available
+                int cajoClientPort = NetworkUtil.findAvailablePort("127.0.0.1", 7000, 8000);
+                if (cajoClientPort == 0){
+                	throw new IOException("No port available to connect to remote converter");
+                }
+                
                 //register cajo
-                //TODO: add dynamic client port attribution
-                Cajo cajo = new Cajo(7777, null, null);
+                Cajo cajo = new Cajo(cajoClientPort, null, null);
                 cajo.register("127.0.0.1", cajoPort);
 
                 //get remote converter
