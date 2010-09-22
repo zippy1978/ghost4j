@@ -48,7 +48,7 @@ public class GhostscriptLibraryTest extends TestCase {
         ghostscriptLibrary.gsapi_revision(revision, revision.size());
 
         //test result
-        assertEquals("GPL Ghostscript", revision.product);
+        assertTrue(revision.product.contains("Ghostscript"));
     }
 
     /**

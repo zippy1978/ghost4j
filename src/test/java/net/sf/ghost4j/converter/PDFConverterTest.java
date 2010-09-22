@@ -7,13 +7,10 @@
 
 package net.sf.ghost4j.converter;
 
-import net.sf.ghost4j.converter.ConverterException;
-import net.sf.ghost4j.converter.PDFConverter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.OutputStream;
+
 import junit.framework.TestCase;
-import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.PDFDocument;
 import net.sf.ghost4j.document.PSDocument;
 
