@@ -17,7 +17,7 @@ import java.net.UnknownHostException;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class NetworkUtil {
-
+	
 	/**
 	 * Finds an available port within a port range on a host
 	 * @param hostname Host name

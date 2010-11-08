@@ -108,56 +108,66 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             } catch (Exception ex) {
                 throw new ConverterException("Standalone mode is not supported by this converter: no 'main' method found");
             }
-
-            //get free TCP port to run Cajo server on
-            int cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 1195, 2000);
-            if (cajoPort == 0){
-            	throw new IOException("No port available to start remote converter");
-            }
-            logger.debug(Thread.currentThread() + " uses " + cajoPort + " as server port");
             
-            //start new JVM with current converter
+            //prepare new JVM
             JavaFork fork = new JavaFork();
             fork.setRedirectStreams(true);
             fork.setWaitBeforeExiting(false);
             fork.setStartClass(this.getClass());
+            
+            int cajoPort = 0;
+            RemoteConverter remoteConverter = null;
 
-            //add extra environment variables
-            Map<String, String> environment = new HashMap<String, String>();
-            //Cajo port
-            environment.put("cajo.port", String.valueOf(cajoPort));
-            fork.setEnvironment(environment);
-
-            fork.start();
-
-            //send document to new JVM
             try {
+            	
+            	synchronized (AbstractRemoteConverter.class) {
 
-                //wait for the remote JVM to start
-            	NetworkUtil.waitUntilPortListening("127.0.0.1", cajoPort, 10000);
+		            //get free TCP port to run Cajo server on
+		            cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 5000, 6000);
+		            if (cajoPort == 0){
+		            	throw new IOException("No port available to start remote converter");
+		            }
+		            logger.debug(Thread.currentThread() + " uses " + cajoPort + " as server port");
+		            
+		            //add extra environment variables to JVM
+		            Map<String, String> environment = new HashMap<String, String>();
+		            //Cajo port
+		            environment.put("cajo.port", String.valueOf(cajoPort));
+		            fork.setEnvironment(environment);
+		            
+		            //start new JVM with current converter
+		            fork.start();
+		
+		            //send document to new JVM
+	
+	                //wait for the remote JVM to start
+	            	NetworkUtil.waitUntilPortListening("127.0.0.1", cajoPort, 10000);
+	            	
+	            	//find Cajo client port available
+	                int cajoClientPort = NetworkUtil.findAvailablePort("127.0.0.1", 7000, 8000);
+	                if (cajoClientPort == 0){
+	                	throw new IOException("No port available to connect to remote converter");
+	                }
+	                logger.debug(Thread.currentThread() + " uses " + cajoPort + " as client port");
+	                
+	                //register cajo
+	                Cajo cajo = new Cajo(cajoClientPort, null, null);
+	                cajo.register("127.0.0.1", cajoPort);
+	                
+	                
+	                //get remote converter
+	                Object refs[] = cajo.lookup(Converter.class);
+	                if (refs.length == 0) {
+	                    //not converter found
+	                    fork.stop();
+	                    throw new ConverterException("No remote converter process found");
+	                }
+	                remoteConverter = (RemoteConverter) cajo.proxy(refs[0], RemoteConverter.class);
 
-                //find Cajo client port available
-                int cajoClientPort = NetworkUtil.findAvailablePort("127.0.0.1", 7000, 8000);
-                if (cajoClientPort == 0){
-                	throw new IOException("No port available to connect to remote converter");
-                }
-                logger.debug(Thread.currentThread() + " uses " + cajoPort + " as client port");
-                
-                //register cajo
-                Cajo cajo = new Cajo(cajoClientPort, null, null);
-                cajo.register("127.0.0.1", cajoPort);
-
-                //get remote converter
-                Object refs[] = cajo.lookup(Converter.class);
-                if (refs.length == 0) {
-                    //not converter found
-                    fork.stop();
-                    throw new ConverterException("No remote converter process found");
-                }
-                RemoteConverter remoteConverter = (RemoteConverter) cajo.proxy(refs[0], RemoteConverter.class);
-
-                // clone converter settings
-                remoteConverter.cloneSettings(this);
+	                // clone converter settings
+	                remoteConverter.cloneSettings(this);
+            	
+            	}
 
                 //perform remote convertion
                 byte[] result = remoteConverter.remoteConvert(document);
