@@ -46,6 +46,12 @@
             <id>central</id>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
+        <repository>
+        	<releases/>
+        	<snapshots/>
+        	<id>java</id>
+        	<url>http://download.java.net/maven/2</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -56,9 +62,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.jna</groupId>
+            <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>3.0.9</version>
+            <version>3.2.7</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>

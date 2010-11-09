@@ -12,8 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import org.apache.commons.io.IOUtils;
 
@@ -38,7 +40,9 @@ public abstract class AbstractDocument implements Document, Serializable{
 
     public void load(File file) throws FileNotFoundException, IOException{
 
-        load(new FileInputStream(file));
+    	FileInputStream fis = new FileInputStream(file);
+        load(fis);
+        IOUtils.closeQuietly(fis);
     }
 
     public void load(InputStream inputStream) throws IOException{
@@ -53,6 +57,20 @@ public abstract class AbstractDocument implements Document, Serializable{
         content = baos.toByteArray();
 
         IOUtils.closeQuietly(baos);
+    }
+    
+    public void write(File file) throws IOException {
+    	
+    	FileOutputStream fos = new FileOutputStream(file);
+    	write(fos);
+    	IOUtils.closeQuietly(fos);
+    	
+    }
+    
+    public void write(OutputStream outputStream) throws IOException {
+    	
+    	outputStream.write(content);
+    	
     }
 
     public int getSize() {

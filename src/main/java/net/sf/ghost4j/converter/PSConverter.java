@@ -63,45 +63,44 @@ public class PSConverter extends AbstractRemoteConverter {
         //get Ghostscript instance
         Ghostscript gs = Ghostscript.getInstance();
 
-        //generate a unique diskstore key
+        //generate a unique diskstore key for output file
         DiskStore diskStore = DiskStore.getInstance();
-        String diskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
+        String outputDiskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
+        
+        //generate a unique diskstore key for input file
+        String inputDiskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
+        
+        // Write document to input file
+        document.write(diskStore.addFile(inputDiskStoreKey));
 
         //prepare Ghostscript interpreter parameters
-        String[] gsArgs = new String[12];
-        
-        gsArgs[0] = "-dNOPAUSE";
-        gsArgs[1] = "-dBATCH";
-        gsArgs[2] = "-dSAFER";
-        
-        //languageLevel
-        gsArgs[3] = "-dLanguageLevel=" + languageLevel;
-        
-        gsArgs[4] = "-sDEVICE=pswrite";
-        //output to file, as stdout redirect does not work properly
-        gsArgs[5] = "-sOutputFile=" + diskStore.addFile(diskStoreKey).getAbsolutePath();
-        gsArgs[6] = "-q";
-        gsArgs[7] = "-c";
-        gsArgs[8] = "save";
-        gsArgs[9] = "pop";
-        gsArgs[10] = "-f";
-        gsArgs[11] = "-";
-        
+        String[] gsArgs = {
+        		//dummy value to prevent interpreter from blocking
+        		"-psconv",
+        		"-dNOPAUSE", 
+        		"-dBATCH", 
+        		"-dSAFER", 
+        		"-dLanguageLevel=" + languageLevel, 
+        		"-sDEVICE=pswrite",
+        		//output to file, as stdout redirect does not work properly
+        		"-sOutputFile=" + diskStore.addFile(outputDiskStoreKey).getAbsolutePath(),
+        		"-q",
+        		"-f",
+        		// read from a file as stdin redirect does not work properly with PDF file as input
+        		diskStore.getFile(inputDiskStoreKey).getAbsolutePath()};
+         
         try {
 
             //execute and exit interpreter
             synchronized(gs){
-                InputStream is = new ByteArrayInputStream(document.getContent());
-                gs.setStdIn(is);
                 gs.initialize(gsArgs);
                 Ghostscript.deleteInstance();
-                is.close();
             }
 
             // write obtained file to output stream
-            File outputFile = diskStore.getFile(diskStoreKey);
+            File outputFile = diskStore.getFile(outputDiskStoreKey);
             if (outputFile == null){
-            	throw new ConverterException("Cannot retrieve file with key " + diskStoreKey + " from disk store");
+            	throw new ConverterException("Cannot retrieve file with key " + outputDiskStoreKey + " from disk store");
             }
 
             FileInputStream fis = new FileInputStream(outputFile);
@@ -117,8 +116,9 @@ public class PSConverter extends AbstractRemoteConverter {
 
         } finally{
 
-            //remove temporary file
-            diskStore.removeFile(diskStoreKey);
+            //remove temporary files
+            diskStore.removeFile(outputDiskStoreKey);
+            diskStore.removeFile(inputDiskStoreKey);
         }
 
 	}

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
@@ -33,6 +34,20 @@ public interface Document{
      * @throws IOException
      */
     public void load(InputStream inputStream) throws IOException;
+    
+    /**
+     * Write document to a File.
+     * @param file File.
+     * @throws IOException
+     */
+    public void write(File file) throws IOException;
+    
+    /**
+     * Write document to an OutputStream
+     * @param outputStream
+     * @throws IOException
+     */
+    public void write(OutputStream outputStream) throws IOException;
 
     /**
      * Return document page count
