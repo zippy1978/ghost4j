@@ -62,9 +62,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>net.java.dev.jna</groupId>
+            <groupId>com.sun.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>3.2.7</version>
+            <version>3.0.9</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
