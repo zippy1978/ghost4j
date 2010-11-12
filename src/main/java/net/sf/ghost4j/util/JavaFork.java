@@ -38,6 +38,17 @@ public class JavaFork implements Runnable {
      * Additional environment variables.
      */
     private Map<String, String> environment;
+    
+    /**
+     * Xmx parameter. Default value is set to 128M.
+     */
+    private String xmx = "128m";
+    
+    /**
+     * Xms parameter. Default value is set to 64M.
+     */
+	private String xms = "64m";
+	
 
     public void start(Class startClass) {
 
@@ -94,7 +105,7 @@ public class JavaFork implements Runnable {
         String classPath = System.getProperty("java.class.path");
 
         //build child process
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-cp", classPath, startClass.getName());
+        ProcessBuilder processBuilder = new ProcessBuilder("java", "-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
         processBuilder.directory(new File(System.getProperty("user.dir")));
         processBuilder.environment().putAll(System.getenv());
         if (getEnvironment() != null){
@@ -153,4 +164,21 @@ public class JavaFork implements Runnable {
     public void setEnvironment(Map<String, String> environment) {
         this.environment = environment;
     }
+    
+    public String getXmx() {
+		return xmx;
+	}
+
+	public void setXmx(String xmx) {
+		this.xmx = xmx;
+	}
+
+	public String getXms() {
+		return xms;
+	}
+
+	public void setXms(String xms) {
+		this.xms = xms;
+	}
+
 }

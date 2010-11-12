@@ -115,6 +115,11 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             fork.setWaitBeforeExiting(false);
             fork.setStartClass(this.getClass());
             
+            //set JVM Xmx parameter according to the document size
+            int documentMbSize = (document.getSize() / 1024 / 1024) + 1;
+            int xmxValue = 64 + documentMbSize;
+            fork.setXmx(xmxValue + "m");
+            
             int cajoPort = 0;
             RemoteConverter remoteConverter = null;
 
