@@ -95,6 +95,7 @@ public class PSConverter extends AbstractRemoteConverter {
             //execute and exit interpreter
             synchronized(gs){
                 gs.initialize(gsArgs);
+                gs.exit();
                 Ghostscript.deleteInstance();
             }
 

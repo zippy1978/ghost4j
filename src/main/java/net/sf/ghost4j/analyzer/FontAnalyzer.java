@@ -86,6 +86,7 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
                 gs.setStdIn(is);
                 gs.setStdOut(baos);
                 gs.initialize(gsArgs);
+                gs.exit();
                 Ghostscript.deleteInstance();
                 is.close();
             }
