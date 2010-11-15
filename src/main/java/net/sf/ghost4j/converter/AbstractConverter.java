@@ -8,6 +8,9 @@ package net.sf.ghost4j.converter;
 
 import java.io.IOException;
 import java.io.OutputStream;
+
+import net.sf.ghost4j.component.AbstractComponent;
+import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
 
 /**
@@ -15,40 +18,14 @@ import net.sf.ghost4j.document.Document;
  * Contains methods that are common to the different converter types
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public abstract class AbstractConverter implements Converter {
+public abstract class AbstractConverter extends AbstractComponent implements Converter {
 
-    /**
-     * Classes of Document supported by the converter.
-     */
-    protected Class[] supportedDocumentClasses;
-
-    /**
-     * Assert a given document instance is supported by the converter
-     * @param document
-     * @return
-     */
-    protected void assertDocumentSupported(Document document) throws ConverterException {
-
-        if (supportedDocumentClasses != null) {
-
-            for (Class clazz : supportedDocumentClasses) {
-                if (clazz.getName().equals(document.getClass().getName())) {
-                    //supported
-                    return;
-                }
-            }
-
-            //document not supported
-            throw new ConverterException("Documents of class " + document.getClass().getName() + " are not supported by the converter");
-        }
-    }
-
-    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported {
 
         //perform actual processing
         run(document, outputStream);
      
     }
 
-    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException;
+    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported;
 }

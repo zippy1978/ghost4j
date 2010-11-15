@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
+import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.PSDocument;
 import net.sf.ghost4j.util.DiskStore;
@@ -70,8 +71,9 @@ public class PDFConverter extends AbstractRemoteConverter{
      * @param outputStream
      * @throws IOException
      * @throws ConverterException
+     * @throws DocumentNotSupported
      */
-    public void run(Document document, OutputStream outputStream) throws IOException, ConverterException {
+    public void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported {
 
         //if no output = nothing to do
         if (outputStream == null){

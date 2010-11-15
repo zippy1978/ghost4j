@@ -7,6 +7,8 @@
 package net.sf.ghost4j.converter;
 
 import java.io.IOException;
+
+import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
 
 /**
@@ -16,20 +18,21 @@ import net.sf.ghost4j.document.Document;
 public interface RemoteConverter extends Converter {
 
     /**
-     * Sets max parallel convertion processes allowed for the converter
+     * Sets max parallel conversion processes allowed for the converter
      * @param maxProcessCount
      */
     public void setMaxProcessCount(int maxProcessCount);
 
     /**
      * Converts a document and return results as a byte array.
-     * This convertion method does not use a stream to output result in order to support remote calls on it.
+     * This conversion method does not use a stream to output result in order to support remote calls on it.
      * @param document Document to convert
      * @return Converted document as a byte array
      * @throws IOException
      * @throws ConverterException
+     * @throws DocumentNotSupported
      */
-    public byte[] remoteConvert(Document document) throws IOException, ConverterException;
+    public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentNotSupported;
 
     /**
      * Clones settings of a converter to another one.

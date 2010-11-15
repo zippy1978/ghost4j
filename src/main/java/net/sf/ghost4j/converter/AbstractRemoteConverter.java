@@ -16,6 +16,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.lowagie.text.DocumentException;
+
+import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.util.JavaFork;
 import net.sf.ghost4j.util.NetworkUtil;
@@ -69,7 +72,7 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
         }
     }
 
-    public byte[] remoteConvert(Document document) throws IOException, ConverterException {
+    public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentNotSupported {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         run(document, baos);
@@ -81,7 +84,7 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
     }
 
     @Override
-    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported {
 
         if (maxProcessCount == 0) {
 

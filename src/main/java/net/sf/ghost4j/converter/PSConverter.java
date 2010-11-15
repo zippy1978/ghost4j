@@ -16,6 +16,7 @@ import java.io.OutputStream;
 
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
+import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.PDFDocument;
 import net.sf.ghost4j.document.PSDocument;
@@ -50,7 +51,7 @@ public class PSConverter extends AbstractRemoteConverter {
 	
 	@Override
 	public void run(Document document, OutputStream outputStream)
-			throws IOException, ConverterException {
+			throws IOException, ConverterException, DocumentNotSupported {
 		
 		 //if no output = nothing to do
         if (outputStream == null){
