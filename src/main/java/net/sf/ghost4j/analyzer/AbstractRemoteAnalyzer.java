@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.ghost4j.component.DocumentNotSupported;
-import net.sf.ghost4j.converter.AbstractRemoteConverter;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.util.JavaFork;
 import net.sf.ghost4j.util.NetworkUtil;
@@ -112,7 +111,7 @@ public abstract class AbstractRemoteAnalyzer extends AbstractAnalyzer implements
 
 	            try {
 	            	
-	            	synchronized (AbstractRemoteConverter.class) {
+	            	synchronized (AbstractRemoteAnalyzer.class) {
 
 			            //get free TCP port to run Cajo server on
 			            cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 5000, 6000);
