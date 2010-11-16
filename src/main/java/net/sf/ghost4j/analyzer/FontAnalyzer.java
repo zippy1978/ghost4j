@@ -81,12 +81,11 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
             synchronized(gs){
             
             	//load .ps script
-            	InputStream is = this.getClass().getClassLoader().getResourceAsStream("net/sf/ghost4j/script/AnalyzePDFFonts.ps");
+            	InputStream is = this.getClass().getClassLoader().getResourceAsStream("script/AnalyzePDFFonts.ps");
             	
                 gs.setStdIn(is);
                 gs.setStdOut(baos);
                 gs.initialize(gsArgs);
-                gs.exit();
                 Ghostscript.deleteInstance();
                 is.close();
             }

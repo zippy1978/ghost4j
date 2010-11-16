@@ -41,7 +41,7 @@ public class FontAnalyzerTest extends TestCase {
 		FontAnalyzer fontAnalyzer = new FontAnalyzer();
 		List<AnalysisItem> result = fontAnalyzer.analyze(document);
 		
-		assertEquals(2, result.size());
+		assertEquals(4, result.size());
 	}
 	
 	public void testAnalyzeWithPDFMultiProcess() throws Exception {
@@ -58,7 +58,7 @@ public class FontAnalyzerTest extends TestCase {
         			System.out.println("START 1 " + Thread.currentThread());
         			List<AnalysisItem> result = fontAnalyzer.analyze(document);
         			System.out.println("END 1 " + Thread.currentThread());
-        			assertEquals(2, result.size());
+        			assertEquals(4, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -72,7 +72,7 @@ public class FontAnalyzerTest extends TestCase {
         			System.out.println("START 2 " + Thread.currentThread());
         			List<AnalysisItem> result = fontAnalyzer.analyze(document);
         			System.out.println("END 2 " + Thread.currentThread());
-        			assertEquals(2, result.size());
+        			assertEquals(4, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -87,7 +87,7 @@ public class FontAnalyzerTest extends TestCase {
         			System.out.println("START 3 " + Thread.currentThread());
         			List<AnalysisItem> result = fontAnalyzer.analyze(document);
         			System.out.println("END 3 " + Thread.currentThread());
-        			assertEquals(2, result.size());
+        			assertEquals(4, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
