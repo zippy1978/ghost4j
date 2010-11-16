@@ -51,11 +51,11 @@ File dup (r) file runpdfbegin
           dup /FontDescriptor knownoget {
             dup /FontFile known 1 index /FontFile2 known or exch /FontFile3 known
             where { pop pop false} if {
-            	/BaseFont knownoget pop
-            	dup 100 string cvs ( EM) append      
+            	/BaseFont knownoget pop % Embedded font
+            	dup 100 string cvs ( EM) append
             } {
-              /BaseFont knownoget pop   %  Embedded font
-              dup 100 string cvs ( EM) append
+              /BaseFont knownoget pop   %  Embedded font subset
+              dup 100 string cvs ( SU) append
             } ifelse
           } {
             /BaseFont knownoget pop     % no FontDescriptor, not embedded

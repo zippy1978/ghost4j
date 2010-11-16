@@ -112,12 +112,14 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 					String[] nameParts = name.split("\\+");
 					if (nameParts.length > 1) {
 						name = nameParts[1];
+						//if prefix: it is a subset
+						font.setSubSet(true);
 					}
 					font.setName(columns[1]);
 					font.setEmbedded(false);
-					if (columns[1].equals("EMBEDDED")){
+					if (columns[1].equals("EM") || columns[1].equals("SU")){
 						font.setEmbedded(true);	
-					}
+					} 
 					result.add(font);
 				}
 			}

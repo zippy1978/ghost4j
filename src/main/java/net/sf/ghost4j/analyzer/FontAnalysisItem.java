@@ -23,15 +23,25 @@ public class FontAnalysisItem implements AnalysisItem {
 	 */
 	private boolean embedded;
 	
+	/**
+	 * Indicate is the embedded font is a subset or a fullset 
+	 */
+	private boolean subSet;
+	
 	@Override
 	public String toString() {
 		
-		String embeddedString = "NOT EMBEDDED";
+		String embeddedString = "NOT_EMBEDDED";
 		if (embedded) {
 			embeddedString = "EMBEDDED";
 		}
 		
-		return name + ": " + embeddedString;
+		String setString = "FULL_SET";
+		if (subSet) {
+			setString = "SUB_SET";
+		}
+		
+		return name + ": " + embeddedString + " " + setString;
 	}
 
 	public String getName() {
@@ -48,5 +58,13 @@ public class FontAnalysisItem implements AnalysisItem {
 
 	public void setEmbedded(boolean embedded) {
 		this.embedded = embedded;
+	}
+
+	public boolean isSubSet() {
+		return subSet;
+	}
+
+	public void setSubSet(boolean subSet) {
+		this.subSet = subSet;
 	}
 }
