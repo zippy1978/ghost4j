@@ -106,7 +106,14 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 				if (columns.length == 2){
 					//create new font analysis item object
 					FontAnalysisItem font = new FontAnalysisItem();
-					font.setName(columns[0]);
+					
+					//remove prefix from font name
+					String name = columns[0];
+					String[] nameParts = name.split("\\+");
+					if (nameParts.length > 1) {
+						name = nameParts[1];
+					}
+					font.setName(columns[1]);
 					font.setEmbedded(false);
 					if (columns[1].equals("EMBEDDED")){
 						font.setEmbedded(true);	
