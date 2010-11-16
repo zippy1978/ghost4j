@@ -163,7 +163,6 @@ public class PDFConverter extends AbstractRemoteConverter{
                 InputStream is = new ByteArrayInputStream(document.getContent());
                 gs.setStdIn(is);
                 gs.initialize(gsArgs);
-                gs.exit();
                 Ghostscript.deleteInstance();
                 is.close();
             }
