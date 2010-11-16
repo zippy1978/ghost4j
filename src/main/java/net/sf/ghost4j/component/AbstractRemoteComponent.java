@@ -7,6 +7,7 @@
 package net.sf.ghost4j.component;
 
 import gnu.cajo.Cajo;
+import gnu.cajo.invoke.Remote;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -109,25 +110,8 @@ public abstract class AbstractRemoteComponent extends AbstractComponent {
      */
     public synchronized Object getRemoteComponent(int serverPort, Class clazz) throws Exception{
     	
-    	//find Cajo client port available
-        int cajoClientPort = NetworkUtil.findAvailablePort("127.0.0.1", 7000, 8000);
-        if (cajoClientPort == 0){
-        	throw new IOException("No port available to connect to remote component");
-        }
-        logger.debug(Thread.currentThread() + " uses " + cajoClientPort + " as client port");
+        return Remote.getItem("//127.0.0.1:" + serverPort + "/" + clazz.getCanonicalName());
         
-    	//register cajo
-        Cajo cajo = new Cajo(cajoClientPort, null, null);
-        cajo.register("127.0.0.1", serverPort);
-    	
-        //get remote converter
-        Object refs[] = cajo.lookup(clazz);
-        if (refs.length == 0) {
-            //not component found
-            return null;
-        } else{
-        	 return cajo.proxy(refs[0], clazz);
-        }
     }
     
     /**

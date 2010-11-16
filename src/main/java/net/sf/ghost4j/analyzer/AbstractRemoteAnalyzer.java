@@ -1,6 +1,8 @@
 package net.sf.ghost4j.analyzer;
 
 import gnu.cajo.Cajo;
+import gnu.cajo.invoke.Remote;
+import gnu.cajo.utils.ItemServer;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -37,18 +39,17 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
 
             //get port
             if (System.getenv("cajo.port") == null){
-                throw new AnalyzerException("No Cajo port defined for remote converter");
+                throw new AnalyzerException("No Cajo port defined for remote analyzer");
             }
             int cajoPort = Integer.parseInt(System.getenv("cajo.port"));
-
-            //start cajo server
-            Cajo cajo = new Cajo(cajoPort, null, null);
 
             //export analyzer
             RemoteAnalyzer analyzerCopy = remoteAnalyzer.getClass().newInstance();
             analyzerCopy.cloneSettings(remoteAnalyzer);
             analyzerCopy.setMaxProcessCount(0);
-            cajo.export(analyzerCopy);
+            
+            Remote.config(null, cajoPort, null, 0);
+            ItemServer.bind(analyzerCopy, RemoteAnalyzer.class.getCanonicalName());
 
 
         } catch (Exception e) {
@@ -93,19 +94,17 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
 	            fork.setXmx(xmxValue + "m");
 	            
 	            int cajoPort = 0;
-	            RemoteAnalyzer remoteAnalyzer = null;
-
 	            try {
-	            	
 	            	
 	            	//start remove server
 	            	cajoPort = this.startRemoteServer(fork);
 	            	
 	            	//get remote component
-	            	remoteAnalyzer = (RemoteAnalyzer) this.getRemoteComponent(cajoPort, RemoteAnalyzer.class);
+	            	//get remote component
+	            	Object remote = this.getRemoteComponent(cajoPort, RemoteAnalyzer.class);
 	            	
 	                //perform remote analyze
-	            	return remoteAnalyzer.remoteAnalyze(document);
+	            	return (List<AnalysisItem>)Remote.invoke(remote, "remoteAnalyze", document);
 
 
 	            } catch (IOException e) {

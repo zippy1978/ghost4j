@@ -7,6 +7,9 @@
 package net.sf.ghost4j.converter;
 
 import gnu.cajo.Cajo;
+import gnu.cajo.invoke.Remote;
+import gnu.cajo.utils.ItemServer;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -52,17 +55,14 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
                 throw new ConverterException("No Cajo port defined for remote converter");
             }
             int cajoPort = Integer.parseInt(System.getenv("cajo.port"));
-
-            //start cajo server
-            Cajo cajo = new Cajo(cajoPort, null, null);
-
+            
             //export converter
             RemoteConverter converterCopy = remoteConverter.getClass().newInstance();
-            
-            //clone converter settings
             converterCopy.cloneSettings(remoteConverter);
             converterCopy.setMaxProcessCount(0);
-            cajo.export(converterCopy);
+            
+            Remote.config(null, cajoPort, null, 0);
+            ItemServer.bind(converterCopy, RemoteConverter.class.getCanonicalName());
 
         } catch (Exception e) {
             throw new ConverterException(e);
@@ -111,7 +111,6 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
             fork.setXmx(xmxValue + "m");
             
             int cajoPort = 0;
-            RemoteConverter remoteConverter = null;
 
             try {
             	
@@ -119,10 +118,10 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
             	cajoPort = this.startRemoteServer(fork);
             	
             	//get remote component
-            	remoteConverter = (RemoteConverter) this.getRemoteComponent(cajoPort, RemoteConverter.class);
-	
+            	Object remote = this.getRemoteComponent(cajoPort, RemoteConverter.class);
+            	
 	            //perform remote conversion
-	            byte[] result = remoteConverter.remoteConvert(document);
+            	byte[] result = (byte[])Remote.invoke(remote, "remoteConvert", document);
 	
 	            //write result to output stream
 	            outputStream.write(result);
