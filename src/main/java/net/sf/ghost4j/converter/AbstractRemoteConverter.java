@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.lowagie.text.DocumentException;
 
+import net.sf.ghost4j.component.AbstractRemoteComponent;
 import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.util.JavaFork;
@@ -28,29 +29,22 @@ import net.sf.ghost4j.util.NetworkUtil;
  * Used as base class for remote converters.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public abstract class AbstractRemoteConverter extends AbstractConverter implements RemoteConverter {
+public abstract class AbstractRemoteConverter extends AbstractRemoteComponent implements RemoteConverter {
 
     /**
      * Log4J logger used to log messages.
      */
     private Logger logger = Logger.getLogger(AbstractRemoteConverter.class.getName());
     
-    /**
-     * Maximum number of parallel processes allowed for the converter.
-     */
-    protected int maxProcessCount = 0;
-    /**
-     * Number of parallel processes running.
-     */
-    protected int processCount = 0;
-
+    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported;
+    
     /**
      * Starts a remote converter server.
      * @param remoteConverter
      * @throws ConverterException
      */
     public static void startRemoteConverter(RemoteConverter remoteConverter) throws ConverterException{
-
+    	
         try {
 
             //get port
@@ -63,17 +57,21 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             Cajo cajo = new Cajo(cajoPort, null, null);
 
             //export converter
-            remoteConverter.setMaxProcessCount(0);
-            cajo.export(remoteConverter);
-
+            RemoteConverter converterCopy = remoteConverter.getClass().newInstance();
+            
+            //clone converter settings
+            converterCopy.cloneSettings(remoteConverter);
+            converterCopy.setMaxProcessCount(0);
+            cajo.export(converterCopy);
 
         } catch (Exception e) {
             throw new ConverterException(e);
         }
+        
     }
 
     public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentNotSupported {
-
+		
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         run(document, baos);
 
@@ -81,9 +79,9 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
         baos.close();
 
         return result;
+
     }
 
-    @Override
     public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported {
 
         if (maxProcessCount == 0) {
@@ -96,27 +94,16 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             //handle parallel processes
 
             //wait for a process to get free
-            while (processCount >= maxProcessCount) {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    //nothing
-                }
-            }
+            this.waitForFreeProcess();
             processCount++;
 
             //check if current class supports stand alone mode
-            try {
-                Method method = this.getClass().getMethod("main", String[].class);
-            } catch (Exception ex) {
+            if (!this.isStandAloneModeSupported()){
                 throw new ConverterException("Standalone mode is not supported by this converter: no 'main' method found");
             }
             
             //prepare new JVM
-            JavaFork fork = new JavaFork();
-            fork.setRedirectStreams(true);
-            fork.setWaitBeforeExiting(false);
-            fork.setStartClass(this.getClass());
+            JavaFork fork = this.buildJavaFork();
             
             //set JVM Xmx parameter according to the document size
             int documentMbSize = (document.getSize() / 1024 / 1024) + 1;
@@ -128,62 +115,18 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
 
             try {
             	
-            	synchronized (AbstractRemoteConverter.class) {
-
-		            //get free TCP port to run Cajo server on
-		            cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 5000, 6000);
-		            if (cajoPort == 0){
-		            	throw new IOException("No port available to start remote converter");
-		            }
-		            logger.debug(Thread.currentThread() + " uses " + cajoPort + " as server port");
-		            
-		            //add extra environment variables to JVM
-		            Map<String, String> environment = new HashMap<String, String>();
-		            //Cajo port
-		            environment.put("cajo.port", String.valueOf(cajoPort));
-		            fork.setEnvironment(environment);
-		            
-		            //start new JVM with current converter
-		            fork.start();
-		
-		            //send document to new JVM
-	
-	                //wait for the remote JVM to start
-	            	NetworkUtil.waitUntilPortListening("127.0.0.1", cajoPort, 10000);
-	            	
-	            	//find Cajo client port available
-	                int cajoClientPort = NetworkUtil.findAvailablePort("127.0.0.1", 7000, 8000);
-	                if (cajoClientPort == 0){
-	                	throw new IOException("No port available to connect to remote converter");
-	                }
-	                logger.debug(Thread.currentThread() + " uses " + cajoPort + " as client port");
-	                
-	                //register cajo
-	                Cajo cajo = new Cajo(cajoClientPort, null, null);
-	                cajo.register("127.0.0.1", cajoPort);
-	                
-	                
-	                //get remote converter
-	                Object refs[] = cajo.lookup(Converter.class);
-	                if (refs.length == 0) {
-	                    //not converter found
-	                    fork.stop();
-	                    throw new ConverterException("No remote converter process found");
-	                }
-	                remoteConverter = (RemoteConverter) cajo.proxy(refs[0], RemoteConverter.class);
-
-	                // clone converter settings
-	                remoteConverter.cloneSettings(this);
+            	//start remove server
+            	cajoPort = this.startRemoteServer(fork);
             	
-            	}
-
-                //perform remote convertion
-                byte[] result = remoteConverter.remoteConvert(document);
-
-                //write result to output stream
-                outputStream.write(result);
-
-
+            	//get remote component
+            	remoteConverter = (RemoteConverter) this.getRemoteComponent(cajoPort, RemoteConverter.class);
+	
+	            //perform remote conversion
+	            byte[] result = remoteConverter.remoteConvert(document);
+	
+	            //write result to output stream
+	            outputStream.write(result);
+                
             } catch (IOException e) {
                 throw e;
             }
@@ -195,17 +138,5 @@ public abstract class AbstractRemoteConverter extends AbstractConverter implemen
             }
         }
 
-    }
-
-    public int getMaxProcessCount() {
-        return maxProcessCount;
-    }
-
-    public void setMaxProcessCount(int maxProcessCount) {
-        this.maxProcessCount = maxProcessCount;
-    }
-
-    public int getProcessCount() {
-        return processCount;
     }
 }
