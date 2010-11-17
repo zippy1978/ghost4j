@@ -34,8 +34,6 @@ public class PDFDocumentTest extends TestCase {
      */
     public void testGetPageCount() throws Exception {
 
-        System.out.println("Test getPageCount");
-
         //load document
         PDFDocument document = new PDFDocument();
         document.load(new File("input.pdf"));
@@ -45,8 +43,6 @@ public class PDFDocumentTest extends TestCase {
     }
 
      public void testLoadWrongFormat() throws Exception{
-
-        System.out.println("Test load wrong format");
 
         //load document (PS when PDF expected)
         try{

@@ -115,7 +115,7 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 						//if prefix: it is a subset
 						font.setSubSet(true);
 					}
-					font.setName(columns[1]);
+					font.setName(name);
 					font.setEmbedded(false);
 					if (columns[1].equals("EM") || columns[1].equals("SU")){
 						font.setEmbedded(true);	

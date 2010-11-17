@@ -11,9 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import junit.framework.TestCase;
-import net.sf.ghost4j.display.DisplayCallback;
 import net.sf.ghost4j.display.ImageWriterDisplayCallback;
 
 /**
@@ -43,8 +41,6 @@ public class GhostscriptTest extends TestCase {
      */
     public void testGetRevision() {
 
-        System.out.println("Test getRevision");
-
         GhostscriptRevision revision = Ghostscript.getRevision();
 
         assertNotNull(revision.getProduct());
@@ -58,8 +54,6 @@ public class GhostscriptTest extends TestCase {
      * Test of initialize method, of class Ghostscript.
      */
     public void testInitialize() {
-
-        System.out.println("Test initialize");
 
         Ghostscript gs = Ghostscript.getInstance();
 
@@ -75,8 +69,6 @@ public class GhostscriptTest extends TestCase {
      * Test of exit method, of class Ghostscript.
      */
     public void testExit() {
-
-        System.out.println("Test exit");
 
         Ghostscript gs = Ghostscript.getInstance();
 
@@ -97,8 +89,6 @@ public class GhostscriptTest extends TestCase {
     }
 
     public void testRunString() {
-
-        System.out.println("Test runString");
 
         Ghostscript gs = Ghostscript.getInstance();
 
@@ -129,8 +119,6 @@ public class GhostscriptTest extends TestCase {
      * Test of runFile method, of class Ghostscript.
      */
     public void testRunFile() {
-
-        System.out.println("Test runFile");
 
         Ghostscript gs = Ghostscript.getInstance();
 
@@ -166,8 +154,6 @@ public class GhostscriptTest extends TestCase {
      */
     public void testStdIn() {
 
-        System.out.println("Test stdIn");
-
         Ghostscript gs = Ghostscript.getInstance();
 
         InputStream is = null;
@@ -200,8 +186,6 @@ public class GhostscriptTest extends TestCase {
      * Test Ghostscript standard output.
      */
     public void testStdOut() {
-
-        System.out.println("Test stdOut");
 
         Ghostscript gs = Ghostscript.getInstance();
 
@@ -240,8 +224,6 @@ public class GhostscriptTest extends TestCase {
      * Test Ghostscript standard error output.
      */
     public void testStdErr() {
-
-        System.out.println("Test stdErr");
 
         Ghostscript gs = Ghostscript.getInstance();
 
@@ -287,8 +269,6 @@ public class GhostscriptTest extends TestCase {
      * Test Ghostscript set with custom display.
      */
     public void testDisplayCallback() {
-
-        System.out.println("Test displayCallback");
 
         Ghostscript gs = Ghostscript.getInstance();
 

@@ -31,7 +31,6 @@ public class JavaForkTest extends TestCase {
      * Test of start method, of class JavaFork.
      */
     public void testStart() throws Exception {
-        System.out.println("Test start");
         
         //create fork
         JavaFork fork = new JavaFork();
