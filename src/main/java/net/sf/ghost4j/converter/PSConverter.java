@@ -7,17 +7,15 @@
 
 package net.sf.ghost4j.converter;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
-import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.document.PDFDocument;
 import net.sf.ghost4j.document.PSDocument;
 import net.sf.ghost4j.util.DiskStore;
@@ -51,7 +49,7 @@ public class PSConverter extends AbstractRemoteConverter {
 	
 	@Override
 	public void run(Document document, OutputStream outputStream)
-			throws IOException, ConverterException, DocumentNotSupported {
+			throws IOException, ConverterException, DocumentException {
 		
 		 //if no output = nothing to do
         if (outputStream == null){

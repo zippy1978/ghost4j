@@ -9,9 +9,9 @@ package net.sf.ghost4j.converter;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sf.ghost4j.component.AbstractComponent;
-import net.sf.ghost4j.component.DocumentNotSupported;
+import net.sf.ghost4j.AbstractComponent;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 
 /**
  * Abstract converter implementation.
@@ -20,12 +20,12 @@ import net.sf.ghost4j.document.Document;
  */
 public abstract class AbstractConverter extends AbstractComponent implements Converter {
 
-    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException {
 
         //perform actual processing
         run(document, outputStream);
      
     }
 
-    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported;
+    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
 }

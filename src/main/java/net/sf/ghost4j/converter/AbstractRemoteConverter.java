@@ -6,26 +6,20 @@
  */
 package net.sf.ghost4j.converter;
 
-import gnu.cajo.Cajo;
 import gnu.cajo.invoke.Remote;
 import gnu.cajo.utils.ItemServer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+
+import net.sf.ghost4j.AbstractRemoteComponent;
+import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
+import net.sf.ghost4j.util.JavaFork;
 
 import org.apache.log4j.Logger;
 
-import com.lowagie.text.DocumentException;
-
-import net.sf.ghost4j.component.AbstractRemoteComponent;
-import net.sf.ghost4j.component.DocumentNotSupported;
-import net.sf.ghost4j.document.Document;
-import net.sf.ghost4j.util.JavaFork;
-import net.sf.ghost4j.util.NetworkUtil;
 
 /**
  * Abstract remote converter implementation.
@@ -39,7 +33,7 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
      */
     private Logger logger = Logger.getLogger(AbstractRemoteConverter.class.getName());
     
-    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported;
+    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
     
     /**
      * Starts a remote converter server.
@@ -70,7 +64,7 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
         
     }
 
-    public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentNotSupported {
+    public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentException {
 		
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         run(document, baos);
@@ -82,7 +76,7 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
 
     }
 
-    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported {
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException {
 
         if (maxProcessCount == 0) {
 

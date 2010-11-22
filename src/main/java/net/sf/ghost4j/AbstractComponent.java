@@ -4,9 +4,10 @@
  * Distributable under LGPL license.
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
-package net.sf.ghost4j.component;
+package net.sf.ghost4j;
 
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 
 /**
  * Abstract component implementation.
@@ -23,9 +24,9 @@ public abstract class AbstractComponent {
     /**
      * Assert a given document instance is supported by the converter
      * @param document
-     * @return
+     * @throws DocumentException When document is not supported
      */
-    protected void assertDocumentSupported(Document document) throws DocumentNotSupported {
+    protected void assertDocumentSupported(Document document) throws DocumentException {
 
         if (supportedDocumentClasses != null) {
 
@@ -37,7 +38,7 @@ public abstract class AbstractComponent {
             }
 
             //document not supported
-            throw new DocumentNotSupported("Documents of class " + document.getClass().getName() + " are not supported by the converter");
+            throw new DocumentException("Documents of class " + document.getClass().getName() + " are not supported by the converter");
         }
     }
     

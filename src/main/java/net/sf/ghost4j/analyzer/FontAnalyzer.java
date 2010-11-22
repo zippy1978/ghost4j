@@ -8,8 +8,8 @@ import java.util.List;
 
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
-import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.document.PDFDocument;
 import net.sf.ghost4j.util.DiskStore;
 
@@ -43,7 +43,7 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 	 */
 	@Override
 	public List<AnalysisItem> run(Document document) throws IOException,
-			AnalyzerException, DocumentNotSupported {
+			AnalyzerException, DocumentException {
 		
         //assert document is supported
         this.assertDocumentSupported(document);

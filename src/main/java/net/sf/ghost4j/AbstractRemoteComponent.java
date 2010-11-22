@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
-package net.sf.ghost4j.component;
+package net.sf.ghost4j;
 
 import gnu.cajo.Cajo;
 import gnu.cajo.invoke.Remote;

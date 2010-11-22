@@ -9,9 +9,9 @@ package net.sf.ghost4j.analyzer;
 import java.io.IOException;
 import java.util.List;
 
-import net.sf.ghost4j.component.AbstractComponent;
-import net.sf.ghost4j.component.DocumentNotSupported;
+import net.sf.ghost4j.AbstractComponent;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 
 /**
  * Abstract analyzer implementation.
@@ -21,12 +21,12 @@ import net.sf.ghost4j.document.Document;
 public abstract class AbstractAnalyzer extends AbstractComponent implements Analyzer {
 
 	public List<AnalysisItem> analyze(Document document) throws IOException,
-			AnalyzerException, DocumentNotSupported {
+			AnalyzerException, DocumentException {
 		
 		//perform actual processing
 		return run(document);
 	}
 	
-	public abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentNotSupported;
+	public abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
 
 }

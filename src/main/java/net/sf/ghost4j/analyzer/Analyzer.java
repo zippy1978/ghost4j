@@ -10,8 +10,8 @@ package net.sf.ghost4j.analyzer;
 import java.io.IOException;
 import java.util.List;
 
-import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 
 /**
  * Interface defining an analyzer used to retrieve info on a Document to a given format.
@@ -25,7 +25,7 @@ public interface Analyzer {
 	 * @return a List of AnalysisItem objects
 	 * @throws IOException
 	 * @throws AnalyzerException
-	 * @throws DocumentNotSupported
+	 * @throws DocumentException
 	 */
-	public List<AnalysisItem> analyze(Document document) throws IOException, AnalyzerException, DocumentNotSupported;
+	public List<AnalysisItem> analyze(Document document) throws IOException, AnalyzerException, DocumentException;
 }

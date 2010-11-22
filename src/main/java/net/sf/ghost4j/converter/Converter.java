@@ -10,8 +10,8 @@ package net.sf.ghost4j.converter;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 
 /**
  * Interface defining a converter used to convert a Document to a given format.
@@ -25,8 +25,8 @@ public interface Converter {
      * @param outputStream Output stream where converted document is written.
      * @throws IOException
      * @throws ConverterException
-     * @throws DocumentNotSupported
+     * @throws DocumentException
      */
-    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentNotSupported;
+    public void convert(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
 
 }

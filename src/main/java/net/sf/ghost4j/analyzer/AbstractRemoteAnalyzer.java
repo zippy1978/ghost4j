@@ -1,21 +1,15 @@
 package net.sf.ghost4j.analyzer;
 
-import gnu.cajo.Cajo;
 import gnu.cajo.invoke.Remote;
 import gnu.cajo.utils.ItemServer;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import net.sf.ghost4j.component.AbstractRemoteComponent;
-import net.sf.ghost4j.component.DocumentNotSupported;
-import net.sf.ghost4j.converter.RemoteConverter;
+import net.sf.ghost4j.AbstractRemoteComponent;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.util.JavaFork;
-import net.sf.ghost4j.util.NetworkUtil;
 
 import org.apache.log4j.Logger;
 
@@ -26,7 +20,7 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
      */
     private Logger logger = Logger.getLogger(AbstractRemoteAnalyzer.class.getName());
     
-    public abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentNotSupported;
+    public abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
     
     /**
      * Starts a remote analyzer server.
@@ -58,14 +52,14 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
     }
     
     public List<AnalysisItem> remoteAnalyze(Document document)
-    		throws IOException, AnalyzerException , DocumentNotSupported{
+    		throws IOException, AnalyzerException , DocumentException{
     	
     	return run(document);
     }
     
 
 	public List<AnalysisItem> analyze(Document document) throws IOException,
-			AnalyzerException, DocumentNotSupported {
+			AnalyzerException, DocumentException {
 		
 		 if (maxProcessCount == 0) {
 

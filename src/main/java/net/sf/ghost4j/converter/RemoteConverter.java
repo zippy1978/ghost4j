@@ -8,8 +8,9 @@ package net.sf.ghost4j.converter;
 
 import java.io.IOException;
 
-import net.sf.ghost4j.component.DocumentNotSupported;
 import net.sf.ghost4j.document.Document;
+import net.sf.ghost4j.document.DocumentException;
+
 
 /**
  * Interface defining a remote converter (for Ghostscript multi process support).
@@ -30,9 +31,9 @@ public interface RemoteConverter extends Converter {
      * @return Converted document as a byte array
      * @throws IOException
      * @throws ConverterException
-     * @throws DocumentNotSupported
+     * @throws DocumentException
      */
-    public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentNotSupported;
+    public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentException;
 
     /**
      * Clones settings of a converter to another one.

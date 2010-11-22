@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import junit.framework.TestCase;
-import net.sf.ghost4j.component.DocumentNotSupported;
+import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.document.PDFDocument;
 import net.sf.ghost4j.document.PSDocument;
 
@@ -132,7 +132,7 @@ public class PDFConverterTest extends TestCase {
         try{
             converter.convert(document, baos);
             fail("Test failed");
-        } catch(DocumentNotSupported e){
+        } catch(DocumentException e){
             assertTrue(e.getMessage().startsWith("Documents of class"));
         }
 
