@@ -20,7 +20,7 @@ import net.sf.ghost4j.document.DocumentException;
 public interface Analyzer {
 
 	/**
-	 * Analyzes a given document an outputs result as a list of AnalysisItem objects.
+	 * Analyzes a given document and outputs result as a list of AnalysisItem objects.
 	 * @param document Document to analyze. Document type may or may no be supported (support left to the analyze final implementation).
 	 * @return a List of AnalysisItem objects
 	 * @throws IOException

@@ -22,7 +22,7 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 
 	public FontAnalyzer() {
 		
-		 //set supported classes
+		//set supported classes
         supportedDocumentClasses = new Class[1];
         supportedDocumentClasses[0] = PDFDocument.class;
 	}
@@ -67,7 +67,7 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
         DiskStore diskStore = DiskStore.getInstance();
         String inputDiskStoreKey = document.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
         
-        // Write document to input file
+        //write document to input file
         document.write(diskStore.addFile(inputDiskStoreKey));
         
 		//prepare args

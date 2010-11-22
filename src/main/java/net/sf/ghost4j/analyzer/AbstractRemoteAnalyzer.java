@@ -1,3 +1,9 @@
+/*
+ * Ghost4J: a Java wrapper for Ghostscript API.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at http://www.gnu.org/licenses/lgpl.html.
+ */
 package net.sf.ghost4j.analyzer;
 
 import gnu.cajo.invoke.Remote;
@@ -51,6 +57,7 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
         }
     }
     
+    @Override
     public List<AnalysisItem> remoteAnalyze(Document document)
     		throws IOException, AnalyzerException , DocumentException{
     	
@@ -58,6 +65,7 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
     }
     
 
+    @Override
 	public List<AnalysisItem> analyze(Document document) throws IOException,
 			AnalyzerException, DocumentException {
 		
@@ -93,7 +101,6 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
 	            	//start remove server
 	            	cajoPort = this.startRemoteServer(fork);
 	            	
-	            	//get remote component
 	            	//get remote component
 	            	Object remote = this.getRemoteComponent(cajoPort, RemoteAnalyzer.class);
 	            	

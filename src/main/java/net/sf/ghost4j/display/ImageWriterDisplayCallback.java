@@ -75,7 +75,7 @@ public class ImageWriterDisplayCallback implements DisplayCallback {
         BufferedImage bf = new BufferedImage(cm, wr, false, null);
 
         //put image in the list
-        getImages().add(bf);
+        images.add(bf);
 
     }
 
