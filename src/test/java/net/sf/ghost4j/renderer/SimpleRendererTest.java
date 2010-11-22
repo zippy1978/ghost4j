@@ -57,10 +57,10 @@ public class SimpleRendererTest extends TestCase {
 		assertEquals(1, result.size());
     }
     
-    public void testRenderWithPDFMultiProcess() throws Exception {
+    public void testRenderWithPSMultiProcess() throws Exception {
     
-    	final PDFDocument document = new PDFDocument();
-		document.load(new File("input.pdf"));
+    	final PSDocument document = new PSDocument();
+		document.load(new File("input.ps"));
 		
 		final SimpleRenderer simpleRenderer = new SimpleRenderer();
 		simpleRenderer.setMaxProcessCount(2);

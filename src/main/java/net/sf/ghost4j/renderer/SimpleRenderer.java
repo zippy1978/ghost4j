@@ -54,21 +54,24 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
         ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
         
         //prepare args
-        String[] gsArgs = new String[9];
-        gsArgs[0] = "-dQUIET";
-        gsArgs[1] = "-dNOPAUSE";
-        gsArgs[2] = "-dBATCH";
-        gsArgs[3] = "-dSAFER";
-        gsArgs[4] = "-dFirstPage=" + (begin + 1);
-        gsArgs[5] = "-dLastPage=" + (end + 1);
-        gsArgs[6] = "-sDEVICE=display";
-        gsArgs[7] = "-dDisplayHandle=0";
-        gsArgs[8] = "-dDisplayFormat=16#804";
+        String[] gsArgs = {
+        		"-dQUIET",
+        		"-dNOPAUSE",
+        		"-dBATCH",
+        		"-dSAFER",
+        		"-dFirstPage=" + (begin + 1),
+        		"-dLastPage=" + (end + 1),
+        		"-sDEVICE=display",
+        		"-dDisplayHandle=0",
+        		"-dDisplayFormat=16#804"};
 		
         //execute and exit interpreter
     	try {
 	        synchronized(gs){
 	    	  
+	        	//set display callback
+	            gs.setDisplayCallback(displayCallback);
+	            
 				gs.initialize(gsArgs);
 	            gs.runFile(diskStore.getFile(inputDiskStoreKey).getAbsolutePath());
 	            Ghostscript.deleteInstance();
