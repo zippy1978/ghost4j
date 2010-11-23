@@ -7,8 +7,12 @@
 package net.sf.ghost4j.renderer;
 
 import java.awt.Image;
+import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import junit.framework.TestCase;
 import net.sf.ghost4j.document.PDFDocument;
@@ -72,6 +76,7 @@ public class SimpleRendererTest extends TestCase {
         			List<Image> result = simpleRenderer.render(document);
         			System.out.println("END 1 " + Thread.currentThread());
         			assertEquals(1, result.size());
+        	        
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -84,8 +89,9 @@ public class SimpleRendererTest extends TestCase {
         		try{
         			System.out.println("START 2 " + Thread.currentThread());
         			List<Image> result = simpleRenderer.render(document);
-        			System.out.println("END 1 " + Thread.currentThread());
+        			System.out.println("END 2 " + Thread.currentThread());
         			assertEquals(1, result.size());
+        			
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -99,7 +105,7 @@ public class SimpleRendererTest extends TestCase {
         		try{
         			System.out.println("START 3 " + Thread.currentThread());
         			List<Image> result = simpleRenderer.render(document);
-        			System.out.println("END 1 " + Thread.currentThread());
+        			System.out.println("END 3 " + Thread.currentThread());
         			assertEquals(1, result.size());
         		}catch(Exception e){
         			e.printStackTrace();

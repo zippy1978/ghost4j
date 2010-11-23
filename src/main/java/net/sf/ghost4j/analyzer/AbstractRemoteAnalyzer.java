@@ -57,7 +57,6 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
         }
     }
     
-    @Override
     public List<AnalysisItem> remoteAnalyze(Document document)
     		throws IOException, AnalyzerException , DocumentException{
     	
@@ -65,7 +64,6 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
     }
     
 
-    @Override
 	public List<AnalysisItem> analyze(Document document) throws IOException,
 			AnalyzerException, DocumentException {
 		

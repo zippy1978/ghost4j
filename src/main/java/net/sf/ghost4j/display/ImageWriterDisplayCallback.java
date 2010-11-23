@@ -6,6 +6,7 @@
  */
 package net.sf.ghost4j.display;
 
+import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.ghost4j.GhostscriptException;
+import net.sf.ghost4j.util.ImageUtil;
 
 /**
  * Display callback that stores device output as java Image (on image = one page).
@@ -28,13 +30,13 @@ public class ImageWriterDisplayCallback implements DisplayCallback {
     /**
      * Holds document images.
      */
-    private List images;
+    private List<Image> images;
 
     /**
      * Constructor.
      */
     public ImageWriterDisplayCallback() {
-        images = new ArrayList();
+        images = new ArrayList<Image>();
     }
 
     public void displayOpen() throws GhostscriptException {
@@ -63,19 +65,16 @@ public class ImageWriterDisplayCallback implements DisplayCallback {
 
     public void displayPage(int width, int height, int raster, int format, int copies, int flush, byte[] imageData) throws GhostscriptException {
 
-        //create raster
-        DataBufferByte dbb = new DataBufferByte(imageData, imageData.length);
-        WritableRaster wr = Raster.createInterleavedRaster(dbb, width, height, raster, 3, new int[]{0, 1, 2}, null);
-
-        //create color space
-        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-        ColorModel cm = new ComponentColorModel(cs, false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-
-        //create image
-        BufferedImage bf = new BufferedImage(cm, wr, false, null);
-
-        //put image in the list
-        images.add(bf);
+    	//create new raster
+		PageRaster pageRaster = new PageRaster();
+		pageRaster.setWidth(width);
+		pageRaster.setHeight(height);
+		pageRaster.setRaster(raster);
+		pageRaster.setFormat(format);
+		pageRaster.setData(imageData);
+		
+        //convert to image and add to list
+        images.add(ImageUtil.converterPageRasterToImage(pageRaster));
 
     }
 
@@ -83,7 +82,7 @@ public class ImageWriterDisplayCallback implements DisplayCallback {
     
     }
 
-    public List getImages() {
+    public List<Image> getImages() {
         return images;
     }
 }

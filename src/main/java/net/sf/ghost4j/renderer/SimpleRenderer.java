@@ -1,12 +1,12 @@
 package net.sf.ghost4j.renderer;
 
-import java.awt.Image;
 import java.io.IOException;
 import java.util.List;
 
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
-import net.sf.ghost4j.display.ImageWriterDisplayCallback;
+import net.sf.ghost4j.display.PageRaster;
+import net.sf.ghost4j.display.PageRasterDisplayCallback;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.document.PDFDocument;
@@ -14,6 +14,12 @@ import net.sf.ghost4j.document.PSDocument;
 import net.sf.ghost4j.util.DiskStore;
 
 public class SimpleRenderer extends AbstractRemoteRenderer {
+	
+	/**
+	 * Renderer output resolution in DPI.
+	 * Defaults is 75dpi.
+	 */
+	private int resolution = 75;
 	
 	public SimpleRenderer() {
 		
@@ -34,7 +40,7 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
 	}
 
 	@Override
-	public List<Image> run(Document document, int begin, int end)
+	public List<PageRaster> run(Document document, int begin, int end)
 			throws IOException, RendererException, DocumentException {
 		
 		 //assert document is supported
@@ -51,7 +57,7 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
         document.write(diskStore.addFile(inputDiskStoreKey));
         
         //create display callback
-        ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
+        PageRasterDisplayCallback displayCallback = new PageRasterDisplayCallback();
         
         //prepare args
         String[] gsArgs = {
@@ -63,7 +69,10 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
         		"-dLastPage=" + (end + 1),
         		"-sDEVICE=display",
         		"-dDisplayHandle=0",
-        		"-dDisplayFormat=16#804"};
+        		"-dDisplayFormat=16#804",
+        		"-r" + this.getResolution(),
+        		"-f",
+        		diskStore.getFile(inputDiskStoreKey).getAbsolutePath()};
 		
         //execute and exit interpreter
     	try {
@@ -73,7 +82,7 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
 	            gs.setDisplayCallback(displayCallback);
 	            
 				gs.initialize(gsArgs);
-	            gs.runFile(diskStore.getFile(inputDiskStoreKey).getAbsolutePath());
+	            gs.exit();
 	            Ghostscript.deleteInstance();
 	        }
 		} catch (GhostscriptException e) {
@@ -86,16 +95,27 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
             diskStore.removeFile(inputDiskStoreKey);
 		}
 		
-		return displayCallback.getImages();
+		return displayCallback.getRasters();
 
         
 	}
 
-	@Override
 	public void cloneSettings(RemoteRenderer remoteRenderer) {
 		
-		//nothing to clone
+		if ((remoteRenderer instanceof SimpleRenderer)){
+			SimpleRenderer simpleRenderer = (SimpleRenderer) remoteRenderer;
 
+			this.setResolution(simpleRenderer.getResolution());
+        }
+
+	}
+
+	public int getResolution() {
+		return resolution;
+	}
+
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
 	}
 
 }

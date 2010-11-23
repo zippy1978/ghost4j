@@ -21,7 +21,6 @@ import net.sf.ghost4j.document.DocumentException;
  */
 public abstract class AbstractRenderer extends AbstractComponent implements Renderer {
 
-	@Override
 	public List<Image> render(Document document) throws IOException,
 			RendererException, DocumentException {
 		
@@ -29,7 +28,6 @@ public abstract class AbstractRenderer extends AbstractComponent implements Rend
 		
 	}
 
-	@Override
 	public List<Image> render(Document document, int begin, int end)
 			throws IOException, RendererException, DocumentException {
 		

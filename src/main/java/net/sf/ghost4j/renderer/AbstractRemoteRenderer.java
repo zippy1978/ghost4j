@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.util.List;
 
 import net.sf.ghost4j.AbstractRemoteComponent;
+import net.sf.ghost4j.display.PageRaster;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
+import net.sf.ghost4j.util.ImageUtil;
 import net.sf.ghost4j.util.JavaFork;
 
 import org.apache.log4j.Logger;
@@ -27,7 +29,7 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
      */
     private Logger logger = Logger.getLogger(AbstractRemoteRenderer.class.getName());
     
-    public abstract List<Image> run(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
+    public abstract List<PageRaster> run(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
     
     /**
      * Starts a remote renderer server
@@ -58,21 +60,18 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
         }
     }
     
-    @Override
-    public List<Image> remoteRender(Document document, int begin, int end)
+    public List<PageRaster> remoteRender(Document document, int begin, int end)
     		throws IOException, RendererException, DocumentException {
     	
     	return this.run(document, begin, end);
     }
     
-    @Override
     public List<Image> render(Document document) throws IOException,
     		RendererException, DocumentException {
     	
     	return this.render(document, 0, document.getPageCount() - 1);
     }
     
-    @Override
     public List<Image> render(Document document, int begin, int end)
     		throws IOException, RendererException, DocumentException {
     	
@@ -84,7 +83,7 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
 		if (maxProcessCount == 0) {
 
             //perform actual processing
-            return run(document, begin, end);
+            return ImageUtil.convertPageRastersToImages(run(document, begin, end));
 
         } else {
             
@@ -118,7 +117,7 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
             	
                 //perform remote rendering
             	Object[] args = {document, begin, end};
-            	return (List<Image>)Remote.invoke(remote, "remoteRender", args);
+            	return ImageUtil.convertPageRastersToImages((List<PageRaster>)Remote.invoke(remote, "remoteRender", args));
 
 
             } catch (IOException e) {
