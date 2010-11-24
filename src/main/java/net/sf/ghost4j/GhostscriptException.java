@@ -13,7 +13,12 @@ package net.sf.ghost4j;
  */
 public class GhostscriptException extends Exception{
 
-    public GhostscriptException() {
+    /**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -3901110749568935981L;
+
+	public GhostscriptException() {
         super();
     }
     

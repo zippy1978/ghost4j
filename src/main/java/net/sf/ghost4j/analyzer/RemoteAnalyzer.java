@@ -6,11 +6,6 @@
  */
 package net.sf.ghost4j.analyzer;
 
-import java.io.IOException;
-import java.util.List;
-
-import net.sf.ghost4j.document.Document;
-import net.sf.ghost4j.document.DocumentException;
 
 /**
  * Interface defining a remote analyzer (for Ghostscript multi process support).
@@ -23,15 +18,5 @@ public interface RemoteAnalyzer extends Analyzer{
      * @param maxProcessCount
      */
     public void setMaxProcessCount(int maxProcessCount);
-
-    /**
-     * Analyzes a document and return results as a list of AnalysisItem objects.
-     * @param document Document to analyze
-     * @return Analysis results as a list of AnalysisItem objects
-     * @throws IOException
-     * @throws AnalyzerException
-     * @throws DocumentException
-     */
-    public List<AnalysisItem> remoteAnalyze(Document document) throws IOException, AnalyzerException, DocumentException;
 
 }

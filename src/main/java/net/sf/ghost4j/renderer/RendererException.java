@@ -14,6 +14,11 @@ package net.sf.ghost4j.renderer;
  */
 public class RendererException extends Exception {
 
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -822410652352349391L;
+
 	public RendererException() {
 		super();
 	}

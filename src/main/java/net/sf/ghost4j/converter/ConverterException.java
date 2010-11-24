@@ -14,7 +14,12 @@ package net.sf.ghost4j.converter;
  */
 public class ConverterException extends Exception{
 
-     public ConverterException() {
+     /**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -4246261539550729104L;
+
+	public ConverterException() {
         super();
     }
 

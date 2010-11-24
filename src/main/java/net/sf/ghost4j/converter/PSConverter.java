@@ -94,7 +94,6 @@ public class PSConverter extends AbstractRemoteConverter {
             synchronized(gs){
                 gs.initialize(gsArgs);
                 gs.exit();
-                Ghostscript.deleteInstance();
             }
 
             // write obtained file to output stream
@@ -115,6 +114,13 @@ public class PSConverter extends AbstractRemoteConverter {
            throw new ConverterException(e);
 
         } finally{
+        	
+        	//delete Ghostscript instance
+        	try {
+				Ghostscript.deleteInstance();
+			} catch (GhostscriptException e) {
+				throw new ConverterException(e);
+			}
 
             //remove temporary files
             diskStore.removeFile(outputDiskStoreKey);

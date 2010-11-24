@@ -6,17 +6,19 @@
  */
 package net.sf.ghost4j;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
-import com.sun.jna.ptr.IntByReference;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import net.sf.ghost4j.display.DisplayCallback;
 import net.sf.ghost4j.display.DisplayData;
+
 import org.apache.log4j.Level;
+
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.IntByReference;
 
 /**
  * Class representing the Ghostscript interpreter.

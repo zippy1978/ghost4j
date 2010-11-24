@@ -24,18 +24,18 @@ public abstract class AbstractComponent implements Component{
 	/**
      * Classes of Document supported by the converter.
      */
-    protected Class[] supportedDocumentClasses;
+	protected Class<?>[] supportedDocumentClasses;
 
     /**
      * Assert a given document instance is supported by the converter
      * @param document
      * @throws DocumentException When document is not supported
      */
-    protected void assertDocumentSupported(Document document) throws DocumentException {
+	protected void assertDocumentSupported(Document document) throws DocumentException {
 
         if (supportedDocumentClasses != null) {
 
-            for (Class clazz : supportedDocumentClasses) {
+            for (Class<?> clazz : supportedDocumentClasses) {
                 if (clazz.getName().equals(document.getClass().getName())) {
                     //supported
                     return;
@@ -54,6 +54,7 @@ public abstract class AbstractComponent implements Component{
     	}
     	
     	BeanUtils.populate(this, settings);
+    	
     }
     
     @SuppressWarnings("unchecked")

@@ -14,6 +14,11 @@ package net.sf.ghost4j.analyzer;
 public class FontAnalysisItem implements AnalysisItem {
 
 	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = 3172902215702475060L;
+
+	/**
 	 * Font name.
 	 */
 	private String name;

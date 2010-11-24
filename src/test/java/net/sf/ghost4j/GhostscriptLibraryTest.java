@@ -7,15 +7,12 @@
 
 package net.sf.ghost4j;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
 import java.io.File;
 
-import net.sf.ghost4j.analyzer.AbstractRemoteAnalyzer;
-
-import org.apache.log4j.Logger;
-
 import junit.framework.TestCase;
+
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.IntByReference;
 
 /**
  * GhostscriptLibrary tests.
@@ -23,11 +20,6 @@ import junit.framework.TestCase;
  */
 public class GhostscriptLibraryTest extends TestCase {
 	
-	/**
-     * Log4J logger used to log messages.
-     */
-    private Logger logger = Logger.getLogger(GhostscriptLibraryTest.class.getName());
-
     private GhostscriptLibrary ghostscriptLibrary;
 
     public GhostscriptLibraryTest(String testName) {

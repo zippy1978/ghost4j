@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
 import net.sf.ghost4j.document.Document;
@@ -68,6 +70,9 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 		//prepare args
 		String[] gsArgs = {"-dQUIET", "-dNOPAUSE", "-dBATCH", "-dNODISPLAY", "-sFile=" + diskStore.getFile(inputDiskStoreKey).getAbsolutePath(), "-sOutputFile=%stdout", "-f", "-"};
 		
+		//load .ps script
+    	InputStream is = this.getClass().getClassLoader().getResourceAsStream("script/AnalyzePDFFonts.ps");
+    	
 		try {
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -75,14 +80,9 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
             //execute and exit interpreter
             synchronized(gs){
             
-            	//load .ps script
-            	InputStream is = this.getClass().getClassLoader().getResourceAsStream("script/AnalyzePDFFonts.ps");
-            	
                 gs.setStdIn(is);
                 gs.setStdOut(baos);
                 gs.initialize(gsArgs);
-                Ghostscript.deleteInstance();
-                is.close();
             }
 
            //parse results from stdout
@@ -129,6 +129,15 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
            throw new AnalyzerException(e);
 
         } finally{
+        	
+        	IOUtils.closeQuietly(is);
+        	
+        	//delete Ghostscript instance
+        	try {
+				Ghostscript.deleteInstance();
+			} catch (GhostscriptException e) {
+				throw new AnalyzerException(e);
+			}
 
             //remove temporary file
             diskStore.removeFile(inputDiskStoreKey);

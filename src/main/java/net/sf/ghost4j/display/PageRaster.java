@@ -15,6 +15,10 @@ import java.io.Serializable;
  */
 public class PageRaster implements Serializable {
 
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -977080307761838114L;
 	private int width;
     private int height;
     private int raster;

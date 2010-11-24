@@ -56,10 +56,6 @@ public class PDFConverterTest extends TestCase {
         final PSDocument document = new PSDocument();
         document.load(new File("input.ps"));
 
-        final Boolean convertion1finsihed = false;
-        final Boolean convertion2finsihed = false;
-        final Boolean convertion3finsihed = false;
-
         final ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
         final ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         final ByteArrayOutputStream baos3 = new ByteArrayOutputStream();

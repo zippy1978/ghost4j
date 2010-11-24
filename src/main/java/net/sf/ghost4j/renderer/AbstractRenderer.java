@@ -41,6 +41,6 @@ public abstract class AbstractRenderer extends AbstractComponent implements Rend
 		
 	}
 	
-	public abstract List<Image> run(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
+	protected abstract List<Image> run(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
 
 }

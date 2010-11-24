@@ -8,9 +8,7 @@ package net.sf.ghost4j.util;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * Network utilities class.

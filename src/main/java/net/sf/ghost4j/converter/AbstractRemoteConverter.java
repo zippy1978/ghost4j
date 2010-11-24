@@ -18,8 +18,6 @@ import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.util.JavaFork;
 
-import org.apache.log4j.Logger;
-
 
 /**
  * Abstract remote converter implementation.
@@ -28,19 +26,14 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractRemoteConverter extends AbstractRemoteComponent implements RemoteConverter {
 
-    /**
-     * Log4J logger used to log messages.
-     */
-    private Logger logger = Logger.getLogger(AbstractRemoteConverter.class.getName());
-    
-    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
+    protected abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
     
     /**
      * Starts a remote converter server.
      * @param remoteConverter
      * @throws ConverterException
      */
-    public static void startRemoteConverter(RemoteConverter remoteConverter) throws ConverterException{
+    protected static void startRemoteConverter(RemoteConverter remoteConverter) throws ConverterException{
     	
         try {
 
@@ -113,7 +106,8 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
             	//get remote component
             	Object remote = this.getRemoteComponent(cajoPort, RemoteConverter.class);
             	
-            	//remote. this.extractSettings()
+            	//copy converter settings to remote converter
+            	Remote.invoke(remote, "copySettings", this.extractSettings());
             	
 	            //perform remote conversion
             	byte[] result = (byte[])Remote.invoke(remote, "remoteConvert", document);

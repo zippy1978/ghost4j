@@ -22,7 +22,12 @@ import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
  */
 public class PSDocument extends AbstractDocument{
 
-    public void load(InputStream inputStream) throws IOException {
+    /**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = 7225098893496658222L;
+
+	public void load(InputStream inputStream) throws IOException {
 
         super.load(inputStream);
 

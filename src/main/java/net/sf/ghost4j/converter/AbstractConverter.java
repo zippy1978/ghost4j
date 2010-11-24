@@ -27,5 +27,5 @@ public abstract class AbstractConverter extends AbstractComponent implements Con
      
     }
 
-    public abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
+    protected abstract void run(Document document, OutputStream outputStream) throws IOException, ConverterException, DocumentException;
 }

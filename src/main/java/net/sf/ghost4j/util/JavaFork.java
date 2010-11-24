@@ -19,7 +19,7 @@ public class JavaFork implements Runnable {
     /**
      * Start class of the JVM.
      */
-    private Class startClass;
+    private Class<?> startClass;
     /**
      * Process object of the JVM.
      * Is null if the JVM is not running.
@@ -50,7 +50,7 @@ public class JavaFork implements Runnable {
 	private String xms = "64m";
 	
 
-    public void start(Class startClass) {
+    public void start(Class<?> startClass) {
 
         this.setStartClass(startClass);
         this.start();
@@ -106,6 +106,10 @@ public class JavaFork implements Runnable {
 
         //build child process
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
+        if (System.getProperty("jna.library.path") != null) {
+        	String jnaLibraryPath = "-Djna.library.path="+ System.getProperty("jna.library.path");
+        	processBuilder = new ProcessBuilder("java", jnaLibraryPath,"-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
+        } 
         processBuilder.directory(new File(System.getProperty("user.dir")));
         processBuilder.environment().putAll(System.getenv());
         if (getEnvironment() != null){
@@ -133,11 +137,11 @@ public class JavaFork implements Runnable {
 
     }
 
-    public Class getStartClass() {
+    public Class<?> getStartClass() {
         return startClass;
     }
 
-    public void setStartClass(Class startClass) {
+    public void setStartClass(Class<?> startClass) {
         this.startClass = startClass;
     }
 

@@ -7,7 +7,6 @@
 
 package net.sf.ghost4j.document;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -27,6 +27,11 @@ import org.apache.commons.io.IOUtils;
 public abstract class AbstractDocument implements Document, Serializable{
 
     /**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -7160779330993730486L;
+
+	/**
      * Buffer size used while reading (loading) document content.
      */
     public static final int READ_BUFFER_SIZE = 1024;

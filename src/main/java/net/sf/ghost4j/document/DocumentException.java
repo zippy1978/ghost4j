@@ -14,7 +14,12 @@ package net.sf.ghost4j.document;
  */
 public class DocumentException extends Exception{
 
-    public DocumentException() {
+    /**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = 3773482793220746656L;
+
+	public DocumentException() {
         super();
     }
 

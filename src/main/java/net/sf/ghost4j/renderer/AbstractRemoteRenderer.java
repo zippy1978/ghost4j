@@ -20,23 +20,16 @@ import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.util.ImageUtil;
 import net.sf.ghost4j.util.JavaFork;
 
-import org.apache.log4j.Logger;
-
 public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent implements RemoteRenderer{
 
-    /**
-     * Log4J logger used to log messages.
-     */
-    private Logger logger = Logger.getLogger(AbstractRemoteRenderer.class.getName());
-    
-    public abstract List<PageRaster> run(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
+    protected abstract List<PageRaster> run(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
     
     /**
      * Starts a remote renderer server
      * @param remoteRenderer
      * @throws RendererException
      */
-    public static void startRemoteRenderer(RemoteRenderer remoteRenderer) throws RendererException{
+    protected static void startRemoteRenderer(RemoteRenderer remoteRenderer) throws RendererException{
     	
     	try {
 
@@ -71,7 +64,8 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
     	return this.render(document, 0, document.getPageCount() - 1);
     }
     
-    public List<Image> render(Document document, int begin, int end)
+    @SuppressWarnings("unchecked")
+	public List<Image> render(Document document, int begin, int end)
     		throws IOException, RendererException, DocumentException {
     	
     	//check range
@@ -113,6 +107,9 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
             	
             	//get remote component
             	Object remote = this.getRemoteComponent(cajoPort, RemoteRenderer.class);
+            	
+            	//copy renderer settings to remote renderer
+            	Remote.invoke(remote, "copySettings", this.extractSettings());
             	
                 //perform remote rendering
             	Object[] args = {document, begin, end};

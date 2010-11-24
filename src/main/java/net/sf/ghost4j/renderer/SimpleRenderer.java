@@ -83,13 +83,20 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
 	            
 				gs.initialize(gsArgs);
 	            gs.exit();
-	            Ghostscript.deleteInstance();
+	            
 	        }
 		} catch (GhostscriptException e) {
 			
 			throw new RendererException(e);
 			
 		} finally {
+			
+			//delete Ghostscript instance
+        	try {
+				Ghostscript.deleteInstance();
+			} catch (GhostscriptException e) {
+				throw new RendererException(e);
+			}
 			
 			//remove temporary file
             diskStore.removeFile(inputDiskStoreKey);

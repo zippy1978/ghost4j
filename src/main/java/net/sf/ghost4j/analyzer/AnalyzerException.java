@@ -14,6 +14,11 @@ package net.sf.ghost4j.analyzer;
  */
 public class AnalyzerException extends Exception {
 
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -2183524735620201412L;
+
 	public AnalyzerException() {
 		super();
 	}

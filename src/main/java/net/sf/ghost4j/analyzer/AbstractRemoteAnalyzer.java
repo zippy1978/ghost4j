@@ -17,23 +17,16 @@ import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
 import net.sf.ghost4j.util.JavaFork;
 
-import org.apache.log4j.Logger;
-
 public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent implements RemoteAnalyzer {
 
-    /**
-     * Log4J logger used to log messages.
-     */
-    private Logger logger = Logger.getLogger(AbstractRemoteAnalyzer.class.getName());
-    
-    public abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
+    protected abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
     
     /**
      * Starts a remote analyzer server.
      * @param remoteAnalyzer
      * @throws AnalyzerException
      */
-    public static void startRemoteAnalyzer(RemoteAnalyzer remoteAnalyzer) throws AnalyzerException{
+    protected static void startRemoteAnalyzer(RemoteAnalyzer remoteAnalyzer) throws AnalyzerException{
 
         try {
 
@@ -55,14 +48,8 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
             throw new AnalyzerException(e);
         }
     }
-    
-    public List<AnalysisItem> remoteAnalyze(Document document)
-    		throws IOException, AnalyzerException , DocumentException{
-    	
-    	return run(document);
-    }
-    
 
+	@SuppressWarnings("unchecked")
 	public List<AnalysisItem> analyze(Document document) throws IOException,
 			AnalyzerException, DocumentException {
 		
@@ -101,8 +88,11 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
 	            	//get remote component
 	            	Object remote = this.getRemoteComponent(cajoPort, RemoteAnalyzer.class);
 	            	
+	            	//copy analyzer settings to remote analyzer
+	            	Remote.invoke(remote, "copySettings", this.extractSettings());
+	            	
 	                //perform remote analyze
-	            	return (List<AnalysisItem>)Remote.invoke(remote, "remoteAnalyze", document);
+	            	return (List<AnalysisItem>)Remote.invoke(remote, "run", document);
 
 
 	            } catch (IOException e) {

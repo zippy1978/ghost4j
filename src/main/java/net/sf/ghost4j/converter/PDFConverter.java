@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.io.IOUtils;
+
 import net.sf.ghost4j.Ghostscript;
 import net.sf.ghost4j.GhostscriptException;
 import net.sf.ghost4j.document.Document;
@@ -156,16 +158,16 @@ public class PDFConverter extends AbstractRemoteConverter{
         gsArgs[11] = "-q";
         gsArgs[12] = "-f";
         gsArgs[13] = "-";
+        
+        InputStream is = new ByteArrayInputStream(document.getContent());
 
         try {
 
             //execute and exit interpreter
             synchronized(gs){
-                InputStream is = new ByteArrayInputStream(document.getContent());
                 gs.setStdIn(is);
                 gs.initialize(gsArgs);
-                Ghostscript.deleteInstance();
-                is.close();
+                
             }
 
             // write obtained file to output stream
@@ -186,6 +188,15 @@ public class PDFConverter extends AbstractRemoteConverter{
            throw new ConverterException(e);
 
         } finally{
+        	
+        	IOUtils.closeQuietly(is);
+        	
+        	//delete Ghostscript instance
+        	try {
+				Ghostscript.deleteInstance();
+			} catch (GhostscriptException e) {
+				throw new ConverterException(e);
+			}
 
             //remove temporary file
             diskStore.removeFile(diskStoreKey);

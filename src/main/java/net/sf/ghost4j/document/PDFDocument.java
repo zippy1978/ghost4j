@@ -19,7 +19,12 @@ import org.apache.commons.io.IOUtils;
  */
 public class PDFDocument extends AbstractDocument{
 
-    public void load(InputStream inputStream) throws IOException {
+    /**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = 6331191005700202153L;
+
+	public void load(InputStream inputStream) throws IOException {
         super.load(inputStream);
 
         //check that the file is a PDF

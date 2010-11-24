@@ -27,6 +27,6 @@ public abstract class AbstractAnalyzer extends AbstractComponent implements Anal
 		return run(document);
 	}
 	
-	public abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
+	protected abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
 
 }

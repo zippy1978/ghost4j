@@ -9,7 +9,6 @@ package net.sf.ghost4j;
 import gnu.cajo.invoke.Remote;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +59,7 @@ public abstract class AbstractRemoteComponent extends AbstractComponent{
     public boolean isStandAloneModeSupported(){
     	
     	try {
-            Method method = this.getClass().getMethod("main", String[].class);
+            this.getClass().getMethod("main", String[].class);
             return true;
         } catch (Exception ex) {
             return false;
@@ -73,7 +72,7 @@ public abstract class AbstractRemoteComponent extends AbstractComponent{
      * @return Port number used by the server
      * @throws IOException
      */
-    public synchronized int startRemoteServer(JavaFork fork) throws IOException{
+    protected synchronized int startRemoteServer(JavaFork fork) throws IOException{
     	
     	//get free TCP port to run Cajo server on
         int cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 5000, 6000);
@@ -104,7 +103,7 @@ public abstract class AbstractRemoteComponent extends AbstractComponent{
      * @return The proxy object
      * @throws Exception
      */
-    public synchronized Object getRemoteComponent(int serverPort, Class clazz) throws Exception{
+    protected synchronized Object getRemoteComponent(int serverPort, Class<?> clazz) throws Exception{
     	
         return Remote.getItem("//127.0.0.1:" + serverPort + "/" + clazz.getCanonicalName());
         
@@ -114,7 +113,7 @@ public abstract class AbstractRemoteComponent extends AbstractComponent{
      * Create and return a new JavaFork for remote processing.
      * @return A JavaFork
      */
-    public JavaFork buildJavaFork(){
+    protected JavaFork buildJavaFork(){
     	
     	JavaFork fork = new JavaFork();
         fork.setRedirectStreams(true);

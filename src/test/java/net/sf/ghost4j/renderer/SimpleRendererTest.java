@@ -7,13 +7,9 @@
 package net.sf.ghost4j.renderer;
 
 import java.awt.Image;
-import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import junit.framework.TestCase;
 import net.sf.ghost4j.document.PDFDocument;
