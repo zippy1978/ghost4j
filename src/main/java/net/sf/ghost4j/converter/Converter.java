@@ -10,6 +10,7 @@ package net.sf.ghost4j.converter;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import net.sf.ghost4j.Component;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
 
@@ -17,7 +18,7 @@ import net.sf.ghost4j.document.DocumentException;
  * Interface defining a converter used to convert a Document to a given format.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface Converter {
+public interface Converter extends Component{
 
     /**
      * Converts a given document and output results in provided output stream.

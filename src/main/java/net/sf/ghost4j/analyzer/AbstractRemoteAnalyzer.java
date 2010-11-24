@@ -45,7 +45,6 @@ public abstract class AbstractRemoteAnalyzer extends AbstractRemoteComponent imp
 
             //export analyzer
             RemoteAnalyzer analyzerCopy = remoteAnalyzer.getClass().newInstance();
-            analyzerCopy.cloneSettings(remoteAnalyzer);
             analyzerCopy.setMaxProcessCount(0);
             
             Remote.config(null, cajoPort, null, 0);

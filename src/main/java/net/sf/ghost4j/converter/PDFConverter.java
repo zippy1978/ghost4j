@@ -193,20 +193,6 @@ public class PDFConverter extends AbstractRemoteConverter{
 
     }
 
-    public void cloneSettings(RemoteConverter remoteConverter){
-
-        if ((remoteConverter instanceof PDFConverter)){
-            PDFConverter pdfConverter = (PDFConverter) remoteConverter;
-
-            this.setAutoRotatePages(pdfConverter.getAutoRotatePages());
-            this.setCompatibilityLevel(pdfConverter.getCompatibilityLevel());
-            this.setPDFSettings(pdfConverter.getPDFSettings());
-            this.setPDFX(pdfConverter.isPDFX());
-            this.setProcessColorModel(pdfConverter.getProcessColorModel());
-        }
-
-    }
-
     public int getAutoRotatePages() {
         return autoRotatePages;
     }

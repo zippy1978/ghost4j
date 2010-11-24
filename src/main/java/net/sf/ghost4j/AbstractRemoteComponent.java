@@ -6,7 +6,6 @@
  */
 package net.sf.ghost4j;
 
-import gnu.cajo.Cajo;
 import gnu.cajo.invoke.Remote;
 
 import java.io.IOException;
@@ -14,9 +13,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.ghost4j.converter.Converter;
-import net.sf.ghost4j.converter.ConverterException;
-import net.sf.ghost4j.converter.RemoteConverter;
 import net.sf.ghost4j.util.JavaFork;
 import net.sf.ghost4j.util.NetworkUtil;
 
@@ -27,7 +23,7 @@ import org.apache.log4j.Logger;
  * Used as base class for remote components.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public abstract class AbstractRemoteComponent extends AbstractComponent {
+public abstract class AbstractRemoteComponent extends AbstractComponent{
 
 	/**
      * Log4J logger used to log messages.

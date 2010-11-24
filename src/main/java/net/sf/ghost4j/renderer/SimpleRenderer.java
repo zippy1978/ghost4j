@@ -96,18 +96,7 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
 		}
 		
 		return displayCallback.getRasters();
-
-        
-	}
-
-	public void cloneSettings(RemoteRenderer remoteRenderer) {
-		
-		if ((remoteRenderer instanceof SimpleRenderer)){
-			SimpleRenderer simpleRenderer = (SimpleRenderer) remoteRenderer;
-
-			this.setResolution(simpleRenderer.getResolution());
-        }
-
+   
 	}
 
 	public int getResolution() {

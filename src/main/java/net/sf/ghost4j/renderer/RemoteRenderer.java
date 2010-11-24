@@ -38,10 +38,4 @@ public interface RemoteRenderer extends Renderer {
 	 */
 	public List<PageRaster> remoteRender(Document document, int begin, int end) throws IOException, RendererException, DocumentException;
 	
-	/**
-     * Clones settings of a renderer to another one.
-     * This operation is allowed only when renderers (source and target) are instances of the same class.
-     * @param remoteRenderer
-     */
-    public void cloneSettings(RemoteRenderer remoteRenderer);
 }

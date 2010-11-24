@@ -51,11 +51,6 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 		//support PDF documents only at the moment
 		return  run((PDFDocument)document);
 	}
-
-	public void cloneSettings(RemoteAnalyzer remoteAnalyzer) {
-		
-		//nothing to clone here
-	}
 	
 	private List<AnalysisItem> run(PDFDocument document) throws IOException,
 	AnalyzerException {

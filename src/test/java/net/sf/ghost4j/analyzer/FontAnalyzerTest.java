@@ -7,6 +7,7 @@
 package net.sf.ghost4j.analyzer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.ghost4j.document.PDFDocument;
@@ -52,13 +53,16 @@ public class FontAnalyzerTest extends TestCase {
 		final FontAnalyzer fontAnalyzer = new FontAnalyzer();
 		fontAnalyzer.setMaxProcessCount(2);
 		
+		final List<AnalysisItem> result1 = new ArrayList<AnalysisItem>();
+		final List<AnalysisItem> result2 = new ArrayList<AnalysisItem>();
+		final List<AnalysisItem> result3 = new ArrayList<AnalysisItem>();
+		
 		Thread thread1 = new Thread(){
         	public void run() {
         		try{
         			System.out.println("START 1 " + Thread.currentThread());
-        			List<AnalysisItem> result = fontAnalyzer.analyze(document);
+        			result1.addAll(fontAnalyzer.analyze(document));
         			System.out.println("END 1 " + Thread.currentThread());
-        			assertEquals(4, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -70,9 +74,8 @@ public class FontAnalyzerTest extends TestCase {
         	public void run() {
         		try{
         			System.out.println("START 2 " + Thread.currentThread());
-        			List<AnalysisItem> result = fontAnalyzer.analyze(document);
+        			result2.addAll(fontAnalyzer.analyze(document));
         			System.out.println("END 2 " + Thread.currentThread());
-        			assertEquals(4, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -85,9 +88,8 @@ public class FontAnalyzerTest extends TestCase {
         	public void run() {
         		try{
         			System.out.println("START 3 " + Thread.currentThread());
-        			List<AnalysisItem> result = fontAnalyzer.analyze(document);
+        			result3.addAll(fontAnalyzer.analyze(document));
         			System.out.println("END 3 " + Thread.currentThread());
-        			assertEquals(4, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -99,6 +101,9 @@ public class FontAnalyzerTest extends TestCase {
         thread2.join();
         thread3.join();
 		
+        assertEquals(4, result1.size());
+        assertEquals(4, result2.size());
+        assertEquals(4, result3.size());
 		
 	}
 }

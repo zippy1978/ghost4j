@@ -10,6 +10,7 @@ package net.sf.ghost4j.analyzer;
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.ghost4j.Component;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
 
@@ -17,7 +18,7 @@ import net.sf.ghost4j.document.DocumentException;
  * Interface defining an analyzer used to retrieve info on a Document to a given format.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface Analyzer {
+public interface Analyzer extends Component{
 
 	/**
 	 * Analyzes a given document and outputs result as a list of AnalysisItem objects.

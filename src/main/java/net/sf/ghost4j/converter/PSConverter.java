@@ -123,16 +123,6 @@ public class PSConverter extends AbstractRemoteConverter {
 
 	}
 
-	public void cloneSettings(RemoteConverter remoteConverter) {
-		
-		if ((remoteConverter instanceof PSConverter)){
-			PSConverter psConverter = (PSConverter) remoteConverter;
-
-            this.setLanguageLevel(psConverter.getLanguageLevel());
-        }
-
-	}
-
 	public int getLanguageLevel() {
 		return languageLevel;
 	}

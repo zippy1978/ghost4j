@@ -48,7 +48,6 @@ public abstract class AbstractRemoteRenderer extends AbstractRemoteComponent imp
 
             //export renderer
             RemoteRenderer rendererCopy = remoteRenderer.getClass().newInstance();
-            rendererCopy.cloneSettings(remoteRenderer);
             rendererCopy.setMaxProcessCount(0);
             
             Remote.config(null, cajoPort, null, 0);

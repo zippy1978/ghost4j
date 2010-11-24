@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.ghost4j.Component;
 import net.sf.ghost4j.analyzer.AnalyzerException;
 import net.sf.ghost4j.document.Document;
 import net.sf.ghost4j.document.DocumentException;
@@ -19,7 +20,7 @@ import net.sf.ghost4j.document.DocumentException;
  * Interface defining a renderer used to render a Document to a given format.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface Renderer {
+public interface Renderer extends Component{
 
 	/**
 	 * Renders a given document an outputs result as a list of Image objects (on image per page).

@@ -35,10 +35,4 @@ public interface RemoteConverter extends Converter {
      */
     public byte[] remoteConvert(Document document) throws IOException, ConverterException, DocumentException;
 
-    /**
-     * Clones settings of a converter to another one.
-     * This operation is allowed only when converters (source and target) are instances of the same class.
-     * @param remoteConverter
-     */
-    public void cloneSettings(RemoteConverter remoteConverter);
 }

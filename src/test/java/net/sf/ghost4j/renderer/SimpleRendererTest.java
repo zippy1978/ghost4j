@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -69,13 +70,16 @@ public class SimpleRendererTest extends TestCase {
 		final SimpleRenderer simpleRenderer = new SimpleRenderer();
 		simpleRenderer.setMaxProcessCount(2);
 		
+		final List<Image> result1 = new ArrayList<Image>();
+		final List<Image> result2 = new ArrayList<Image>();
+		final List<Image> result3 = new ArrayList<Image>();
+		
 		Thread thread1 = new Thread(){
         	public void run() {
         		try{
         			System.out.println("START 1 " + Thread.currentThread());
-        			List<Image> result = simpleRenderer.render(document);
+        			result1.addAll(simpleRenderer.render(document));
         			System.out.println("END 1 " + Thread.currentThread());
-        			assertEquals(1, result.size());
         	        
         		}catch(Exception e){
         			e.printStackTrace();
@@ -88,9 +92,8 @@ public class SimpleRendererTest extends TestCase {
         	public void run() {
         		try{
         			System.out.println("START 2 " + Thread.currentThread());
-        			List<Image> result = simpleRenderer.render(document);
+        			result2.addAll(simpleRenderer.render(document));
         			System.out.println("END 2 " + Thread.currentThread());
-        			assertEquals(1, result.size());
         			
         		}catch(Exception e){
         			e.printStackTrace();
@@ -104,9 +107,8 @@ public class SimpleRendererTest extends TestCase {
         	public void run() {
         		try{
         			System.out.println("START 3 " + Thread.currentThread());
-        			List<Image> result = simpleRenderer.render(document);
+        			result3.addAll(simpleRenderer.render(document));
         			System.out.println("END 3 " + Thread.currentThread());
-        			assertEquals(1, result.size());
         		}catch(Exception e){
         			e.printStackTrace();
         		}
@@ -117,6 +119,10 @@ public class SimpleRendererTest extends TestCase {
         thread1.join();
         thread2.join();
         thread3.join();
+        
+        assertEquals(1, result1.size());
+        assertEquals(1, result2.size());
+        assertEquals(1, result3.size());
     }
     
 }

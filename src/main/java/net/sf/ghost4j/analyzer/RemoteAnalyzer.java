@@ -34,11 +34,4 @@ public interface RemoteAnalyzer extends Analyzer{
      */
     public List<AnalysisItem> remoteAnalyze(Document document) throws IOException, AnalyzerException, DocumentException;
 
-    /**
-     * Clones settings of an analyzer to another one.
-     * This operation is allowed only when analyzers (source and target) are instances of the same class.
-     * @param remoteAnalyzer
-     */
-    public void cloneSettings(RemoteAnalyzer remoteAnalyzer);
-
 }

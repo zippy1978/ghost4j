@@ -52,7 +52,6 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
             
             //export converter
             RemoteConverter converterCopy = remoteConverter.getClass().newInstance();
-            converterCopy.cloneSettings(remoteConverter);
             converterCopy.setMaxProcessCount(0);
             
             Remote.config(null, cajoPort, null, 0);
@@ -113,6 +112,8 @@ public abstract class AbstractRemoteConverter extends AbstractRemoteComponent im
             	
             	//get remote component
             	Object remote = this.getRemoteComponent(cajoPort, RemoteConverter.class);
+            	
+            	//remote. this.extractSettings()
             	
 	            //perform remote conversion
             	byte[] result = (byte[])Remote.invoke(remote, "remoteConvert", document);
