@@ -1,5 +1,13 @@
 Release notes
 
+* Version 0.4.0 - XX/XX/2010
+
+  * High level API with multi-process support and initial components.
+  * PDFConverter: convert Postscript or PDF documents to PDF.
+  * PSConverter: convert Postscript or PDF documents to Postscript.
+  * FontAnalyzer: analyze fonts in a PDF document.
+  * SimpleRenderer: render a Postscript or PDF document as images.
+  
 * Version 0.3.3 - 04/09/2010
 
   * Fixed display callback compatibility for old Ghostscript versions.

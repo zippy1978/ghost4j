@@ -12,4 +12,8 @@ What is Ghost4J
       * Full Ghostscript API supported.
 
       * Object oriented API.
+      
+      * High level API providing a set of components (converters, analyzers, renderers) to handle Postscript and PDF documents.
+      
+      * Multi-process support.
 
