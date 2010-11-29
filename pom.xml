@@ -52,6 +52,16 @@
         	<id>java</id>
         	<url>http://download.java.net/maven/2</url>
         </repository>
+        <repository>
+            <id>com.anasoft.os.repository.releases</id>
+            <name>ANASOFT OpenSource releases</name>
+            <url>http://anasoft-os-repo.googlecode.com/svn/repository/releases</url>
+        </repository>
+        <repository>
+            <id>com.anasoft.os.repository.snapshots</id>
+            <name>ANASOFT OpenSource snapshots</name>
+            <url>http://anasoft-os-repo.googlecode.com/svn/repository/snapshots</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -173,6 +183,25 @@
                       </descriptors>
                 </configuration>
             </plugin>
+            <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-site-plugin</artifactId>
+		        <version>3.0-beta-3</version>
+		        <configuration>
+		          <locales>en,fr</locales>
+		        </configuration>
+     		 </plugin>
+     		 <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-site-plugin</artifactId>
+		      <dependencies>
+		        <dependency>
+		          <groupId>com.anasoft.os</groupId>
+		          <artifactId>m2st-doxia-macros</artifactId>
+		          <version>2.0</version>
+		        </dependency>
+		      </dependencies>
+		    </plugin>
        </plugins>
   </build>
 
