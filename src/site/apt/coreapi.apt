@@ -1,6 +1,6 @@
 Core API
 
-    Core API is the lowest level of the library that allows direct interaction with the Ghostscript interpreter.
+	Core API is the lowest level of the library that allows direct interaction with the Ghostscript interpreter.
 
     It is composed of :
 
@@ -20,6 +20,8 @@ Core API
     
     When it is not needed anymore, it is possible to delete the interpreter instance by calling <<Ghostscript.deleteInstance()>>: even if it is not required, 
     it is highly recommended to do it to ensure a new / clean instance is returned next time.
+    
+    When Ghost4J is used in a multi-thread environment, make sure that the interpreter (from the initalization to the instance delete) is access synchronously.  
 
 * Display callbacks
 
