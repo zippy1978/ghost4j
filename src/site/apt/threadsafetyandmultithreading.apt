@@ -1,3 +1,44 @@
-Thread safety and multi threading
+Thread safety and multi-threading
 
-  TODO.
+* Thead safety
+
+  By default the Ghostscript API can have only one interpreter instance in the same native process. 
+  This means that when writing a program using the API, operations called on the interpreter instance must be synchronous.
+  
+  To make sure a Ghostscript process is thread safe when using Ghost4J, always call it like this:
+  
+----------------------------------------
+//get Ghostscript instance
+Ghostscript gs = Ghostscript.getInstance();
+  
+try {
+
+ 	
+	synchronized(gs){
+    
+    //call interpreter operations here
+    	
+	gs.initialize(gsArgs);
+	gs.exit();
+	}
+	
+}catch (GhostscriptException e) {
+        	
+	//handle interpreter exceptions here
+
+} finally{
+        	
+	//delete interpreter instance (safer)
+	try {
+		Ghostscript.deleteInstance();
+	} catch (GhostscriptException e) {
+		//nothing
+}    
+----------------------------------------
+
+* Multi-threading
+
+ Making sure the Ghostscript is thread safe is a first step. But what if Ghost4J is to be used in a multi-thread / multi-user environment (in a webapp for instance).
+ 
+ TO CONTINUE.
+ 
