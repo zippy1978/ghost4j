@@ -1,3 +1,5 @@
+%{html-template-snippet|htmlFile=src/site/html/ga.html|paramFile=src/site/html/ga.properties}
+
 Core API samples
 
     This section shows some code examples of the core API.

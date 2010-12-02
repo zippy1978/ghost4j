@@ -1,3 +1,5 @@
+%{html-template-snippet|htmlFile=src/site/html/ga.html|paramFile=src/site/html/ga.properties}
+
 Core API
 
 	Core API is the lowest level of the library that allows direct interaction with the Ghostscript interpreter.

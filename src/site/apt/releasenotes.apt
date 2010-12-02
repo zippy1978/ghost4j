@@ -1,6 +1,8 @@
+%{html-template-snippet|htmlFile=src/site/html/ga.html|paramFile=src/site/html/ga.properties}
+
 Release notes
 
-* Version 0.4.0 - XX/XX/2010
+* Version 0.4.0 - 02/12/2010
 
   * High level API with multi-process support and initial components.
   
