@@ -7,6 +7,8 @@
 package net.sf.ghost4j.util;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Map;
 
 /**
@@ -16,6 +18,17 @@ import java.util.Map;
  */
 public class JavaFork implements Runnable {
 
+	private static final String JAVA_COMMAND;
+	private static final String PATH_SEPARATOR = System.getProperty("path.separator");
+	
+	static {
+		if (System.getProperty("os.name").equalsIgnoreCase("windows")) {
+			JAVA_COMMAND = "javaw";
+		} else {
+			JAVA_COMMAND = "java";
+		}
+	}
+	
     /**
      * Start class of the JVM.
      */
@@ -102,13 +115,13 @@ public class JavaFork implements Runnable {
         }
 
         //retrieve classpath
-        String classPath = System.getProperty("java.class.path");
+        String classPath = this.getCurrentClasspath();
 
         //build child process
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
+        ProcessBuilder processBuilder = new ProcessBuilder(JAVA_COMMAND, "-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
         if (System.getProperty("jna.library.path") != null) {
         	String jnaLibraryPath = "-Djna.library.path="+ System.getProperty("jna.library.path");
-        	processBuilder = new ProcessBuilder("java", jnaLibraryPath,"-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
+        	processBuilder = new ProcessBuilder(JAVA_COMMAND, jnaLibraryPath,"-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
         } 
         processBuilder.directory(new File(System.getProperty("user.dir")));
         processBuilder.environment().putAll(System.getenv());
@@ -137,6 +150,19 @@ public class JavaFork implements Runnable {
 
     }
 
+    private String getCurrentClasspath() {
+    	StringBuilder cpBuilder = new StringBuilder();
+    	URL[] urls = ((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs();
+    	
+    	for (int i = 0; i < urls.length; i++) {
+    		cpBuilder.append(urls[i].getFile());
+    		if (i < urls.length - 1)
+    			cpBuilder.append(PATH_SEPARATOR);
+    	}
+    	
+    	return cpBuilder.toString();
+    }
+    
     public Class<?> getStartClass() {
         return startClass;
     }
