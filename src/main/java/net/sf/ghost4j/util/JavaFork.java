@@ -160,7 +160,13 @@ public class JavaFork implements Runnable {
     			cpBuilder.append(PATH_SEPARATOR);
     	}
     	
-    	return cpBuilder.toString();
+    	if (cpBuilder.toString().contains("surefirebooter")){
+    		//if called from Maven: use the java.class.path property as classpath
+    		return System.getProperty("java.class.path");
+    	} else {
+    		return cpBuilder.toString();
+    	}
+
     }
     
     public Class<?> getStartClass() {
