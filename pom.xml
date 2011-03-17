@@ -31,6 +31,10 @@
             <organization>CANdata Systems</organization>
             <organizationUrl>http://www.candata.com</organizationUrl>
         </contributor>
+        <contributor>
+        	<name>Michael Sliwak</name>
+        	<email>msliwak@googlemail.com</email>
+        </contributor>
     </contributors>
     
     <repositories>
