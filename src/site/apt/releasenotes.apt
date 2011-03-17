@@ -1,5 +1,9 @@
 Release notes
 
+* Version 0.4.1 - 17/03/2011
+
+  * Fixed multi-process support when running library from a Servlet container (Thanks Michael!).
+  
 * Version 0.4.0 - 02/12/2010
 
   * High level API with multi-process support and initial components.
