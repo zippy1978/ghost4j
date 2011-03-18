@@ -7,8 +7,11 @@
 package net.sf.ghost4j.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.Map;
 
 /**
@@ -22,7 +25,7 @@ public class JavaFork implements Runnable {
 	private static final String PATH_SEPARATOR = System.getProperty("path.separator");
 	
 	static {
-		if (System.getProperty("os.name").equalsIgnoreCase("windows")) {
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
 			JAVA_COMMAND = "javaw";
 		} else {
 			JAVA_COMMAND = "java";
@@ -155,16 +158,31 @@ public class JavaFork implements Runnable {
     	URL[] urls = ((URLClassLoader)Thread.currentThread().getContextClassLoader()).getURLs();
     	
     	for (int i = 0; i < urls.length; i++) {
-    		cpBuilder.append(urls[i].getFile());
-    		if (i < urls.length - 1)
-    			cpBuilder.append(PATH_SEPARATOR);
+			// need to do some conversion to get the paths right
+			// otherwise paths get broken on windows
+			String s = urls[i].toExternalForm();
+			
+			try {
+				s = URLDecoder.decode(s, "UTF-8");
+				urls[i] = new URL(s);
+				s = new File(urls[i].getFile()).getAbsolutePath();
+				cpBuilder.append(s);
+	    		if (i < urls.length - 1)
+	    			cpBuilder.append(PATH_SEPARATOR);
+			} catch (UnsupportedEncodingException e) {
+				// should never happen as we pass supported encoding UTF-8
+			} catch (MalformedURLException e) {
+				// should also never happen at this point, but who knows ;-)
+			}
     	}
     	
-    	if (cpBuilder.toString().contains("surefirebooter")){
+    	String cp = cpBuilder.toString();
+    	
+    	if (cp.isEmpty() || cp.contains("surefirebooter")){
     		//if called from Maven: use the java.class.path property as classpath
     		return System.getProperty("java.class.path");
     	} else {
-    		return cpBuilder.toString();
+    		return cp;
     	}
 
     }
