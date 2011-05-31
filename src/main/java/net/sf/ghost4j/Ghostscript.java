@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Properties;
 
 import net.sf.ghost4j.display.DisplayCallback;
 import net.sf.ghost4j.display.DisplayData;
@@ -26,6 +27,10 @@ import com.sun.jna.ptr.IntByReference;
  */
 public class Ghostscript {
 
+	/**
+	 * Name of the system property used to set the encoding to use for stdin.
+	 */
+	public static final String PROPERTY_NAME_ENCODING = "ghost4j.encoding";
     /**
      * Holds Ghostscript interpreter native instance (C pointer).
      */
@@ -222,12 +227,14 @@ public class Ghostscript {
 
                 public int callback(Pointer caller_handle, Pointer buf, int len) {
 
+                	//retrieve encoding, if no ghost4j encoding defined = use JVM default
+                	String encoding = System.getProperty(PROPERTY_NAME_ENCODING, System.getProperty("file.encoding"));
 
                     try {
                         byte[] buffer = new byte[1000];
                         int read = getStdIn().read(buffer);
                         if (read != -1) {
-                            buf.setString(0, new String(buffer, 0, read));
+                        	buf.setString(0, new String(buffer, 0, read, encoding));
                             buffer = null;
                             return read;
                         }

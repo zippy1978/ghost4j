@@ -121,10 +121,17 @@ public class JavaFork implements Runnable {
         String classPath = this.getCurrentClasspath();
 
         //build child process
-        ProcessBuilder processBuilder = new ProcessBuilder(JAVA_COMMAND, "-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
+        String ghost4JEncoding = System.getProperty("ghost4j.encoding");
+        String fileEncoding = "-Dfile.encoding=";
+        if (ghost4JEncoding != null){
+        	fileEncoding += ghost4JEncoding;
+        } else {
+        	fileEncoding += System.getProperty("file.encoding");
+        }
+        ProcessBuilder processBuilder = new ProcessBuilder(JAVA_COMMAND, fileEncoding, "-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
         if (System.getProperty("jna.library.path") != null) {
-        	String jnaLibraryPath = "-Djna.library.path="+ System.getProperty("jna.library.path");
-        	processBuilder = new ProcessBuilder(JAVA_COMMAND, jnaLibraryPath,"-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
+        	String jnaLibraryPath = "-Djna.library.path=" + System.getProperty("jna.library.path");
+        	processBuilder = new ProcessBuilder(JAVA_COMMAND, fileEncoding, jnaLibraryPath,"-Xms" + xms, "-Xmx" + xmx, "-cp", classPath, startClass.getName());
         } 
         processBuilder.directory(new File(System.getProperty("user.dir")));
         processBuilder.environment().putAll(System.getenv());

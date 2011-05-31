@@ -49,6 +49,7 @@
             <item name="High level API" href="highlevelapi.html"/>
             <item name="Core API" href="coreapi.html"/>
             <item name="Thread safety and multi-threading" href="threadsafetyandmultithreading.html"/>
+            <item name="Encoding" href="encoding.html"/>
         </menu>
         
         <menu ref="reports"/>
