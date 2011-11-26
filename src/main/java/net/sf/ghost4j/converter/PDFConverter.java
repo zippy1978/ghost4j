@@ -43,11 +43,44 @@ public class PDFConverter extends AbstractRemoteConverter{
     public static final int OPTION_PDFSETTINGS_PRINTER = 3;
     public static final int OPTION_PDFSETTINGS_PREPRESS = 4;
 
+    /**
+     * Define auto rotate pages behaviour.
+     * Can be OPTION_AUTOROTATEPAGES_NONE, OPTION_AUTOROTATEPAGES_ALL 
+     * or OPTION_AUTOROTATEPAGES_PAGEBYPAGE.
+     */
     private int autoRotatePages;
+    
+    /**
+     * Define process color model.
+     * Can be OPTION_PROCESSCOLORMODEL_RGB, OPTION_PROCESSCOLORMODEL_GRAY
+     * or OPTION_PROCESSCOLORMODEL_CMYK.
+     */
     private int processColorModel;
+    
+    /**
+     * Define PDF settings to use.
+     * Can be OPTION_PDFSETTINGS_DEFAULT, OPTION_PDFSETTINGS_SCREEN,
+     * OPTION_PDFSETTINGS_EBOOK, OPTION_PDFSETTINGS_PRINTER
+     * or OPTION_PDFSETTINGS_PREPRESS.
+     */
     private int PDFSettings;
+    
+    /**
+     * Define PDF version compatibility level (default is "1.4").
+     */
     private String compatibilityLevel = "1.4";
+    
+    /**
+     * Enable PDFX generation (default is false).
+     */
     private boolean PDFX = false;
+    
+    /**
+     * Define standard paper size for the generated PDF file.
+     * This parameter is ignored if a paper size is provided in the input file.
+     * Default value is "letter".
+     */
+    private String paperSize = "letter";
 
     public PDFConverter() {
 
@@ -94,7 +127,7 @@ public class PDFConverter extends AbstractRemoteConverter{
         String diskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
 
         //prepare Ghostscript interpreter parameters
-        String[] gsArgs = new String[14];
+        String[] gsArgs = new String[15];
         
         gsArgs[0] = "-ps2pdf";
         gsArgs[1] = "-dNOPAUSE";
@@ -151,13 +184,15 @@ public class PDFConverter extends AbstractRemoteConverter{
         //PDFX
         gsArgs[8] = "-dPDFX=" + PDFX;
 
-
-        gsArgs[9] = "-sDEVICE=pdfwrite";
+        //papersize
+        gsArgs[9] = "-sPAPERSIZE=" + paperSize;
+                
+        gsArgs[10] = "-sDEVICE=pdfwrite";        
         //output to file, as stdout redirect does not work properly
-        gsArgs[10] = "-sOutputFile=" + diskStore.addFile(diskStoreKey).getAbsolutePath();
-        gsArgs[11] = "-q";
-        gsArgs[12] = "-f";
-        gsArgs[13] = "-";
+        gsArgs[11] = "-sOutputFile=" + diskStore.addFile(diskStoreKey).getAbsolutePath();
+        gsArgs[12] = "-q";
+        gsArgs[13] = "-f";
+        gsArgs[14] = "-";
         
         InputStream is = new ByteArrayInputStream(document.getContent());
 
@@ -242,6 +277,14 @@ public class PDFConverter extends AbstractRemoteConverter{
 
     public void setPDFX(boolean PDFX) {
         this.PDFX = PDFX;
+    }
+
+    public String getPaperSize() {
+        return paperSize;
+    }
+
+    public void setPaperSize(String paperSize) {
+        this.paperSize = paperSize;
     }
 
     

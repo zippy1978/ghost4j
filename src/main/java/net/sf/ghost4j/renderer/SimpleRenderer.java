@@ -14,104 +14,102 @@ import net.sf.ghost4j.document.PSDocument;
 import net.sf.ghost4j.util.DiskStore;
 
 public class SimpleRenderer extends AbstractRemoteRenderer {
-	
-	/**
-	 * Renderer output resolution in DPI.
-	 * Defaults is 75dpi.
-	 */
-	private int resolution = 75;
-	
-	public SimpleRenderer() {
-		
-		//set supported classes
+
+    /**
+     * Define renderer output resolution in DPI (default is 75dpi).
+     */
+    private int resolution = 75;
+
+    public SimpleRenderer() {
+
+        //set supported classes
         supportedDocumentClasses = new Class[2];
         supportedDocumentClasses[0] = PDFDocument.class;
         supportedDocumentClasses[1] = PSDocument.class;
-	}
-	
-	/**
-	 * Main method used to start the renderer in standalone 'slave mode'.
-	 * @param args
-	 * @throws RendererException
-	 */
-	public static void main(String[] args) throws RendererException {
-		
-		startRemoteRenderer(new SimpleRenderer());
-	}
+    }
 
-	@Override
-	public List<PageRaster> run(Document document, int begin, int end)
-			throws IOException, RendererException, DocumentException {
-		
-		 //assert document is supported
+    /**
+     * Main method used to start the renderer in standalone 'slave mode'.
+     * @param args
+     * @throws RendererException
+     */
+    public static void main(String[] args) throws RendererException {
+
+        startRemoteRenderer(new SimpleRenderer());
+    }
+
+    @Override
+    public List<PageRaster> run(Document document, int begin, int end)
+            throws IOException, RendererException, DocumentException {
+
+        //assert document is supported
         this.assertDocumentSupported(document);
-        
+
         //get Ghostscript instance
         Ghostscript gs = Ghostscript.getInstance();
-        
+
         //generate a unique diskstore key for input file
         DiskStore diskStore = DiskStore.getInstance();
-        String inputDiskStoreKey = document.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int)(Math.random() * (1000-0))));
-        
+        String inputDiskStoreKey = document.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int) (Math.random() * (1000 - 0))));
+
         //write document to input file
         document.write(diskStore.addFile(inputDiskStoreKey));
-        
+
         //create display callback
         PageRasterDisplayCallback displayCallback = new PageRasterDisplayCallback();
-        
+
         //prepare args
         String[] gsArgs = {
-        		"-dQUIET",
-        		"-dNOPAUSE",
-        		"-dBATCH",
-        		"-dSAFER",
-        		"-dFirstPage=" + (begin + 1),
-        		"-dLastPage=" + (end + 1),
-        		"-sDEVICE=display",
-        		"-dDisplayHandle=0",
-        		"-dDisplayFormat=16#804",
-        		"-r" + this.getResolution(),
-        		"-f",
-        		diskStore.getFile(inputDiskStoreKey).getAbsolutePath()};
-		
+            "-dQUIET",
+            "-dNOPAUSE",
+            "-dBATCH",
+            "-dSAFER",
+            "-dFirstPage=" + (begin + 1),
+            "-dLastPage=" + (end + 1),
+            "-sDEVICE=display",
+            "-dDisplayHandle=0",
+            "-dDisplayFormat=16#804",
+            "-r" + this.getResolution(),
+            "-f",
+            diskStore.getFile(inputDiskStoreKey).getAbsolutePath()};
+
         //execute and exit interpreter
-    	try {
-	        synchronized(gs){
-	    	  
-	        	//set display callback
-	            gs.setDisplayCallback(displayCallback);
-	            
-				gs.initialize(gsArgs);
-	            gs.exit();
-	            
-	        }
-		} catch (GhostscriptException e) {
-			
-			throw new RendererException(e);
-			
-		} finally {
-			
-			//delete Ghostscript instance
-        	try {
-				Ghostscript.deleteInstance();
-			} catch (GhostscriptException e) {
-				throw new RendererException(e);
-			}
-			
-			//remove temporary file
+        try {
+            synchronized (gs) {
+
+                //set display callback
+                gs.setDisplayCallback(displayCallback);
+
+                gs.initialize(gsArgs);
+                gs.exit();
+
+            }
+        } catch (GhostscriptException e) {
+
+            throw new RendererException(e);
+
+        } finally {
+
+            //delete Ghostscript instance
+            try {
+                Ghostscript.deleteInstance();
+            } catch (GhostscriptException e) {
+                throw new RendererException(e);
+            }
+
+            //remove temporary file
             diskStore.removeFile(inputDiskStoreKey);
-		}
-		
-		return displayCallback.getRasters();
-   
-	}
+        }
 
-	public int getResolution() {
-		return resolution;
-	}
+        return displayCallback.getRasters();
 
-	public void setResolution(int resolution) {
-		this.resolution = resolution;
-	}
+    }
 
+    public int getResolution() {
+        return resolution;
+    }
+
+    public void setResolution(int resolution) {
+        this.resolution = resolution;
+    }
 }

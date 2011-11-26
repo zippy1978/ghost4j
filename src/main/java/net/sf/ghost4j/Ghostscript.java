@@ -27,10 +27,10 @@ import com.sun.jna.ptr.IntByReference;
  */
 public class Ghostscript {
 
-	/**
-	 * Name of the system property used to set the encoding to use for stdin.
-	 */
-	public static final String PROPERTY_NAME_ENCODING = "ghost4j.encoding";
+    /**
+     * Name of the system property used to set the encoding to use for stdin.
+     */
+    public static final String PROPERTY_NAME_ENCODING = "ghost4j.encoding";
     /**
      * Holds Ghostscript interpreter native instance (C pointer).
      */
@@ -39,7 +39,6 @@ public class Ghostscript {
      * Holds singleton instance.
      */
     private static Ghostscript instance;
-
     /**
      * Standard input stream.
      */
@@ -227,14 +226,14 @@ public class Ghostscript {
 
                 public int callback(Pointer caller_handle, Pointer buf, int len) {
 
-                	//retrieve encoding, if no ghost4j encoding defined = use JVM default
-                	String encoding = System.getProperty(PROPERTY_NAME_ENCODING, System.getProperty("file.encoding"));
+                    //retrieve encoding, if no ghost4j encoding defined = use JVM default
+                    String encoding = System.getProperty(PROPERTY_NAME_ENCODING, System.getProperty("file.encoding"));
 
                     try {
                         byte[] buffer = new byte[1000];
                         int read = getStdIn().read(buffer);
                         if (read != -1) {
-                        	buf.setString(0, new String(buffer, 0, read, encoding));
+                            buf.setString(0, new String(buffer, 0, read, encoding));
                             buffer = null;
                             return read;
                         }
@@ -339,9 +338,9 @@ public class Ghostscript {
         //determine display callback version from Ghostscript version
         float version = Float.parseFloat(getRevision().getNumber());
         //some versions report version 8.15 as 815.05
-        if (version < 8.50 || version > 100){
+        if (version < 8.50 || version > 100) {
             nativeDisplayCallback.version_major = 1;
-        } else{
+        } else {
             nativeDisplayCallback.version_major = 2;
         }
         nativeDisplayCallback.version_minor = 0;
@@ -472,8 +471,7 @@ public class Ghostscript {
         nativeDisplayCallback.display_memalloc = null;
         nativeDisplayCallback.display_memfree = null;
 
-        switch(nativeDisplayCallback.version_major)
-        {
+        switch (nativeDisplayCallback.version_major) {
             case 1:
                 nativeDisplayCallback.size = nativeDisplayCallback.size() - Pointer.SIZE;
                 break;

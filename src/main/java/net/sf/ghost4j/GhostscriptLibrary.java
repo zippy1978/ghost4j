@@ -9,9 +9,7 @@ package net.sf.ghost4j;
 import com.sun.jna.Callback;
 import com.sun.jna.FromNativeContext;
 import com.sun.jna.Library;
-import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
-import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
 import com.sun.jna.Structure;
@@ -27,19 +25,12 @@ import com.sun.jna.win32.StdCallLibrary.StdCallCallback;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public interface GhostscriptLibrary extends Library {
-
-    /**
-     * Name of the dynamic libray on windows systems.
-     */
-    public static final String winCLib = "gsdll32";
-    /**
-     * Name of the dynamic library on Linux / Mac OSX systems.
-     */
-    public static final String otherCLib = "gs";
+    
     /**
      * Static instance of the library itself.
      */
-    public static GhostscriptLibrary instance = (GhostscriptLibrary) Native.loadLibrary(Platform.isWindows() ? winCLib : otherCLib, GhostscriptLibrary.class);
+    public static GhostscriptLibrary instance = GhostscriptLibraryLoader.loadLibrary();
+
 
     /**
      * Structure in charge of holding Ghostscript revision data.
@@ -69,7 +60,7 @@ public interface GhostscriptLibrary extends Library {
      */
     public class display_callback_s extends Structure {
 
-               /**
+        /**
          * Callback called when new device has been opened.
          * This is the first event from this device.
          */
@@ -164,7 +155,6 @@ public interface GhostscriptLibrary extends Library {
 
             public int callback(Pointer handle, Pointer device, int component, String component_name, short c, short m, short y, short k);
         }
-
         /**
          * Size of this structure.
          * Used for checking if we have been handed a valid structure.
@@ -224,14 +214,12 @@ public interface GhostscriptLibrary extends Library {
          * Set this to null if not required.
          */
         public display_memfree display_memfree;
-
         /**
          * Holds a display_separation callback.
          * Set this to null if not required.
          * Ghostscript must only use this callback if version_major >= 2.
          */
         public display_separation display_separation;
-       
     }
 
     /**

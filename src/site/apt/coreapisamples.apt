@@ -4,7 +4,7 @@ Core API samples
 
 * Convert Postscript file to PDF
 
-%{code-snippet|file=src/main/java/net/sf/ghost4j/example/PDFConverterExample.java}
+%{code-snippet|file=src/main/java/net/sf/ghost4j/example/PDFConvertExample.java}
 
 * Display callback
 
