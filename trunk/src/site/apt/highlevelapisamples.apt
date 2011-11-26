@@ -1,0 +1,21 @@
+High level API samples
+
+    This section shows some code examples using the high level API.
+
+* Convert Postscript file to PDF using PDFConverter
+
+%{code-snippet|file=src/main/java/net/sf/ghost4j/example/PDFConverterExample.java}
+
+* Count pages of a Postscript document using PSDocument
+
+%{code-snippet|file=src/main/java/net/sf/ghost4j/example/PSPageCountExample.java}
+
+* List fonts of a PDF document using FontAnalyzer
+
+%{code-snippet|file=src/main/java/net/sf/ghost4j/example/FontAnalyzerExample.java}
+
+* Render a PDF document using SimpleRenderer
+
+%{code-snippet|file=src/main/java/net/sf/ghost4j/example/SimpleRendererExample.java}
+
+
