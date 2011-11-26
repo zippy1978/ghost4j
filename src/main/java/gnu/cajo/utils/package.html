@@ -1,0 +1,79 @@
+<body>
+
+A set of common utilities used by either proxy, or server items. As a general
+rule, do not compile all of the utility classes blindly; rather jar any
+classes resulting from the compilation of the proxy or server applications.
+As a rule, a proxy hosting VM is not required to have these classes in its
+classpath; therefore, the ones used from this package by a proxy application
+must be included in the proxy's codebase jar file.
+<p>
+
+Fundamentally, there are two entities; clients and servers. A server is a
+Virtual Machine which, at a minimum, exports one item, meaning a remotely
+invokable object implementing the {@link gnu.cajo.invoke.Invoke Invoke}
+interface.  A server can also provide proxies; i.e. mobile item interfaces, to
+the server's local item objects (exported or not), which run inside the
+client's runtime. A client is a VM that makes use of a server's items and
+proxies, but need not export any of its own. The architecture readily supports
+the possibility of hybrid client/server VMs.  Each VM can export as many items
+as it wants.<p>
+
+Items can transparently connect to other items across, logical, virtual or
+physical separation. This package seeks to establish the following
+roles between items:<p>
+
+An item is a control element of a system, it performs three major
+tasks:<ul>
+  <li>control system resources
+  <li>monitor system operation
+  <li>log system transactions
+</ul>
+
+A proxy is a optional, item-specific, interface, designed to separate and
+manage the following functions:<ul>
+  <li>user input validation and feedback
+  <li>item output formatting and presentation
+  <li>localization and internationalization
+</ul>
+
+Any item instance can invoke a transpparently local/remote method invocation
+on another. The invocation may or may not carry inbound data, and may or may
+not result in a synchronous response of data.  A remote method invocation may
+also initiate an asynchronous operation in the receiver, resulting in a
+subsequent callback invocation from the receiver back to the client, at a
+later time.<p>
+
+<u>When the items are remote</u>; the overall network structure looks
+something like this:<pre>
+
+ --------------         --------------
+|  Server VM   |       |  Client VM   |
+|  ----------  | TCP   |  ----------  |
+| | Item     | | links | | Proxy    | |
+| |----------| |       | |----------| |
+| | http     | |<------| | codebase | |
+| | callback | |<------| | notify   | |
+| | notify   | |------>| | callback | |
+|  ----------  |       |  ----------  |
+ --------------         --------------
+
+</pre>
+
+<i>Note:</i> Each outgoing TCP link consumes a corresponding anonymous
+return link, so the following port consumption realities for a <u>server</u>
+VM must be considered:
+
+<ul>
+<li>Each item consumes 2 inbound ports permanently (http / callback)
+<li>Each item consumes 1 outbound short-term port per client (codebase)
+<li>Each item consumes 1 outbound session-term port per client (callback)
+</ul>
+
+Therefore, it must be understood that since each connecting client
+will consume 2 dynamically allocated TCP ports, therefore no more than ~64k
+simultaneous clients could be served by one IP address; that is, assuming the
+host had no other servers.  Therefore, for very high usage hosts, multiple
+physical machines, multiple network interfaces, or a multi-homed host, would
+become necessary.
+
+</body>

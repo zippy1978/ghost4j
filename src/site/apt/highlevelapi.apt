@@ -1,0 +1,67 @@
+High level API
+
+  
+	Since version 0.4.0, GHost4J provides a high level API, to make document handling easier with Ghostscript.
+  
+	The high level API is composed of the following items:
+  
+	* <<Documents:>> A document is an object representing a document (usually a Postscript or PDF file). It provides methods to load, write and count pages on the document itself.
+
+	* <<Components:>> Components are processing units feed with documents. Families of components are: Analyzer, Converter and Renderer. Not all types of documents are necessarily supported by components.
+
+* Documents
+
+	Documents are represented by the <<net.sf.ghost4j.document.Document>> interface.
+	
+	Available implementations are:
+  
+*-------------------------------------+-----------------------------+
+ <<Class>>				        	  | <<Description>>             
+*-------------------------------------+-----------------------------+
+ net.sf.ghost4j.document.PSDocument   | Handle Postscript document  
+*-------------------------------------+-----------------------------+
+ net.sf.ghost4j.document.PDFDocument  | Handle PDF document         
+*-------------------------------------+-----------------------------+
+
+* Analyzers
+
+    Analyzers are components used to extract data of any kind out of a document. They are represented by the <<net.sf.ghost4j.analyzer.Analyzer>> interface.
+
+	Available implementations are:
+	    
+*-------------------------------------+--------------------------------+-------------------------+------------------+
+ <<Class>>				        	  | <<Description>>                | <<Supports Postscript>> | <<Supports PDF>>
+*-------------------------------------+--------------------------------+-------------------------+------------------+
+ net.sf.ghost4j.analyzer.FontAnalyzer | Extract font information: 	   |No						 |Yes
+ 									  | font names and embedding status|						 |
+*-------------------------------------+--------------------------------+-------------------------+------------------+
+
+* Converters
+
+   Converters are components used to convert documents to a given file format. They are represented by the <<net.sf.ghost4j.converter.Converter>> interface.
+   
+   Available implementations are:
+   
+*--------------------------------------+--------------------------------+-------------------------+------------------+
+ <<Class>>				        	   | <<Description>>                | <<Supports Postscript>> | <<Supports PDF>>
+*--------------------------------------+--------------------------------+-------------------------+------------------+
+ net.sf.ghost4j.converter.PSConverter  | Convert a document to a  	    |Yes					  |Yes
+ 									   | Postscript file				|						  |
+*--------------------------------------+--------------------------------+-------------------------+------------------+
+ net.sf.ghost4j.converter.PDFConverter | Convert a document to a  	    |Yes					  |Yes
+ 									   | PDF file						|						  |
+*--------------------------------------+--------------------------------+-------------------------+------------------+
+
+* Renderers
+
+   Renderers are components used to render document pages to image files. They are represented byt he <<net.sf.ghost4j.renderer.Renderer>> interface.
+   
+   Available implementations are:
+   
+*---------------------------------------+--------------------------------+-------------------------+------------------+
+ <<Class>>				        	    | <<Description>>                | <<Supports Postscript>> | <<Supports PDF>>
+*---------------------------------------+--------------------------------+-------------------------+------------------+
+ net.sf.ghost4j.renderer.SimpleRenderer | Render a range of pages from a  |Yes					   |Yes
+ 									    | document to images. 			 |						   |
+*---------------------------------------+--------------------------------+-------------------------+------------------+
+
