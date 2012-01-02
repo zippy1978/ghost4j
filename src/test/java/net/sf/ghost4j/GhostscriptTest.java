@@ -286,7 +286,7 @@ public class GhostscriptTest extends TestCase {
             args[2] = "-dBATCH";
             args[3] = "-dSAFER";
             args[4] = "-sDEVICE=display";
-            args[5] = "-dDisplayHandle=0";
+            args[5] = "-sDisplayHandle=0";
             args[6] = "-dDisplayFormat=16#804";
 
 

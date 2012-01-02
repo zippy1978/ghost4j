@@ -67,7 +67,7 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
             "-dFirstPage=" + (begin + 1),
             "-dLastPage=" + (end + 1),
             "-sDEVICE=display",
-            "-dDisplayHandle=0",
+            "-sDisplayHandle=0",
             "-dDisplayFormat=16#804",
             "-r" + this.getResolution(),
             "-f",

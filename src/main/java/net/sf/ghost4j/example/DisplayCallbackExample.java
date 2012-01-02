@@ -39,7 +39,7 @@ public class DisplayCallbackExample {
         gsArgs[2] = "-dBATCH";
         gsArgs[3] = "-dSAFER";
         gsArgs[4] = "-sDEVICE=display";
-        gsArgs[5] = "-dDisplayHandle=0";
+        gsArgs[5] = "-sDisplayHandle=0";
         gsArgs[6] = "-dDisplayFormat=16#804";
 
         //run PostScript (also works with PDF) and exit interpreter

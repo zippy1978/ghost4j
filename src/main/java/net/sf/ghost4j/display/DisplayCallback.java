@@ -13,8 +13,8 @@ import net.sf.ghost4j.GhostscriptException;
  * Interface representing a display callback.
  * A display callback provides method to interract with the Ghostscript interpreter display.
  * This can be usefull if you are interested in capturing PS or PDF page rasters.
- * Important: in order to use a display callback, Ghostscript must be initialized with -sDEVICE=display -dDisplayHandle and -dDisplayFormat arguments.
- * Usually set -dDisplayHandle to 0 and use -dDisplayFormat to define how display data will be sent to the displayPage method.
+ * Important: in order to use a display callback, Ghostscript must be initialized with -sDEVICE=display -sDisplayHandle and -dDisplayFormat arguments.
+ * Usually set -sDisplayHandle to 0 and use -dDisplayFormat to define how display data will be sent to the displayPage method.
  * -dDisplayFormat=16#804 sets a standard RGB ouput. Please refer to http://ghostscript.com/doc/8.54/Devices.htm to see how to set display parameters.
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
