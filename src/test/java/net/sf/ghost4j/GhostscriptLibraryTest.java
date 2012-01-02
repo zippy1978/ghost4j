@@ -434,7 +434,7 @@ public class GhostscriptLibraryTest extends TestCase {
         args[2] = "-dBATCH";
         args[3] = "-dSAFER";
         args[4] = "-sDEVICE=display";
-        args[5] = "-dDisplayHandle=0";
+        args[5] = "-xDisplayHandle=0";
         args[6] = "-dDisplayFormat=16#a0800";
         ghostscriptLibrary.gsapi_init_with_args(instanceByRef.getValue(), args.length, args);
        
