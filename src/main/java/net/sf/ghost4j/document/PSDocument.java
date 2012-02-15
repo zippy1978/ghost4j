@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.xmlgraphics.ps.DSCConstants;
 import org.apache.xmlgraphics.ps.dsc.DSCException;
 import org.apache.xmlgraphics.ps.dsc.DSCParser;
+import org.apache.xmlgraphics.ps.dsc.events.DSCAtend;
 import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
 
 /**
@@ -67,7 +68,9 @@ public class PSDocument extends AbstractDocument{
             bais = new ByteArrayInputStream(content);
 
             DSCParser parser = new DSCParser(bais);
-            DSCCommentPages pages =  (DSCCommentPages)parser.nextDSCComment(DSCConstants.PAGES);
+            Object tP = parser.nextDSCComment(DSCConstants.PAGES);
+            while(tP instanceof DSCAtend) tP = parser.nextDSCComment(DSCConstants.PAGES);
+            DSCCommentPages pages =  (DSCCommentPages)tP;
             pageCount = pages.getPageCount();
 
 
