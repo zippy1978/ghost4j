@@ -1,5 +1,11 @@
 Release notes
 
+* Version 0.4.5 - 15/02/2012
+
+  * Fixed bug with PSDocument getPageCount method (Thanks Jörg!).
+  
+  * Fixed bug with Renderer with 64bit archs (see http://bugs.ghostscript.com/show_bug.cgi?format=multiple&id=692754).
+  
 * Version 0.4.4 - 26/11/2011
 
   * Added paperSize property on PDFConverter and PSConverter.
