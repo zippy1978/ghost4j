@@ -1,217 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>net.sf</groupId>
-    <artifactId>ghost4j</artifactId>
-    <packaging>jar</packaging>
-    <version>0.4.5</version>
-    <name>Ghost4J</name>
-    <description>Java wrapper for Ghostscript API</description>
-    <url>http://ghost4j.sourceforge.net</url>
-    <licenses>
-        <license>
-            <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
-            <url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:svn:https://ghost4j.svn.sourceforge.net/svnroot/ghost4j/trunk</connection>
-        <url>http://ghost4j.svn.sourceforge.net/viewvc/ghost4j</url>
-    </scm>
-    <developers>
-        <developer>
-            <name>Gilles Grousset</name>
-            <email>gi.grousset@gmail.com</email>
-        </developer>
-    </developers>
-    <contributors>
-        <contributor>
-            <name>Dave Smith</name>
-            <email>dave.smith@candata.com</email>
-            <organization>CANdata Systems</organization>
-            <organizationUrl>http://www.candata.com</organizationUrl>
-        </contributor>
-        <contributor>
-            <name>Michael Sliwak</name>
-            <email>msliwak@googlemail.com</email>
-        </contributor>
-    </contributors>
-    
-    <distributionManagement> 
-        <site> 
-            <id>nexus</id>
-            <name>Ghost4J</name> 
-            <url>http://ghost4j.sourceforge.net</url>
-        </site>
-    </distributionManagement>
-    
-        <repositories>
-            <repository>
-                <releases />
-                <snapshots />
-                <id>jboss</id>
-                <url>http://repository.jboss.com/maven2</url>
-            </repository>
-            <repository>
-                <releases />
-                <snapshots />
-                <id>central</id>
-                <url>http://repo1.maven.org/maven2</url>
-            </repository>
-            <repository>
-                <releases/>
-                <snapshots/>
-                <id>java</id>
-                <url>http://download.java.net/maven/2</url>
-            </repository>
-            <repository>
-                <id>com.anasoft.os.repository.releases</id>
-                <name>ANASOFT OpenSource releases</name>
-                <url>http://anasoft-os-repo.googlecode.com/svn/repository/releases</url>
-            </repository>
-            <repository>
-                <id>com.anasoft.os.repository.snapshots</id>
-                <name>ANASOFT OpenSource snapshots</name>
-                <url>http://anasoft-os-repo.googlecode.com/svn/repository/snapshots</url>
-            </repository>
-        </repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.ghost4j</groupId>
+	<artifactId>ghost4j</artifactId>
+	<packaging>jar</packaging>
+	<version>0.4.5</version>
+	<name>Ghost4J</name>
+	<description>Java wrapper for Ghostscript API</description>
+	<url>http://ghost4j.sourceforge.net</url>
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:https://ghost4j.svn.sourceforge.net/svnroot/ghost4j/trunk</connection>
+		<url>http://ghost4j.svn.sourceforge.net/viewvc/ghost4j</url>
+	</scm>
+	<developers>
+		<developer>
+			<name>Gilles Grousset</name>
+			<email>gi.grousset@gmail.com</email>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Dave Smith</name>
+			<email>dave.smith@candata.com</email>
+			<organization>CANdata Systems</organization>
+			<organizationUrl>http://www.candata.com</organizationUrl>
+		</contributor>
+		<contributor>
+			<name>Michael Sliwak</name>
+			<email>msliwak@googlemail.com</email>
+		</contributor>
+	</contributors>
 
-        <dependencies>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>3.8.1</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.jna</groupId>
-                <artifactId>jna</artifactId>
-                <version>3.0.9</version>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.15</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>jmxtools</artifactId>
-                        <groupId>com.sun.jdmk</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>mail</artifactId>
-                        <groupId>javax.mail</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>jmxri</artifactId>
-                        <groupId>com.sun.jmx</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>jms</artifactId>
-                        <groupId>javax.jms</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>1.8.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>xmlgraphics-commons</artifactId>
-                <version>1.3.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lowagie</groupId>
-                <artifactId>itext</artifactId>
-                <version>2.1.7</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>bcmail-jdk14</artifactId>
-                        <groupId>bouncycastle</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>bcmail-jdk14</artifactId>
-                        <groupId>org.bouncycastle</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>bcprov-jdk14</artifactId>
-                        <groupId>bouncycastle</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>bcprov-jdk14</artifactId>
-                        <groupId>org.bouncycastle</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>bctsp-jdk14</artifactId>
-                        <groupId>org.bouncycastle</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
+	<distributionManagement>
+		<site>
+			<id>nexus</id>
+			<name>Ghost4J</name>
+			<url>http://ghost4j.sourceforge.net</url>
+		</site>
+	</distributionManagement>
 
-        <reporting>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>2.0.1</version>
-                    <reportSets>
-                        <reportSet>
-                            <reports>
-                                <report>dependencies</report>
-                                <report>project-team</report>
-                                <report>license</report>
-                                <report>scm</report>
-                            </reports>
-                        </reportSet>
-                    </reportSets>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.8</version>
-                    <configuration>
-                        <stylesheet>maven</stylesheet>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </reporting>
+	<repositories>
+		<repository>
+			<releases />
+			<snapshots />
+			<id>jboss</id>
+			<url>http://repository.jboss.com/maven2</url>
+		</repository>
+		<repository>
+			<releases />
+			<snapshots />
+			<id>central</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<releases />
+			<snapshots />
+			<id>java</id>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>com.anasoft.os.repository.releases</id>
+			<name>ANASOFT OpenSource releases</name>
+			<url>http://anasoft-os-repo.googlecode.com/svn/repository/releases</url>
+		</repository>
+		<repository>
+			<id>com.anasoft.os.repository.snapshots</id>
+			<name>ANASOFT OpenSource snapshots</name>
+			<url>http://anasoft-os-repo.googlecode.com/svn/repository/snapshots</url>
+		</repository>
+	</repositories>
 
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <configuration>
-                        <descriptors>
-                            <descriptor>src/main/assembly/dist.xml</descriptor>
-                        </descriptors>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.anasoft.os</groupId>
-                            <artifactId>m2st-doxia-macros</artifactId>
-                            <version>2.0</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </build>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>3.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jmxtools</artifactId>
+					<groupId>com.sun.jdmk</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mail</artifactId>
+					<groupId>javax.mail</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jmxri</artifactId>
+					<groupId>com.sun.jmx</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jms</artifactId>
+					<groupId>javax.jms</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>xmlgraphics-commons</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcmail-jdk14</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bctsp-jdk14</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
 
-    </project>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.0.1</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<report>license</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<stylesheet>maven</stylesheet>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/dist.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.anasoft.os</groupId>
+						<artifactId>m2st-doxia-macros</artifactId>
+						<version>2.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-markdown</artifactId>
+						<version>1.3</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<inputEncoding>UTF-8</inputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
 
 
 

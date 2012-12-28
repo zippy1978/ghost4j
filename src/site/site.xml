@@ -6,6 +6,9 @@
 		<artifactId>maven-fluido-skin</artifactId>
 		<version>1.3.0</version>
 	</skin>
+	 <bannerLeft>
+	 <name></name>
+	 </bannerLeft>
 	<custom>
 		<fluidoSkin>
 			<topBarIcon>
@@ -17,11 +20,6 @@
 			<topBarEnabled>true</topBarEnabled>
 			<sideBarEnabled>true</sideBarEnabled>
 			<sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
-			<twitter>
-				<user>zippy1978</user>
-				<showUser>true</showUser>
-				<showFollowers>true</showFollowers>
-			</twitter>
 			<facebookLike />
 			<googlePlusOne />
 		</fluidoSkin>
@@ -51,13 +49,8 @@
 			</script>
 		</head>
 
-		<!--
-			<links> <item name="Apache" href="http://www.apache.org/" /> <item
-			name="Maven 1.x" href="http://maven.apache.org/maven-1.x/"/> <item
-			name="Maven 2" href="http://maven.apache.org/"/> </links>
-		-->
-		<menu name="About Ghost4J">
-			<item name="What is Ghost4J" href="index.html" />
+		<menu name="Getting started">
+			<item name="Welcome !" href="index.html" />
 			<item name="Download" href="download.html" />
 			<item name="High level API samples" href="highlevelapisamples.html" />
 			<item name="Core API samples" href="coreapisamples.html" />
@@ -65,6 +58,7 @@
 			<!--<item name="Road Map" href="roadmap.html" />-->
 		</menu>
 		<menu name="Documentation">
+			<item name="What is Ghost4J" href="whatisg4j.html" />
 			<item name="High level API" href="highlevelapi.html" />
 			<item name="Core API" href="coreapi.html" />
 			<item name="Thread safety and multi-threading" href="threadsafetyandmultithreading.html" />
