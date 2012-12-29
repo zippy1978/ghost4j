@@ -1,4 +1,4 @@
-ghost4j
+Ghost4J
 =======
 
-Java wrapper for Ghostscript C API + PS/PDF document handling API
+Migration in progress...
