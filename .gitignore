@@ -5,6 +5,9 @@
 *.war
 *.ear
 
-#Eclipse files #
+# Eclipse files #
 .classpath
 .project
+
+# Maven target #
+target
