@@ -1,6 +1,3 @@
-Ghost4J
-=======
-
 <p align="center">
 <img src="http://www.ghost4j.org/images/home-logo.png"/>
 </p>
