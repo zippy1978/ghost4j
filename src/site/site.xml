@@ -6,9 +6,9 @@
 		<artifactId>maven-fluido-skin</artifactId>
 		<version>1.3.0</version>
 	</skin>
-	 <bannerLeft>
-	 <name></name>
-	 </bannerLeft>
+	<bannerLeft>
+		<name></name>
+	</bannerLeft>
 	<custom>
 		<fluidoSkin>
 			<topBarIcon>
@@ -30,32 +30,27 @@
 			<script type="text/javascript">
 
 				var _gaq = _gaq || [];
-				_gaq.push(['_setAccount',
-				'UA-18388403-3']);
+				_gaq.push(['_setAccount', 'UA-18388403-8']);
 				_gaq.push(['_trackPageview']);
 
 				(function() {
-				var ga
-				= document.createElement('script'); ga.type = 'text/javascript';
+				var ga = document.createElement('script'); ga.type = 'text/javascript';
 				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ?
-				'https://ssl' :
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
 				'http://www') + '.google-analytics.com/ga.js';
-				var s =
-				document.getElementsByTagName('script')[0];
+				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(ga, s);
 				})();
-			
+
 			</script>
 		</head>
 
 		<menu name="Getting started">
 			<item name="Welcome !" href="index.html" />
-			<item name="Download" href="download.html" />
+			<item name="Downloads" href="downloads.html" />
 			<item name="High level API samples" href="highlevelapisamples.html" />
 			<item name="Core API samples" href="coreapisamples.html" />
 			<item name="Release Notes" href="releasenotes.html" />
-			<!--<item name="Road Map" href="roadmap.html" />-->
 		</menu>
 		<menu name="Documentation">
 			<item name="What is Ghost4J" href="whatisg4j.html" />

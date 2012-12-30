@@ -11,3 +11,5 @@
 
 # Maven target #
 target
+/.settings
+/bin

@@ -1,5 +1,10 @@
 Release notes
 =============
+
+#### Version 0.4.6 - 30/12/2012
+
+* Renamed package net.sf.ghost4j to org.ghost4j
+
 #### Version 0.4.5 - 15/02/2012
 
 * Fixed bug with PSDocument getPageCount method (Thanks Jörg!).
