@@ -25,7 +25,6 @@
 			<gitHub>
 				<projectId>zippy1978/ghost4j</projectId>
 				<ribbonOrientation>right</ribbonOrientation>
-				<ribbonColor>darkblue</ribbonColor>
 			</gitHub>
 		</fluidoSkin>
 	</custom>
