@@ -15,10 +15,12 @@
 -docencoding
 'UTF-8'
 -doctitle
-'Ghost4J 0.4.5 Test API'
+'Ghost4J 0.4.6 Test API'
+-link
+'../apidocs'
 -link
 'http://java.sun.com/j2se/1.5.0/docs/api'
 -use
 -version
 -windowtitle
-'Ghost4J 0.4.5 Test API'
+'Ghost4J 0.4.6 Test API'
