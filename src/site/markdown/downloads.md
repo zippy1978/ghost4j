@@ -5,7 +5,7 @@ Downloads
 
 The following packages contain the library jar file and dependencies.
 
-**Important:** since version 0.4.6 root package was rename from **net.sf.ghost4j** to **org.ghost4j**.
+**Important:** since version 0.4.6 root package was renamed from **net.sf.ghost4j** to **org.ghost4j**.
 
 <table>
 <tr><th>Version</th><th>Release date</th><th>Link</th></tr>
