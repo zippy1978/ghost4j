@@ -328,38 +328,30 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
     converter.convert(document, fos);
 </pre></div></div><div class="section"><h3>Maven configuration<a name="Maven_configuration"></a></h3><p>Ghost4J Maven artifact is available in a public repository for an easier integration in Maven projects.</p><p>If you do not wish to use Maven, binary distributions are available in the <a href="download.html">Downloads</a> section.</p>
 <div><pre><tt>
-
-
+&lt;repositories&gt;
 	...
-	
-	
-		org.ghost4j.repository.releases
-		Ghost4J releases
-		http://repo.ghost4j.org/maven2/releases
-	
-	
-		org.ghost4j.repository.snapshots
-		Ghost4J snapshots
-		http://repo.ghost4j.org/maven2/snapshots
-	
-	
+	&lt;repository&gt;
+		&lt;id&gt;org.ghost4j.repository.releases&lt;/id&gt;
+		&lt;name&gt;Ghost4J releases&lt;/name&gt;
+		&lt;url&gt;http://repo.ghost4j.org/maven2/releases&lt;/url&gt;
+	&lt;/repository&gt;
+	&lt;repository&gt;
+		&lt;id&gt;org.ghost4j.repository.snapshots&lt;/id&gt;
+		&lt;name&gt;Ghost4J snapshots&lt;/name&gt;
+		&lt;url&gt;http://repo.ghost4j.org/maven2/snapshots&lt;/url&gt;
+	&lt;/repository&gt;
 	...
-	
+&lt;/repositories&gt;
 
-
-
-
+&lt;dependencies&gt;
 	...
-	
-	
-		org.ghost4j
-		ghost4j
-		0.4.6
-	
-	
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.ghost4j&lt;/groupId&gt;
+		&lt;artifactId&gt;ghost4j&lt;/artifactId&gt;
+		&lt;version&gt;0.4.6&lt;/version&gt;
+	&lt;/dependency&gt;
 	...
-	
-
+&lt;/dependencies&gt;
 </tt></pre></div></div><div class="section"><h3>Where to go next ?<a name="Where_to_go_next_"></a></h3>
 <ul>
   <li><p>If you are interested into PS / PDF conversion or rendition have a look at the <a href="highlevelapisamples.html">High level API samples</a>.</p></li>
