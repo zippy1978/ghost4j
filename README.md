@@ -8,7 +8,6 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 
 ### Maven configuration
 
-* Repositories
 ```xml
 <repositories>
 
@@ -28,10 +27,7 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 	...
 	
 </repositories>
-```
 
-* Dependency
-```xml
 <dependencies>
 
 	...

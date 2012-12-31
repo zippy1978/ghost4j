@@ -32,38 +32,30 @@ Ghost4J Maven artifact is available in a public repository for an easier integra
 If you do not wish to use Maven, binary distributions are available in the [Downloads](download.html) section.
 
 <pre><code>
-<repositories>
+&lt;repositories&gt;
+	...
+	&lt;repository&gt;
+		&lt;id&gt;org.ghost4j.repository.releases&lt;/id&gt;
+		&lt;name&gt;Ghost4J releases&lt;/name&gt;
+		&lt;url&gt;http://repo.ghost4j.org/maven2/releases&lt;/url&gt;
+	&lt;/repository&gt;
+	&lt;repository&gt;
+		&lt;id&gt;org.ghost4j.repository.snapshots&lt;/id&gt;
+		&lt;name&gt;Ghost4J snapshots&lt;/name&gt;
+		&lt;url&gt;http://repo.ghost4j.org/maven2/snapshots&lt;/url&gt;
+	&lt;/repository&gt;
+	...
+&lt;/repositories&gt;
 
+&lt;dependencies&gt;
 	...
-	
-	<repository>
-		<id>org.ghost4j.repository.releases</id>
-		<name>Ghost4J releases</name>
-		<url>http://repo.ghost4j.org/maven2/releases</url>
-	</repository>
-	<repository>
-		<id>org.ghost4j.repository.snapshots</id>
-		<name>Ghost4J snapshots</name>
-		<url>http://repo.ghost4j.org/maven2/snapshots</url>
-	</repository>
-	
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.ghost4j&lt;/groupId&gt;
+		&lt;artifactId&gt;ghost4j&lt;/artifactId&gt;
+		&lt;version&gt;0.4.6&lt;/version&gt;
+	&lt;/dependency&gt;
 	...
-	
-</repositories>
-
-<dependencies>
-
-	...
-	
-	<dependency>
-		<groupId>org.ghost4j</groupId>
-		<artifactId>ghost4j</artifactId>
-		<version>0.4.6</version>
-	</dependency>
-	
-	...
-	
-</dependencies>
+&lt;/dependencies&gt;
 </code></pre>
 
 ### Where to go next ?
