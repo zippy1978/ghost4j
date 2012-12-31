@@ -6,52 +6,64 @@
 Ghost4J binds the Ghostscript C API to bring Ghostscript power to the Java world.
 It also provides a high-level API to handle PDF and Postscript documents with objects.
 
-### A simple PS to PDF conversion example
+### Maven configuration
 
-	package org.ghost4j.example;
+* Repositories
+```xml
+<repositories>
+
+	...
 	
-	import java.io.File;
-	import java.io.FileOutputStream;
-	import org.apache.commons.io.IOUtils;
-	import org.ghost4j.converter.PDFConverter;
-	import org.ghost4j.document.PSDocument;
+	<repository>
+		<id>org.ghost4j.repository.releases</id>
+		<name>Ghost4J releases</name>
+		<url>http://repo.ghost4j.org/maven2/releases</url>
+	</repository>
+	<repository>
+		<id>org.ghost4j.repository.snapshots</id>
+		<name>Ghost4J snapshots</name>
+		<url>http://repo.ghost4j.org/maven2/snapshots</url>
+	</repository>
 	
-	/**
-	 * Example showing how to convert a Postscript document to PDF using the high level API.
-	 * @author Gilles Grousset (gi.grousset@gmail.com)
-	 */
-	public class PDFConverterExample {
+	...
 	
-	    public static void main(String[] args) {
+</repositories>
+```
+
+* Dependency
+```xml
+<dependencies>
+
+	...
 	
-	        FileOutputStream fos = null;
-	        try{
+	<dependency>
+		<groupId>org.ghost4j</groupId>
+		<artifactId>ghost4j</artifactId>
+		<version>0.4.6</version>
+	</dependency>
 	
-	            //load PostScript document
-	            PSDocument document = new PSDocument();
-	            document.load(new File("input.ps"));
+	...
 	
-	            //create OutputStream
-	            fos = new FileOutputStream(new File("rendition.pdf"));
+</dependencies>
+```
+
+### A simple example (PS to PDF conversion)
+
+	//load PostScript document
+	PSDocument document = new PSDocument();
+	document.load(new File("input.ps"));
 	
-	            //create converter
-	            PDFConverter converter = new PDFConverter();
+	//create OutputStream
+	fos = new FileOutputStream(new File("rendition.pdf"));
 	
-	            //set options
-	            converter.setPDFSettings(PDFConverter.OPTION_PDFSETTINGS_PREPRESS);
+	//create converter
+	PDFConverter converter = new PDFConverter();
 	
-	            //convert
-	            converter.convert(document, fos);
+	//set options
+	converter.setPDFSettings(PDFConverter.OPTION_PDFSETTINGS_PREPRESS);
 	
-	        } catch (Exception e) {
-	            System.out.println("ERROR: " + e.getMessage());
-	        } finally{
-	            IOUtils.closeQuietly(fos);
-	        }
-	
-	
-	    }
-	}
+	//convert
+	converter.convert(document, fos);
 	
 ### Getting binaries
 
