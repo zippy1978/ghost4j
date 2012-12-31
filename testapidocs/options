@@ -15,7 +15,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'Ghost4J 0.4.6 Test API'
+'Ghost4J 0.4.7-SNAPSHOT Test API'
 -link
 '../apidocs'
 -link
@@ -23,4 +23,4 @@
 -use
 -version
 -windowtitle
-'Ghost4J 0.4.6 Test API'
+'Ghost4J 0.4.7-SNAPSHOT Test API'
