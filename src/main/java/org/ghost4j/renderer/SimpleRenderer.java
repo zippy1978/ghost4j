@@ -8,6 +8,7 @@
 package org.ghost4j.renderer;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.ghost4j.Ghostscript;
@@ -23,7 +24,17 @@ import org.ghost4j.util.DiskStore;
 
 public class SimpleRenderer extends AbstractRemoteRenderer {
 
-    /**
+	public static final int OPTION_ANTIALIASING_NONE = 0;
+	public static final int OPTION_ANTIALIASING_LOW = 1;
+	public static final int OPTION_ANTIALIASING_MEDIUM = 2;
+	public static final int OPTION_ANTIALIASING_HIGH = 4;
+    
+	/**
+	 * Define subsample antialiasing level (default is high).
+	 */
+	private int antialiasing = OPTION_ANTIALIASING_HIGH;
+
+	/**
      * Define renderer output resolution in DPI (default is 75dpi).
      */
     private int resolution = 75;
@@ -80,6 +91,13 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
             "-r" + this.getResolution(),
             "-f",
             diskStore.getFile(inputDiskStoreKey).getAbsolutePath()};
+        
+        // antialiasing
+        if (this.antialiasing != OPTION_ANTIALIASING_NONE) {
+        	gsArgs = Arrays.copyOf(gsArgs, gsArgs.length + 2);
+        	gsArgs[gsArgs.length - 2] = "-dTextAlphaBits=" + this.antialiasing;
+        	gsArgs[gsArgs.length - 1] = "-dGraphicsAlphaBits=" + this.antialiasing;
+        }
 
         //execute and exit interpreter
         try {
@@ -112,6 +130,14 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
         return displayCallback.getRasters();
 
     }
+    
+    public int getAntialiasing() {
+		return antialiasing;
+	}
+
+	public void setAntialiasing(int antialiasing) {
+		this.antialiasing = antialiasing;
+	}
 
     public int getResolution() {
         return resolution;

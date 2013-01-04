@@ -38,7 +38,7 @@ public class SimpleRendererExample {
 			
 			// set resolution (in DPI)
 			renderer.setResolution(300);
-
+			renderer.setAntialiasing(SimpleRenderer.OPTION_ANTIALIASING_NONE);
 			// render
 			List<Image> images = renderer.render(document);
 

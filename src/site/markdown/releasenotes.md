@@ -1,9 +1,13 @@
 Release notes
 =============
 
+#### Snapshot version
+
+* Added antialiasing parameter on SimpleRenderer.
+
 #### Version 0.4.6 - 30/12/2012
 
-* Renamed package net.sf.ghost4j to org.ghost4j
+* Renamed package net.sf.ghost4j to org.ghost4j.
 
 #### Version 0.4.5 - 15/02/2012
 
