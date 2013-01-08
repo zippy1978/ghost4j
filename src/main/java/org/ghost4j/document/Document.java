@@ -71,5 +71,21 @@ public interface Document{
      * @return Byte array
      */
     public byte[] getContent();
+    
+    /**
+     * Return a new document containing pages of a given range.
+     * Note : begin and end indicies start at 1
+     * @param begin Index of the first page to extract
+     * @param end Index of the last page to extract
+     * @return A new document.
+     */
+    public Document extractPages(int begin, int end) throws DocumentException;
+    
+    /**
+     * Append pages of another document to the current document.
+     * @param document Document ot append
+     * @throws DocumentException
+     */
+    public void appendPages(Document document) throws DocumentException;
 
 }

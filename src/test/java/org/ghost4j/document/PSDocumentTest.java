@@ -46,7 +46,7 @@ public class PSDocumentTest extends TestCase {
         assertEquals(1, document.getPageCount());
     }
 
-    public void testLoadWrongFormat() throws Exception{
+    public void testLoadWrongFormat() throws Exception {
 
         //load document (PDF when PS expected)
         try{
@@ -55,6 +55,56 @@ public class PSDocumentTest extends TestCase {
             fail("Test failed");
         } catch(IOException e){
             assertEquals("PostScript document is not valid", e.getMessage());
+        }
+    }
+    
+    public void testExtractPages() throws Exception {
+
+    	 //load document (2 pages)
+        PSDocument document = new PSDocument();
+        document.load(new File("input-2pages.ps"));
+
+        //extract first page
+        Document extracted = document.extractPages(1, 1);
+        
+        //test
+        assertEquals(1, extracted.getPageCount());	
+    }
+    
+    public void testAppendPages() throws Exception {
+    	
+   	 	//load document (2 pages)
+        PSDocument document = new PSDocument();
+        document.load(new File("input-2pages.ps"));
+
+        //load second document (1 page)
+        PSDocument document2 = new PSDocument();
+        document2.load(new File("input.ps"));
+        
+        //append
+        document.appendPages(document2);
+        
+        //test
+        assertEquals(3, document.getPageCount());	
+
+    }
+    
+    public void testAppendPagesWrongFormat() throws Exception {
+    	
+   	 	//load document (2 pages)
+        PSDocument document = new PSDocument();
+        document.load(new File("input-2pages.ps"));
+
+        //load second document but of different type (1 page)
+        PDFDocument document2 = new PDFDocument();
+        document2.load(new File("input.pdf"));
+        
+        //append
+        try {
+       	 document.appendPages(document2);	
+       	 fail("Test failed");
+        } catch (DocumentException e) {
+       	 assertEquals("Cannot append document of different types", e.getMessage());
         }
     }
 

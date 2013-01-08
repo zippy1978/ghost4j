@@ -41,8 +41,6 @@ public abstract class AbstractDocument implements Document, Serializable{
      */
     protected byte[] content;
 
-    public abstract int getPageCount() throws DocumentException;
-
     public void load(File file) throws FileNotFoundException, IOException{
 
     	FileInputStream fis = new FileInputStream(file);
@@ -52,7 +50,7 @@ public abstract class AbstractDocument implements Document, Serializable{
 
     public void load(InputStream inputStream) throws IOException{
 
-        byte[]  buffer  = new byte[READ_BUFFER_SIZE];
+        byte[]  buffer = new byte[READ_BUFFER_SIZE];
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         int readCount = 0;
@@ -91,7 +89,39 @@ public abstract class AbstractDocument implements Document, Serializable{
         return content;
     }
 
+    /**
+     * Assert the given page index is valid for the current document.
+     * @param index Index to check
+     * @throws DocumentException Thrown if index is not valid
+     */
+    protected void assertValidPageIndex(int index) throws DocumentException {
+    	
+    	if (content == null || index >= this.getPageCount()) {
+    		throw new DocumentException("Invalid page index: " + index);
+    	}
+    }
 
-
+    /**
+     * Assert the given page range is valid for the current document.
+     * @param begin Range begin index
+     * @param end Range end index
+     * @throws DocumentException
+     */
+    protected void assertValidPageRange(int begin, int end) throws DocumentException {
+    	
+    	this.assertValidPageIndex(begin);
+    	this.assertValidPageIndex(end);
+    	
+    	if (begin > end) {
+    		throw new DocumentException("Invalid page range: " + begin + " - " + end);
+    	}
+    }
+    
+    public void appendPages(Document document) throws DocumentException {
+    
+    	if (document == null || !this.getType().equals(document.getType())) {
+			throw new DocumentException("Cannot append document of different types");
+		}
+    }
 
 }

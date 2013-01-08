@@ -57,4 +57,53 @@ public class PDFDocumentTest extends TestCase {
         }
     }
 
+     public void testExtractPages() throws Exception {
+
+    	//load document (2 pages)
+        PDFDocument document = new PDFDocument();
+        document.load(new File("input-2pages.pdf"));
+
+        //extract first page
+        Document extracted = document.extractPages(1, 1);
+        
+        //test
+        assertEquals(1, extracted.getPageCount());	
+    }
+     
+     public void testAppendPages() throws Exception {
+    	
+    	 //load document (2 pages)
+         PDFDocument document = new PDFDocument();
+         document.load(new File("input-2pages.pdf"));
+
+         //load second document (1 page)
+         PDFDocument document2 = new PDFDocument();
+         document2.load(new File("input.pdf"));
+         
+         //append
+         document.appendPages(document2);
+         
+         //test
+         assertEquals(3, document.getPageCount());	
+
+     }
+     
+     public void testAppendPagesWrongFormat() throws Exception {
+     	
+    	 //load document (2 pages)
+         PDFDocument document = new PDFDocument();
+         document.load(new File("input-2pages.pdf"));
+
+         //load second document but of different type (1 page)
+         PSDocument document2 = new PSDocument();
+         document2.load(new File("input.ps"));
+         
+         //append
+         try {
+        	 document.appendPages(document2);	
+        	 fail("Test failed");
+         } catch (DocumentException e) {
+        	 assertEquals("Cannot append document of different types", e.getMessage());
+         }
+     }
 }
