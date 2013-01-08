@@ -238,9 +238,6 @@ public class PSDocument extends AbstractDocument {
 			//update current document content
 			content = baos.toByteArray();
 
-			// debug
-			this.write(new File("out.ps"));
-			
 		} catch (Exception e) {
 			throw new DocumentException(e);
 		} finally {
