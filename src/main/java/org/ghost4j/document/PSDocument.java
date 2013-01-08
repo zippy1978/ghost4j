@@ -22,6 +22,7 @@ import org.apache.xmlgraphics.ps.dsc.DSCParser;
 import org.apache.xmlgraphics.ps.dsc.DefaultNestedDocumentHandler;
 import org.apache.xmlgraphics.ps.dsc.events.DSCAtend;
 import org.apache.xmlgraphics.ps.dsc.events.DSCComment;
+import org.apache.xmlgraphics.ps.dsc.events.DSCCommentEndOfFile;
 import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPage;
 import org.apache.xmlgraphics.ps.dsc.events.DSCCommentPages;
 import org.apache.xmlgraphics.ps.dsc.events.DSCEvent;
@@ -195,7 +196,7 @@ public class PSDocument extends AbstractDocument {
 			baisNew = new ByteArrayInputStream(document.getContent());
 			DSCParser newParser = new DSCParser(baisNew);
 			header = DSCTools.checkAndSkipDSC30Header(newParser);
-			pageOrTrailer = newParser.nextDSCComment(DSCConstants.PAGE, gen);
+			pageOrTrailer = newParser.nextDSCComment(DSCConstants.PAGE);
 			if (pageOrTrailer == null) {
 				throw new DSCException("Page expected, but none found");
 			}
@@ -216,10 +217,22 @@ public class PSDocument extends AbstractDocument {
 				i++;
 			}
 
-			//write the rest
+			//write the rest (end)
+			currentParser.setFilter(new DSCFilter() {
+				public boolean accept(DSCEvent event) {
+					if (event.isDSCComment()) {
+
+						// filter %%Pages (in case of attend)
+						return !event.asDSCComment().getName()
+								.equals(DSCConstants.PAGES);
+					} else {
+						return true;
+					}
+				}
+			});
 			while (currentParser.hasNext()) {
 				DSCEvent event = currentParser.nextEvent();
-				event.generate(gen);
+				event.generate(gen);	
 			}
 
 			//update current document content
@@ -227,7 +240,6 @@ public class PSDocument extends AbstractDocument {
 
 			// debug
 			this.write(new File("out.ps"));
-			//System.out.println(new String(content));
 			
 		} catch (Exception e) {
 			throw new DocumentException(e);

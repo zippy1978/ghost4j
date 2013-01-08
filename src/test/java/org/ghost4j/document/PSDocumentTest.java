@@ -10,8 +10,6 @@ package org.ghost4j.document;
 import java.io.File;
 import java.io.IOException;
 
-import org.ghost4j.document.PSDocument;
-
 import junit.framework.TestCase;
 
 /**
