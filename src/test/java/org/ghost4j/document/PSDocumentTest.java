@@ -71,13 +71,13 @@ public class PSDocumentTest extends TestCase {
     
     public void testAppendPages() throws Exception {
     	
-   	 	//load document (2 pages)
+   	 	//load document (1 page)
         PSDocument document = new PSDocument();
-        document.load(new File("input-2pages.ps"));
+        document.load(new File("input.ps"));
 
-        //load second document (1 page)
+        //load second document (2 pages)
         PSDocument document2 = new PSDocument();
-        document2.load(new File("input.ps"));
+        document2.load(new File("input-2pages.ps"));
         
         //append
         document.appendPages(document2);

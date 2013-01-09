@@ -45,7 +45,7 @@ public class FontAnalyzerTest extends TestCase {
 		FontAnalyzer fontAnalyzer = new FontAnalyzer();
 		List<AnalysisItem> result = fontAnalyzer.analyze(document);
 		
-		assertEquals(4, result.size());
+		assertEquals(6, result.size());
 	}
 	
 	public void testAnalyzeWithPDFMultiProcess() throws Exception {
@@ -104,9 +104,9 @@ public class FontAnalyzerTest extends TestCase {
         thread2.join();
         thread3.join();
 		
-        assertEquals(4, result1.size());
-        assertEquals(4, result2.size());
-        assertEquals(4, result3.size());
+        assertEquals(6, result1.size());
+        assertEquals(6, result2.size());
+        assertEquals(6, result3.size());
 		
 	}
 }

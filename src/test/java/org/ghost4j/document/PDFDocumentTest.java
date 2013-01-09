@@ -72,13 +72,13 @@ public class PDFDocumentTest extends TestCase {
      
      public void testAppendPages() throws Exception {
     	
-    	 //load document (2 pages)
+    	 //load document (1 page)
          PDFDocument document = new PDFDocument();
-         document.load(new File("input-2pages.pdf"));
+         document.load(new File("input.pdf"));
 
-         //load second document (1 page)
+         //load second document (2 pages)
          PDFDocument document2 = new PDFDocument();
-         document2.load(new File("input.pdf"));
+         document2.load(new File("input-2pages.pdf"));
          
          //append
          document.appendPages(document2);
