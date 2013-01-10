@@ -34,7 +34,13 @@
 				var s =
 				document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(ga, s);
-				})();</script>
+				})();
+				
+				$(document).ready(function(){
+					$('#dl-link').click(function(){
+						_gaq.push(['_trackEvent', 'Downloads', this.attr()]);
+					});
+				});</script>
           
             </head>
         <body class="topBarEnabled">
