@@ -6,6 +6,8 @@ Release notes
 * Added antialiasing parameter on SimpleRenderer.
 * Added *extract* method on Document to allow extraction of a range of pages to a new document.
 * Added *append* method on Document to allow appending a document to the current one (may not be working in all cases with PostScript file, when document use different resources).
+* Upgraded xmlgraphics-commons to 1.4
+* Upgraded jna to 3.4.0
 
 #### Version 0.4.6 - 30/12/2012
 
@@ -14,13 +16,11 @@ Release notes
 #### Version 0.4.5 - 15/02/2012
 
 * Fixed bug with PSDocument getPageCount method (Thanks Jörg!).
-  
 * Fixed bug with Renderer with 64bit archs (see http://bugs.ghostscript.com/show_bug.cgi?format=multiple&id=692754).
   
 #### Version 0.4.4 - 26/11/2011
 
 * Added paperSize property on PDFConverter and PSConverter.
-
 * Support for 64bits architecture on Windows (see http://sourceforge.net/projects/ghost4j/forums/forum/886757/topic/4597527).
 
 #### Version 0.4.3 - 01/06/2011
@@ -38,13 +38,9 @@ Release notes
 #### Version 0.4.0 - 02/12/2010
 
 * High level API with multi-process support and initial components.
-  
 * PDFConverter: convert Postscript or PDF documents to PDF.
-  
 * PSConverter: convert Postscript or PDF documents to Postscript.
-  
 * FontAnalyzer: analyze fonts in a PDF document.
-  
 * SimpleRenderer: render a Postscript or PDF document as images.
   
 #### Version 0.3.3 - 04/09/2010
@@ -58,8 +54,6 @@ Release notes
 #### Version 0.3 - 07/26/2009
 
 * Added display callback support to interact with Ghostscript raster output.
-
 * Fixed bug on Ghostscript.exit() method: did not call the native API exit function.
     This bug resulted in: unable to delete output files, output file not completly written.
-
 * Added code samples in net.sf.ghost4j.example package.
