@@ -7,7 +7,7 @@ Release notes
 * Added *extract* method on Document to allow extraction of a range of pages to a new document.
 * Added *append* method on Document to allow appending a document to the current one (may not be working in all cases with PostScript file, when document use different resources).
 * Upgraded xmlgraphics-commons to 1.4
-* Upgraded jna to 3.4.0
+* Upgraded jna to 3.3.0
 
 #### Version 0.4.6 - 30/12/2012
 
