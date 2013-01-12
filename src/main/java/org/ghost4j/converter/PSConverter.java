@@ -17,11 +17,12 @@ import org.ghost4j.document.Document;
 import org.ghost4j.document.DocumentException;
 import org.ghost4j.document.PDFDocument;
 import org.ghost4j.document.PSDocument;
+import org.ghost4j.document.PaperSize;
 import org.ghost4j.util.DiskStore;
-
 
 /**
  * PS converter.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class PSConverter extends AbstractRemoteConverter {
@@ -30,128 +31,130 @@ public class PSConverter extends AbstractRemoteConverter {
      * PostScript language level: 1, 2 or 3.
      */
     private int languageLevel = 3;
-    
-     /**
-     * Define standard paper size for the generated PDF file.
-     * This parameter is ignored if a paper size is provided in the input file.
-     * Default value is "letter".
+
+    /**
+     * Define standard paper size for the generated PDF file. This parameter is
+     * ignored if a paper size is provided in the input file. Default value is
+     * "letter".
      */
-    private String paperSize = "letter";
+    private PaperSize paperSize = PaperSize.LETTER;
 
     public PSConverter() {
 
-        //set supported classes
-        supportedDocumentClasses = new Class[2];
-        supportedDocumentClasses[0] = PSDocument.class;
-        supportedDocumentClasses[1] = PDFDocument.class;
+	// set supported classes
+	supportedDocumentClasses = new Class[2];
+	supportedDocumentClasses[0] = PSDocument.class;
+	supportedDocumentClasses[1] = PDFDocument.class;
     }
 
     /**
      * Main method used to start the converter in standalone 'slave mode'.
+     * 
      * @param args
      * @throws ConverterException
      */
     public static void main(String args[]) throws ConverterException {
 
-        startRemoteConverter(new PSConverter());
+	startRemoteConverter(new PSConverter());
     }
 
     @Override
     public void run(Document document, OutputStream outputStream)
-            throws IOException, ConverterException, DocumentException {
+	    throws IOException, ConverterException, DocumentException {
 
-        //if no output = nothing to do
-        if (outputStream == null) {
-            return;
-        }
+	// if no output = nothing to do
+	if (outputStream == null) {
+	    return;
+	}
 
-        //assert document is supported
-        this.assertDocumentSupported(document);
+	// assert document is supported
+	this.assertDocumentSupported(document);
 
-        //get Ghostscript instance
-        Ghostscript gs = Ghostscript.getInstance();
+	// get Ghostscript instance
+	Ghostscript gs = Ghostscript.getInstance();
 
-        //generate a unique diskstore key for output file
-        DiskStore diskStore = DiskStore.getInstance();
-        String outputDiskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int) (Math.random() * (1000 - 0))));
+	// generate a unique diskstore key for output file
+	DiskStore diskStore = DiskStore.getInstance();
+	String outputDiskStoreKey = diskStore.generateUniqueKey();
+	// generate a unique diskstore key for input file
+	String inputDiskStoreKey = diskStore.generateUniqueKey();
+	// write document to input file
+	document.write(diskStore.addFile(inputDiskStoreKey));
 
-        //generate a unique diskstore key for input file
-        String inputDiskStoreKey = outputStream.toString() + String.valueOf(System.currentTimeMillis() + String.valueOf((int) (Math.random() * (1000 - 0))));
+	// prepare Ghostscript interpreter parameters
+	String[] gsArgs = {
+		// dummy value to prevent interpreter from blocking
+		"-psconv",
+		"-dNOPAUSE",
+		"-dBATCH",
+		"-dSAFER",
+		"-dLanguageLevel=" + languageLevel,
+		"-dDEVICEWIDTHPOINTS=" + paperSize.getWidth(),
+		"-dDEVICEHEIGHTPOINTS=" + paperSize.getHeight(),
+		"-sDEVICE=pswrite",
+		// output to file, as stdout redirect does not work properly
+		"-sOutputFile="
+			+ diskStore.addFile(outputDiskStoreKey)
+				.getAbsolutePath(), "-q", "-f",
+		// read from a file as stdin redirect does not work properly
+		// with PDF file as input
+		diskStore.getFile(inputDiskStoreKey).getAbsolutePath() };
 
-        //write document to input file
-        document.write(diskStore.addFile(inputDiskStoreKey));
+	try {
 
-        //prepare Ghostscript interpreter parameters
-        String[] gsArgs = {
-            //dummy value to prevent interpreter from blocking
-            "-psconv",
-            "-dNOPAUSE",
-            "-dBATCH",
-            "-dSAFER",
-            "-dLanguageLevel=" + languageLevel,
-            "-sPAPERSIZE=" + paperSize,
-            "-sDEVICE=pswrite",
-            //output to file, as stdout redirect does not work properly
-            "-sOutputFile=" + diskStore.addFile(outputDiskStoreKey).getAbsolutePath(),
-            "-q",
-            "-f",
-            // read from a file as stdin redirect does not work properly with PDF file as input
-            diskStore.getFile(inputDiskStoreKey).getAbsolutePath()};
+	    // execute and exit interpreter
+	    synchronized (gs) {
+		gs.initialize(gsArgs);
+		gs.exit();
+	    }
 
-        try {
+	    // write obtained file to output stream
+	    File outputFile = diskStore.getFile(outputDiskStoreKey);
+	    if (outputFile == null) {
+		throw new ConverterException("Cannot retrieve file with key "
+			+ outputDiskStoreKey + " from disk store");
+	    }
 
-            //execute and exit interpreter
-            synchronized (gs) {
-                gs.initialize(gsArgs);
-                gs.exit();
-            }
+	    FileInputStream fis = new FileInputStream(outputFile);
+	    byte[] content = new byte[(int) outputFile.length()];
+	    fis.read(content);
+	    fis.close();
 
-            // write obtained file to output stream
-            File outputFile = diskStore.getFile(outputDiskStoreKey);
-            if (outputFile == null) {
-                throw new ConverterException("Cannot retrieve file with key " + outputDiskStoreKey + " from disk store");
-            }
+	    outputStream.write(content);
 
-            FileInputStream fis = new FileInputStream(outputFile);
-            byte[] content = new byte[(int) outputFile.length()];
-            fis.read(content);
-            fis.close();
+	} catch (GhostscriptException e) {
 
-            outputStream.write(content);
+	    throw new ConverterException(e);
 
-        } catch (GhostscriptException e) {
+	} finally {
 
-            throw new ConverterException(e);
+	    // delete Ghostscript instance
+	    try {
+		Ghostscript.deleteInstance();
+	    } catch (GhostscriptException e) {
+		throw new ConverterException(e);
+	    }
 
-        } finally {
-
-            //delete Ghostscript instance
-            try {
-                Ghostscript.deleteInstance();
-            } catch (GhostscriptException e) {
-                throw new ConverterException(e);
-            }
-
-            //remove temporary files
-            diskStore.removeFile(outputDiskStoreKey);
-            diskStore.removeFile(inputDiskStoreKey);
-        }
+	    // remove temporary files
+	    diskStore.removeFile(outputDiskStoreKey);
+	    diskStore.removeFile(inputDiskStoreKey);
+	}
 
     }
 
     public int getLanguageLevel() {
-        return languageLevel;
+	return languageLevel;
     }
 
     public void setLanguageLevel(int languageLevel) {
-        this.languageLevel = languageLevel;
+	this.languageLevel = languageLevel;
     }
 
-    public String getPaperSize() {
-        return paperSize;
+    public PaperSize getPaperSize() {
+	return paperSize;
     }
 
-    public void setPaperSize(String paperSize) {
-        this.paperSize = paperSize;
+    public void setPaperSize(PaperSize paperSize) {
+	this.paperSize = paperSize;
     }
 }

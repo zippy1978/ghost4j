@@ -14,36 +14,36 @@ import org.ghost4j.analyzer.AnalysisItem;
 import org.ghost4j.analyzer.FontAnalyzer;
 import org.ghost4j.document.PDFDocument;
 
-
 /**
  * Example showing how to list fonts of a PDF document using the high level API.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class FontAnalyzerExample {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		try {
+	try {
 
-			// load PDF document
-			PDFDocument document = new PDFDocument();
-			document.load(new File("input.pdf"));
+	    // load PDF document
+	    PDFDocument document = new PDFDocument();
+	    document.load(new File("input.pdf"));
 
-			// create analyzer
-			FontAnalyzer analyzer = new FontAnalyzer();
+	    // create analyzer
+	    FontAnalyzer analyzer = new FontAnalyzer();
 
-			// analyze
-			List<AnalysisItem> fonts = analyzer.analyze(document);
+	    // analyze
+	    List<AnalysisItem> fonts = analyzer.analyze(document);
 
-			// print result
-			for (AnalysisItem analysisItem : fonts) {
-				System.out.println(analysisItem);
+	    // print result
+	    for (AnalysisItem analysisItem : fonts) {
+		System.out.println(analysisItem);
 
-			}
+	    }
 
-		} catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
-		}
-
+	} catch (Exception e) {
+	    System.out.println("ERROR: " + e.getMessage());
 	}
+
+    }
 }

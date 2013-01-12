@@ -13,21 +13,23 @@ import org.ghost4j.AbstractComponent;
 import org.ghost4j.document.Document;
 import org.ghost4j.document.DocumentException;
 
-
 /**
- * Abstract analyzer implementation.
- * Contains methods that are common to the different analyzer types
+ * Abstract analyzer implementation. Contains methods that are common to the
+ * different analyzer types
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public abstract class AbstractAnalyzer extends AbstractComponent implements Analyzer {
+public abstract class AbstractAnalyzer extends AbstractComponent implements
+	Analyzer {
 
-	public List<AnalysisItem> analyze(Document document) throws IOException,
-			AnalyzerException, DocumentException {
-		
-		//perform actual processing
-		return run(document);
-	}
-	
-	protected abstract List<AnalysisItem> run(Document document) throws IOException, AnalyzerException, DocumentException;
+    public List<AnalysisItem> analyze(Document document) throws IOException,
+	    AnalyzerException, DocumentException {
+
+	// perform actual processing
+	return run(document);
+    }
+
+    protected abstract List<AnalysisItem> run(Document document)
+	    throws IOException, AnalyzerException, DocumentException;
 
 }

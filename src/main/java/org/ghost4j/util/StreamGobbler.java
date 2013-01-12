@@ -14,13 +14,15 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 /**
- * Utility class used to read a stream and write it to another stream (redirection).
+ * Utility class used to read a stream and write it to another stream
+ * (redirection).
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class StreamGobbler extends Thread {
 
-    /** 
-     * Input stream to read. 
+    /**
+     * Input stream to read.
      */
     InputStream inputStream;
     /**
@@ -30,38 +32,40 @@ public class StreamGobbler extends Thread {
 
     public StreamGobbler(InputStream inputStream, OutputStream outputStream) {
 
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
+	this.inputStream = inputStream;
+	this.outputStream = outputStream;
     }
 
     @Override
     public void run() {
 
-        try {
+	try {
 
-            PrintWriter printWriter = null;
-            if (outputStream != null) {
-                printWriter = new PrintWriter(outputStream);
-            }
+	    PrintWriter printWriter = null;
+	    if (outputStream != null) {
+		printWriter = new PrintWriter(outputStream);
+	    }
 
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                if (printWriter != null) {
-                    printWriter.println(line);
-                }
-            }
+	    InputStreamReader inputStreamReader = new InputStreamReader(
+		    inputStream);
+	    BufferedReader bufferedReader = new BufferedReader(
+		    inputStreamReader);
+	    String line = null;
+	    while ((line = bufferedReader.readLine()) != null) {
+		if (printWriter != null) {
+		    printWriter.println(line);
+		}
+	    }
 
-            if (printWriter != null) {
-                printWriter.flush();
-            }
+	    if (printWriter != null) {
+		printWriter.flush();
+	    }
 
-        } catch (IOException e) {
+	} catch (IOException e) {
 
-            //nothing
+	    // nothing
 
-        }
+	}
 
     }
 }

@@ -18,42 +18,44 @@ import javax.imageio.ImageIO;
 import org.ghost4j.document.PDFDocument;
 import org.ghost4j.renderer.SimpleRenderer;
 
-
 /**
- * Example showing how to render pages of a PDF document using the high level API.
+ * Example showing how to render pages of a PDF document using the high level
+ * API.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class SimpleRendererExample {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		try {
+	try {
 
-			// load PDF document
-			PDFDocument document = new PDFDocument();
-			document.load(new File("input.pdf"));
+	    // load PDF document
+	    PDFDocument document = new PDFDocument();
+	    document.load(new File("input.pdf"));
 
-			// create renderer
-			SimpleRenderer renderer = new SimpleRenderer();
-			
-			// set resolution (in DPI)
-			renderer.setResolution(300);
+	    // create renderer
+	    SimpleRenderer renderer = new SimpleRenderer();
 
-			// render
-			List<Image> images = renderer.render(document);
+	    // set resolution (in DPI)
+	    renderer.setResolution(300);
 
-			// write images to files to disk as PNG
-	        try {
-	            for (int i = 0; i < images.size(); i++) {
-	                ImageIO.write((RenderedImage) images.get(i), "png", new File((i + 1) + ".png"));
-	            }
-	        } catch (IOException e) {
-	            System.out.println("ERROR: " + e.getMessage());
-	        }
+	    // render
+	    List<Image> images = renderer.render(document);
 
-		} catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
+	    // write images to files to disk as PNG
+	    try {
+		for (int i = 0; i < images.size(); i++) {
+		    ImageIO.write((RenderedImage) images.get(i), "png",
+			    new File((i + 1) + ".png"));
 		}
+	    } catch (IOException e) {
+		System.out.println("ERROR: " + e.getMessage());
+	    }
 
+	} catch (Exception e) {
+	    System.out.println("ERROR: " + e.getMessage());
 	}
+
+    }
 }

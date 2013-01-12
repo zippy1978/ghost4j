@@ -10,6 +10,7 @@ import com.sun.jna.Pointer;
 
 /**
  * Simple class used to store display callback data.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class DisplayData {
@@ -21,42 +22,42 @@ public class DisplayData {
     private Pointer pimage;
 
     public int getWidth() {
-        return width;
+	return width;
     }
 
     public void setWidth(int width) {
-        this.width = width;
+	this.width = width;
     }
 
     public int getHeight() {
-        return height;
+	return height;
     }
 
     public void setHeight(int height) {
-        this.height = height;
+	this.height = height;
     }
 
     public int getRaster() {
-        return raster;
+	return raster;
     }
 
     public void setRaster(int raster) {
-        this.raster = raster;
+	this.raster = raster;
     }
 
     public int getFormat() {
-        return format;
+	return format;
     }
 
     public void setFormat(int format) {
-        this.format = format;
+	this.format = format;
     }
 
     public Pointer getPimage() {
-        return pimage;
+	return pimage;
     }
 
     public void setPimage(Pointer pimage) {
-        this.pimage = pimage;
+	this.pimage = pimage;
     }
 }

@@ -15,13 +15,16 @@ import java.io.OutputStream;
 
 /**
  * Interface defining a document that can be handled by the library.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface Document{
+public interface Document {
 
     /**
      * Load document from a File.
-     * @param file File.
+     * 
+     * @param file
+     *            File.
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -29,20 +32,24 @@ public interface Document{
 
     /**
      * Load document from an InputStream.
+     * 
      * @param inputStream
      * @throws IOException
      */
     public void load(InputStream inputStream) throws IOException;
-    
+
     /**
      * Write document to a File.
-     * @param file File.
+     * 
+     * @param file
+     *            File.
      * @throws IOException
      */
     public void write(File file) throws IOException;
-    
+
     /**
      * Write document to an OutputStream
+     * 
      * @param outputStream
      * @throws IOException
      */
@@ -50,40 +57,49 @@ public interface Document{
 
     /**
      * Return document page count
+     * 
      * @return Number of pages.
      */
     public int getPageCount() throws DocumentException;
 
     /**
      * Return the type of the document.
+     * 
      * @return A String representing the document type name.
      */
     public String getType();
 
     /**
      * Return document size
+     * 
      * @return Document size in bytes.
      */
     public int getSize();
 
     /**
      * Return document content as a byte array
+     * 
      * @return Byte array
      */
     public byte[] getContent();
-    
+
     /**
-     * Return a new document containing pages of a given range.
-     * Note : begin and end indicies start at 1
-     * @param begin Index of the first page to extract
-     * @param end Index of the last page to extract
+     * Return a new document containing pages of a given range. Note : begin and
+     * end indicies start at 1
+     * 
+     * @param begin
+     *            Index of the first page to extract
+     * @param end
+     *            Index of the last page to extract
      * @return A new document.
      */
     public Document extractPages(int begin, int end) throws DocumentException;
-    
+
     /**
      * Append pages of another document to the current document.
-     * @param document Document ot append
+     * 
+     * @param document
+     *            Document ot append
      * @throws DocumentException
      */
     public void appendPages(Document document) throws DocumentException;

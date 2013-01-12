@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Class used to carry Ghostscript revision data.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class GhostscriptRevision {
@@ -32,34 +33,34 @@ public class GhostscriptRevision {
     private Date revisionDate;
 
     public String getProduct() {
-        return product;
+	return product;
     }
 
     public void setProduct(String product) {
-        this.product = product;
+	this.product = product;
     }
 
     public String getCopyright() {
-        return copyright;
+	return copyright;
     }
 
     public void setCopyright(String copyright) {
-        this.copyright = copyright;
+	this.copyright = copyright;
     }
 
     public Date getRevisionDate() {
-        return revisionDate;
+	return revisionDate;
     }
 
     public void setRevisionDate(Date revisionDate) {
-        this.revisionDate = revisionDate;
+	this.revisionDate = revisionDate;
     }
 
     public String getNumber() {
-        return number;
+	return number;
     }
 
     public void setNumber(String number) {
-        this.number = number;
+	this.number = number;
     }
 }

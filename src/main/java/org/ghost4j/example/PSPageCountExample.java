@@ -13,19 +13,20 @@ import org.ghost4j.document.PSDocument;
 
 /**
  * Example showing how to count pages of a PostScript.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class PSPageCountExample {
 
     public static void main(String[] args) {
-        try {
+	try {
 
-            PSDocument psDocument = new PSDocument();
-            psDocument.load(new File("input.ps"));
-            System.out.println("Page count is : " + psDocument.getPageCount());
+	    PSDocument psDocument = new PSDocument();
+	    psDocument.load(new File("input.ps"));
+	    System.out.println("Page count is : " + psDocument.getPageCount());
 
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
+	} catch (Exception e) {
+	    System.out.println("ERROR: " + e.getMessage());
+	}
     }
 }

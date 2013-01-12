@@ -12,33 +12,31 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.ghost4j.Ghostscript;
-import org.ghost4j.GhostscriptException;
-import org.ghost4j.GhostscriptRevision;
-import org.ghost4j.display.ImageWriterDisplayCallback;
-
 import junit.framework.TestCase;
+
+import org.ghost4j.display.ImageWriterDisplayCallback;
 
 /**
  * GhostscriptLibrary tests.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class GhostscriptTest extends TestCase {
 
     public GhostscriptTest(String testName) {
-        super(testName);
+	super(testName);
     }
 
     protected void setUp() throws Exception {
-        super.setUp();
+	super.setUp();
 
     }
 
     protected void tearDown() throws Exception {
-        super.tearDown();
+	super.tearDown();
 
-        //delete loaded Ghostscript instance after each test
-        Ghostscript.deleteInstance();
+	// delete loaded Ghostscript instance after each test
+	Ghostscript.deleteInstance();
     }
 
     /**
@@ -46,12 +44,12 @@ public class GhostscriptTest extends TestCase {
      */
     public void testGetRevision() {
 
-        GhostscriptRevision revision = Ghostscript.getRevision();
+	GhostscriptRevision revision = Ghostscript.getRevision();
 
-        assertNotNull(revision.getProduct());
-        assertNotNull(revision.getCopyright());
-        assertNotNull(revision.getRevisionDate());
-        assertNotNull(revision.getNumber());
+	assertNotNull(revision.getProduct());
+	assertNotNull(revision.getCopyright());
+	assertNotNull(revision.getRevisionDate());
+	assertNotNull(revision.getNumber());
 
     }
 
@@ -60,13 +58,13 @@ public class GhostscriptTest extends TestCase {
      */
     public void testInitialize() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        try {
-            gs.initialize(null);
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	try {
+	    gs.initialize(null);
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
     }
 
@@ -75,48 +73,48 @@ public class GhostscriptTest extends TestCase {
      */
     public void testExit() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        //initialize
-        try {
-            gs.initialize(null);
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// initialize
+	try {
+	    gs.initialize(null);
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
-        //exit
-        try {
-            gs.exit();
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// exit
+	try {
+	    gs.exit();
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
     }
 
     public void testRunString() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        //initialize
-        try {
-            gs.initialize(null);
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// initialize
+	try {
+	    gs.initialize(null);
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
-        //run string
-        try {
-            gs.runString("devicenames ==");
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// run string
+	try {
+	    gs.runString("devicenames ==");
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
-        //exit
-        try {
-            gs.exit();
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// exit
+	try {
+	    gs.exit();
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
     }
 
@@ -125,33 +123,33 @@ public class GhostscriptTest extends TestCase {
      */
     public void testRunFile() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        //initialize
-        try {
-            String[] args = new String[4];
-            args[0] = "-dQUIET";
-            args[1] = "-dNOPAUSE";
-            args[2] = "-dBATCH";
-            args[3] = "-dSAFER";
-            gs.initialize(args);
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// initialize
+	try {
+	    String[] args = new String[4];
+	    args[0] = "-dQUIET";
+	    args[1] = "-dNOPAUSE";
+	    args[2] = "-dBATCH";
+	    args[3] = "-dSAFER";
+	    gs.initialize(args);
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
-        //run file
-        try {
-            gs.runFile("input.ps");
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// run file
+	try {
+	    gs.runFile("input.ps");
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
 
-        //exit
-        try {
-            gs.exit();
-        } catch (GhostscriptException e) {
-            fail(e.getMessage());
-        }
+	// exit
+	try {
+	    gs.exit();
+	} catch (GhostscriptException e) {
+	    fail(e.getMessage());
+	}
     }
 
     /**
@@ -159,32 +157,32 @@ public class GhostscriptTest extends TestCase {
      */
     public void testStdIn() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        InputStream is = null;
+	InputStream is = null;
 
-        //initialize
-        try {
+	// initialize
+	try {
 
-            is = new FileInputStream("input.ps");
+	    is = new FileInputStream("input.ps");
 
-            gs.setStdIn(is);
+	    gs.setStdIn(is);
 
-            String[] args = new String[6];
-            args[0] = "-dQUIET";
-            args[1] = "-dNOPAUSE";
-            args[2] = "-dBATCH";
-            args[3] = "-sOutputFile=%stdout";
-            args[4] = "-f";
-            args[5] = "-";
+	    String[] args = new String[6];
+	    args[0] = "-dQUIET";
+	    args[1] = "-dNOPAUSE";
+	    args[2] = "-dBATCH";
+	    args[3] = "-sOutputFile=%stdout";
+	    args[4] = "-f";
+	    args[5] = "-";
 
-            gs.initialize(args);
+	    gs.initialize(args);
 
-            is.close();
+	    is.close();
 
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+	} catch (Exception e) {
+	    fail(e.getMessage());
+	}
     }
 
     /**
@@ -192,37 +190,38 @@ public class GhostscriptTest extends TestCase {
      */
     public void testStdOut() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        InputStream is = null;
-        ByteArrayOutputStream os = null;
+	InputStream is = null;
+	ByteArrayOutputStream os = null;
 
-        //initialize
-        try {
+	// initialize
+	try {
 
-            //input
-            is = new ByteArrayInputStream(new String("devicenames ==\n").getBytes());
-            gs.setStdIn(is);
+	    // input
+	    is = new ByteArrayInputStream(
+		    new String("devicenames ==\n").getBytes());
+	    gs.setStdIn(is);
 
-            //output
-            os = new ByteArrayOutputStream();
-            gs.setStdOut(os);
+	    // output
+	    os = new ByteArrayOutputStream();
+	    gs.setStdOut(os);
 
-            String[] args = new String[3];
-            args[0] = "-sOutputFile=%stdout";
-            args[1] = "-f";
-            args[2] = "-";
+	    String[] args = new String[3];
+	    args[0] = "-sOutputFile=%stdout";
+	    args[1] = "-f";
+	    args[2] = "-";
 
-            gs.initialize(args);
+	    gs.initialize(args);
 
-            assertTrue(os.toString().length() > 0);
+	    assertTrue(os.toString().length() > 0);
 
-            os.close();
-            is.close();
+	    os.close();
+	    is.close();
 
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+	} catch (Exception e) {
+	    fail(e.getMessage());
+	}
     }
 
     /**
@@ -230,44 +229,44 @@ public class GhostscriptTest extends TestCase {
      */
     public void testStdErr() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        InputStream is = null;
-        ByteArrayOutputStream os = null;
+	InputStream is = null;
+	ByteArrayOutputStream os = null;
 
-        //initialize
-        try {
+	// initialize
+	try {
 
-            //input
-            is = new ByteArrayInputStream(new String("stupid\n").getBytes());
-            gs.setStdIn(is);
+	    // input
+	    is = new ByteArrayInputStream(new String("stupid\n").getBytes());
+	    gs.setStdIn(is);
 
-            //output
-            os = new ByteArrayOutputStream();
-            gs.setStdErr(os);
+	    // output
+	    os = new ByteArrayOutputStream();
+	    gs.setStdErr(os);
 
-            String[] args = new String[3];
-            args[0] = "-sOutputFile=%stdout";
-            args[1] = "-f";
-            args[2] = "-";
+	    String[] args = new String[3];
+	    args[0] = "-sOutputFile=%stdout";
+	    args[1] = "-f";
+	    args[2] = "-";
 
-            gs.initialize(args);
+	    gs.initialize(args);
 
-            is.close();
+	    is.close();
 
-        } catch (Exception e) {
-            //do not notice error because we want to test error output
-            if (!e.getMessage().contains("Error code is -100")) {
-                fail(e.getMessage());
-            }
-        } finally {
-            try {
-                assertTrue(os.toString().length() > 0);
-                os.close();
-            } catch (IOException e2) {
-                fail(e2.getMessage());
-            }
-        }
+	} catch (Exception e) {
+	    // do not notice error because we want to test error output
+	    if (!e.getMessage().contains("Error code is -100")) {
+		fail(e.getMessage());
+	    }
+	} finally {
+	    try {
+		assertTrue(os.toString().length() > 0);
+		os.close();
+	    } catch (IOException e2) {
+		fail(e2.getMessage());
+	    }
+	}
     }
 
     /**
@@ -275,42 +274,33 @@ public class GhostscriptTest extends TestCase {
      */
     public void testDisplayCallback() {
 
-        Ghostscript gs = Ghostscript.getInstance();
+	Ghostscript gs = Ghostscript.getInstance();
 
-        try {
+	try {
 
-            //create display callback
-            ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
+	    // create display callback
+	    ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
 
-            //set display callback
-            gs.setDisplayCallback(displayCallback);
+	    // set display callback
+	    gs.setDisplayCallback(displayCallback);
 
-            String[] args = {
-            		"-dQUIET",
-                    "-dNOPAUSE",
-                    "-dBATCH",
-                    "-dSAFER",
-                    "-sDEVICE=display",
-                    "-sDisplayHandle=0",
-                    "-dDisplayFormat=16#804",
-                    "-r20"
-		
-            };
+	    String[] args = { "-dQUIET", "-dNOPAUSE", "-dBATCH", "-dSAFER",
+		    "-sDEVICE=display", "-sDisplayHandle=0",
+		    "-dDisplayFormat=16#804", "-r20"
 
+	    };
 
-            gs.initialize(args);
+	    gs.initialize(args);
 
-            gs.runFile("input.ps");
+	    gs.runFile("input.ps");
 
-            gs.exit();
+	    gs.exit();
 
-            assertEquals(1, displayCallback.getImages().size());
+	    assertEquals(1, displayCallback.getImages().size());
 
-
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-
+	} catch (Exception e) {
+	    fail(e.getMessage());
+	}
 
     }
 }

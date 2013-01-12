@@ -6,15 +6,16 @@
  */
 package org.ghost4j.analyzer;
 
-
 /**
  * Interface defining a remote analyzer (for Ghostscript multi process support).
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface RemoteAnalyzer extends Analyzer{
-	
-	/**
+public interface RemoteAnalyzer extends Analyzer {
+
+    /**
      * Sets max parallel analysis processes allowed for the analyzer
+     * 
      * @param maxProcessCount
      */
     public void setMaxProcessCount(int maxProcessCount);

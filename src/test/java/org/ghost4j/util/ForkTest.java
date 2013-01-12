@@ -7,13 +7,12 @@
 
 package org.ghost4j.util;
 
-
 public class ForkTest {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
-        System.out.println("START FORKED");
-        Thread.sleep(1000);
-        System.out.println("END FORKED");
+	System.out.println("START FORKED");
+	Thread.sleep(1000);
+	System.out.println("END FORKED");
     }
 }

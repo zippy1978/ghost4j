@@ -7,13 +7,16 @@
 package org.ghost4j.converter;
 
 /**
- * Interface defining a remote converter (for Ghostscript multi process support).
+ * Interface defining a remote converter (for Ghostscript multi process
+ * support).
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public interface RemoteConverter extends Converter {
 
     /**
      * Sets max parallel conversion processes allowed for the converter
+     * 
      * @param maxProcessCount
      */
     public void setMaxProcessCount(int maxProcessCount);

@@ -10,41 +10,42 @@ package org.ghost4j.example;
 import java.io.File;
 import java.io.FileOutputStream;
 
-
 import org.apache.commons.io.IOUtils;
 import org.ghost4j.converter.PSConverter;
 import org.ghost4j.document.PDFDocument;
 
 /**
- * Example showing how to convert a PDF document to PostScript using the high level API.
+ * Example showing how to convert a PDF document to PostScript using the high
+ * level API.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class PSConverterExample {
 
-	public static void main(String[] args) {
-		
-		FileOutputStream fos = null;
-        try{
+    public static void main(String[] args) {
 
-            //load PDF document
-        	PDFDocument document = new PDFDocument();
-            document.load(new File("input.pdf"));
+	FileOutputStream fos = null;
+	try {
 
-            //create OutputStream
-            fos = new FileOutputStream(new File("rendition.ps"));
+	    // load PDF document
+	    PDFDocument document = new PDFDocument();
+	    document.load(new File("input.pdf"));
 
-            //create converter
-            PSConverter converter=  new PSConverter();
+	    // create OutputStream
+	    fos = new FileOutputStream(new File("rendition.ps"));
 
-            //convert
-            converter.convert(document, fos);
+	    // create converter
+	    PSConverter converter = new PSConverter();
 
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-        } finally{
-            IOUtils.closeQuietly(fos);
-        }
+	    // convert
+	    converter.convert(document, fos);
 
+	} catch (Exception e) {
+	    System.out.println("ERROR: " + e.getMessage());
+	} finally {
+	    IOUtils.closeQuietly(fos);
 	}
+
+    }
 
 }

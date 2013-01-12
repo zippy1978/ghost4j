@@ -14,20 +14,26 @@ import org.ghost4j.Component;
 import org.ghost4j.document.Document;
 import org.ghost4j.document.DocumentException;
 
-
 /**
- * Interface defining an analyzer used to retrieve info on a Document to a given format.
+ * Interface defining an analyzer used to retrieve info on a Document to a given
+ * format.
+ * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
-public interface Analyzer extends Component{
+public interface Analyzer extends Component {
 
-	/**
-	 * Analyzes a given document and outputs result as a list of AnalysisItem objects.
-	 * @param document Document to analyze. Document type may or may no be supported (support left to the analyze final implementation).
-	 * @return a List of AnalysisItem objects
-	 * @throws IOException
-	 * @throws AnalyzerException
-	 * @throws DocumentException
-	 */
-	public List<AnalysisItem> analyze(Document document) throws IOException, AnalyzerException, DocumentException;
+    /**
+     * Analyzes a given document and outputs result as a list of AnalysisItem
+     * objects.
+     * 
+     * @param document
+     *            Document to analyze. Document type may or may no be supported
+     *            (support left to the analyze final implementation).
+     * @return a List of AnalysisItem objects
+     * @throws IOException
+     * @throws AnalyzerException
+     * @throws DocumentException
+     */
+    public List<AnalysisItem> analyze(Document document) throws IOException,
+	    AnalyzerException, DocumentException;
 }
