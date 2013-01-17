@@ -3,7 +3,7 @@ High level API samples
 
 This section shows some code examples using the high level API.
 
-#### Convert Postscript file to PDF using PDFConverter
+#### Convert PostScript file to PDF using PDFConverter
 
 	package org.ghost4j.example;
 	
@@ -51,7 +51,7 @@ This section shows some code examples using the high level API.
 	}
 
 
-#### Count pages of a Postscript document using PSDocument
+#### Count pages of a PostScript document using PSDocument
 
 	package org.ghost4j.example;
 	
@@ -180,4 +180,103 @@ This section shows some code examples using the high level API.
 		}
 	}
 
+#### Append a PDF document to a PostScript document
+
+	package org.ghost4j.example;
+
+	import java.io.File;
+	import java.io.Serializable;
+	import java.util.HashMap;
+	import java.util.Map;
+
+	import org.ghost4j.document.Document;
+	import org.ghost4j.document.PDFDocument;
+	import org.ghost4j.document.PSDocument;
+	import org.ghost4j.modifier.SafeAppenderModifier;
+
+	/**
+	 * Example showing how to append a PostScript document to a PDF document.
+	 * 
+	 * @author Gilles Grousset (gi.grousset@gmail.com)
+	 */
+	public class SafeAppenderModifierExample {
+
+	    public static void main(String[] args) {
+
+		try {
+		    // load PS document
+		    PSDocument psDocument = new PSDocument();
+		    psDocument.load(new File("input.ps"));
+
+		    // load PDF document
+		    PDFDocument pdfDocument = new PDFDocument();
+		    pdfDocument.load(new File("input.pdf"));
+
+		    // prepare modifier
+		    SafeAppenderModifier modifier = new SafeAppenderModifier();
+
+		    // prepare modifier parameters
+		    Map<String, Serializable> parameters = new HashMap<String, Serializable>();
+		    parameters.put(SafeAppenderModifier.PARAMETER_APPEND_DOCUMENT,
+			    pdfDocument);
+
+		    // run modifier
+		    Document result = modifier.modify(psDocument, parameters);
+
+		    // write resulting document to file
+		    result.write(new File("merged.ps"));
+
+		} catch (Exception e) {
+		    System.out.println("ERROR: " + e.getMessage());
+		}
+	    }
+
+	}
+
+#### Analyze ink coverage of a PostScript document using InkAnalyzer
+
+	package org.ghost4j.example;
+
+	import java.io.File;
+	import java.util.List;
+
+	import org.ghost4j.analyzer.AnalysisItem;
+	import org.ghost4j.analyzer.InkAnalyzer;
+	import org.ghost4j.document.PSDocument;
+
+	/**
+	 * Example showing how to analyze ink coverage of a PS (works with PDF as well)
+	 * document using the high level API.
+	 * 
+	 * @author Gilles Grousset (gi.grousset@gmail.com)
+	 */
+	public class InkAnalyzerExample {
+
+	    public static void main(String[] args) {
+
+		try {
+
+		    // load PS document
+		    PSDocument document = new PSDocument();
+		    document.load(new File("input-2pages.ps"));
+
+		    // create analyzer
+		    InkAnalyzer analyzer = new InkAnalyzer();
+
+		    // analyze
+		    List<AnalysisItem> coverageData = analyzer.analyze(document);
+
+		    // print result
+		    for (AnalysisItem analysisItem : coverageData) {
+			System.out.println(analysisItem);
+
+		    }
+
+		} catch (Exception e) {
+		    System.out.println("ERROR: " + e.getMessage());
+		}
+
+	    }
+
+	}
 

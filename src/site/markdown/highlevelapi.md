@@ -7,7 +7,7 @@ The high level API is composed of the following items:
   
 * **Documents:** A document is an object representing a document (usually a Postscript or PDF file). It provides methods to load, write and count pages on the document itself.
 
-* **Components:** Components are processing units feed with documents. Families of components are: Analyzer, Converter and Renderer. Not all types of documents are necessarily supported by components.
+* **Components:** Components are processing units feed with documents. Families of components are: Analyzer, Converter, Modifier and Renderer. Not all types of documents are necessarily supported by components.
 
 ### Documents
 
@@ -23,18 +23,19 @@ Available implementations are:
 
 ### Analyzers
 
-Analyzers are components used to extract data of any kind out of a document. They are represented by the <<net.sf.ghost4j.analyzer.Analyzer>> interface.
+Analyzers are components used to extract data of any kind out of a document. They are represented by the <<org.ghost4j.analyzer.Analyzer>> interface.
 
 Available implementations are:
 
 <table>
 	<tr><th>Class</th><th>Description</th><th>Supports Postscript</th><th>Supports PDF</th></tr>
 	<tr><td>org.ghost4j.analyzer.FontAnalyzer</td><td>Extract font information: font names and embedding status</td><td>No</td><td>Yes</td></tr>
+	<tr><td>org.ghost4j.analyzer.InkAnalyzer</td><td>Extract ink coverage information for each page in % as CMYK components</td><td>Yes</td><td>Yes</td></tr>
 </table>
 
 ### Converters
 
-Converters are components used to convert documents to a given file format. They are represented by the <<net.sf.ghost4j.converter.Converter>> interface.
+Converters are components used to convert documents to a given file format. They are represented by the <<org.ghost4j.converter.Converter>> interface.
    
 Available implementations are:
 
@@ -44,9 +45,18 @@ Available implementations are:
 	<tr><td>org.ghost4j.converter.PDFConverter</td><td>Convert a document to a PDF file</td><td>Yes</td><td>Yes</td></tr>
 </table>
 
+### Modifiers
+
+Modifiers are components used to modify documents. They are represented by the <<org.ghost4j.modifier.Modifier>> interface.
+
+<table>
+	<tr><th>Class</th><th>Description</th><th>Supports Postscript</th><th>Supports PDF</th></tr>
+	<tr><td>org.ghost4j.modifier.SafeAppenderModifier</td><td>Append a document to another. Document types can be mixed</td><td>Yes</td><td>Yes</td></tr>
+</table>
+
 ### Renderers
 
-Renderers are components used to render document pages to image files. They are represented byt he <<net.sf.ghost4j.renderer.Renderer>> interface.
+Renderers are components used to render document pages to image files. They are represented byt he <<org.ghost4j.renderer.Renderer>> interface.
    
 Available implementations are:
 

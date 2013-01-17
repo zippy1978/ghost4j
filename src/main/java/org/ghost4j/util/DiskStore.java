@@ -125,7 +125,7 @@ public class DiskStore {
 
 	File file = this.getFile(key);
 
-	if (file != null) {
+	if (file != null && file.exists()) {
 
 	    // delete file
 	    if (!file.delete()) {

@@ -4,6 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
+
 package org.ghost4j.analyzer;
 
 /**

@@ -1,3 +1,10 @@
+/*
+ * Ghost4J: a Java wrapper for Ghostscript API.
+ *
+ * Distributable under LGPL license.
+ * See terms of license at http://www.gnu.org/licenses/lgpl.html.
+ */
+
 package org.ghost4j.analyzer;
 
 import java.io.ByteArrayOutputStream;
@@ -68,6 +75,7 @@ public class FontAnalyzer extends AbstractRemoteAnalyzer {
 
 	// prepare args
 	String[] gsArgs = {
+		"-fonta",
 		"-dQUIET",
 		"-dNOPAUSE",
 		"-dBATCH",

@@ -54,6 +54,14 @@ If you do not wish to use Maven, binary distributions are available in the [Down
 		&lt;artifactId&gt;ghost4j&lt;/artifactId&gt;
 		&lt;version&gt;0.4.6&lt;/version&gt;
 	&lt;/dependency&gt;
+	
+	... or
+	
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.ghost4j&lt;/groupId&gt;
+		&lt;artifactId&gt;ghost4j&lt;/artifactId&gt;
+		&lt;version&gt;0.4.7-SNAPSHOT&lt;/version&gt;
+	&lt;/dependency&gt;
 	...
 &lt;/dependencies&gt;
 </code></pre>

@@ -63,7 +63,7 @@ public class PDFDocumentTest extends TestCase {
 	document.load(new File("input-2pages.pdf"));
 
 	// extract first page
-	Document extracted = document.extractPages(1, 1);
+	Document extracted = document.extract(1, 1);
 
 	// test
 	assertEquals(1, extracted.getPageCount());
@@ -80,7 +80,7 @@ public class PDFDocumentTest extends TestCase {
 	document2.load(new File("input-2pages.pdf"));
 
 	// append
-	document.appendPages(document2);
+	document.append(document2);
 
 	// test
 	assertEquals(3, document.getPageCount());
@@ -99,7 +99,7 @@ public class PDFDocumentTest extends TestCase {
 
 	// append
 	try {
-	    document.appendPages(document2);
+	    document.append(document2);
 	    fail("Test failed");
 	} catch (DocumentException e) {
 	    assertEquals("Cannot append document of different types",

@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
@@ -100,7 +102,7 @@ public abstract class AbstractDocument implements Document, Serializable {
      */
     protected void assertValidPageIndex(int index) throws DocumentException {
 
-	if (content == null || index >= this.getPageCount()) {
+	if (content == null || index > this.getPageCount()) {
 	    throw new DocumentException("Invalid page index: " + index);
 	}
     }
@@ -126,12 +128,25 @@ public abstract class AbstractDocument implements Document, Serializable {
 	}
     }
 
-    public void appendPages(Document document) throws DocumentException {
+    public void append(Document document) throws DocumentException {
 
 	if (document == null || !this.getType().equals(document.getType())) {
 	    throw new DocumentException(
 		    "Cannot append document of different types");
 	}
+    }
+
+    public List<Document> explode() throws DocumentException {
+
+	List<Document> result = new ArrayList<Document>();
+
+	int pageCount = this.getPageCount();
+
+	for (int i = 0; i < pageCount; i++) {
+	    result.add(this.extract(i + 1, i + 1));
+	}
+
+	return result;
     }
 
 }

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * Interface defining a document that can be handled by the library.
@@ -19,6 +20,9 @@ import java.io.OutputStream;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public interface Document {
+
+    public static final String TYPE_POSTSCRIPT = "PostScript";
+    public static final String TYPE_PDF = "PDF";
 
     /**
      * Load document from a File.
@@ -93,7 +97,7 @@ public interface Document {
      *            Index of the last page to extract
      * @return A new document.
      */
-    public Document extractPages(int begin, int end) throws DocumentException;
+    public Document extract(int begin, int end) throws DocumentException;
 
     /**
      * Append pages of another document to the current document.
@@ -102,6 +106,13 @@ public interface Document {
      *            Document ot append
      * @throws DocumentException
      */
-    public void appendPages(Document document) throws DocumentException;
+    public void append(Document document) throws DocumentException;
 
+    /**
+     * Separate each pages to a new document.
+     * 
+     * @return A list of Document.
+     * @throws DocumentException
+     */
+    public List<Document> explode() throws DocumentException;
 }

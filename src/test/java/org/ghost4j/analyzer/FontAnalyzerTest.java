@@ -4,6 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at http://www.gnu.org/licenses/lgpl.html.
  */
+
 package org.ghost4j.analyzer;
 
 import java.io.File;
@@ -60,6 +61,7 @@ public class FontAnalyzerTest extends TestCase {
 	final List<AnalysisItem> result3 = new ArrayList<AnalysisItem>();
 
 	Thread thread1 = new Thread() {
+	    @Override
 	    public void run() {
 		try {
 		    System.out.println("START 1 " + Thread.currentThread());
@@ -73,6 +75,7 @@ public class FontAnalyzerTest extends TestCase {
 	thread1.start();
 
 	Thread thread2 = new Thread() {
+	    @Override
 	    public void run() {
 		try {
 		    System.out.println("START 2 " + Thread.currentThread());
@@ -87,6 +90,7 @@ public class FontAnalyzerTest extends TestCase {
 
 	// the last one will block until a previous one finishes
 	Thread thread3 = new Thread() {
+	    @Override
 	    public void run() {
 		try {
 		    System.out.println("START 3 " + Thread.currentThread());

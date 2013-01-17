@@ -27,6 +27,15 @@ import org.ghost4j.util.DiskStore;
  */
 public class PSConverter extends AbstractRemoteConverter {
 
+    public static final int OPTION_DEVICE_AUTO = 0;
+    public static final int OPTION_DEVICE_PSWRITE = 1;
+    public static final int OPTION_DEVICE_PS2WRITE = 2;
+
+    /**
+     * Ghostscript device to use to perform conversion.
+     */
+    private int device = 0;
+
     /**
      * PostScript language level: 1, 2 or 3.
      */
@@ -70,6 +79,32 @@ public class PSConverter extends AbstractRemoteConverter {
 	// assert document is supported
 	this.assertDocumentSupported(document);
 
+	// determine device to use
+	String deviceName = "";
+	try {
+	    switch (device) {
+	    case OPTION_DEVICE_PSWRITE:
+		deviceName = "pswrite";
+		break;
+	    case OPTION_DEVICE_PS2WRITE:
+		deviceName = "ps2write";
+		break;
+	    case OPTION_DEVICE_AUTO:
+		// automatic : use ps2write is available otherwise pswrite
+		if (this.isDeviceSupported("ps2write")) {
+		    deviceName = "ps2write";
+		} else {
+		    deviceName = "pswrite";
+		}
+		break;
+	    default:
+		deviceName = "pswrite";
+		break;
+	    }
+	} catch (GhostscriptException e) {
+	    throw new ConverterException(e);
+	}
+
 	// get Ghostscript instance
 	Ghostscript gs = Ghostscript.getInstance();
 
@@ -91,7 +126,7 @@ public class PSConverter extends AbstractRemoteConverter {
 		"-dLanguageLevel=" + languageLevel,
 		"-dDEVICEWIDTHPOINTS=" + paperSize.getWidth(),
 		"-dDEVICEHEIGHTPOINTS=" + paperSize.getHeight(),
-		"-sDEVICE=pswrite",
+		"-sDEVICE=" + deviceName,
 		// output to file, as stdout redirect does not work properly
 		"-sOutputFile="
 			+ diskStore.addFile(outputDiskStoreKey)
@@ -156,5 +191,13 @@ public class PSConverter extends AbstractRemoteConverter {
 
     public void setPaperSize(PaperSize paperSize) {
 	this.paperSize = paperSize;
+    }
+
+    public int getDevice() {
+	return device;
+    }
+
+    public void setDevice(int device) {
+	this.device = device;
     }
 }

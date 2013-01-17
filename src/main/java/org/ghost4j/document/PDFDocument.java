@@ -31,6 +31,7 @@ public class PDFDocument extends AbstractDocument {
      */
     private static final long serialVersionUID = 6331191005700202153L;
 
+    @Override
     public void load(InputStream inputStream) throws IOException {
 	super.load(inputStream);
 
@@ -81,7 +82,7 @@ public class PDFDocument extends AbstractDocument {
 
     }
 
-    public Document extractPages(int begin, int end) throws DocumentException {
+    public Document extract(int begin, int end) throws DocumentException {
 
 	this.assertValidPageRange(begin, end);
 
@@ -135,9 +136,9 @@ public class PDFDocument extends AbstractDocument {
     }
 
     @Override
-    public void appendPages(Document document) throws DocumentException {
+    public void append(Document document) throws DocumentException {
 
-	super.appendPages(document);
+	super.append(document);
 
 	ByteArrayOutputStream baos = null;
 	com.lowagie.text.Document mergedDocument = new com.lowagie.text.Document();
@@ -179,6 +180,6 @@ public class PDFDocument extends AbstractDocument {
     }
 
     public String getType() {
-	return "PDF";
+	return TYPE_PDF;
     }
 }
