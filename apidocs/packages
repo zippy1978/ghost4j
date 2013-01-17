@@ -6,6 +6,7 @@ org.ghost4j.display
 org.ghost4j.document
 org.ghost4j
 org.ghost4j.example
+org.ghost4j.modifier
 org.ghost4j.util
 org.ghost4j.renderer
 org.ghost4j.analyzer

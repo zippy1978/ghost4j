@@ -8,5 +8,6 @@ org.ghost4j.converter
 org.ghost4j.display
 org.ghost4j.document
 org.ghost4j.example
+org.ghost4j.modifier
 org.ghost4j.renderer
 org.ghost4j.util
