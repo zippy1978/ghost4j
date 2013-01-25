@@ -15,7 +15,7 @@ Main features
 
 * Object oriented API.
       
-* High level API providing a set of components (converters, analyzers, renderers) to handle Postscript and PDF documents.
+* High level API providing a set of components (converters, analyzers, modifiers, renderers) to handle Postscript and PDF documents.
       
 * Multi-process support.
 

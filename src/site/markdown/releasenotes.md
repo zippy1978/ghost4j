@@ -1,7 +1,11 @@
 Release notes
 =============
 
-#### Snapshot version (0.4.7-SNAPSHOT)
+#### Snapshot version (0.5.1-SNAPSHOT)
+
+* Nothing new yet
+
+#### Version 0.5.0 - 25/01/2013
 
 * Added *antialiasing* property on *SimpleRenderer*.
 * Added *extract* method on *Document* to allow extraction of a range of pages to a new document.

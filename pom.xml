@@ -5,7 +5,6 @@
 	<groupId>org.ghost4j</groupId>
 	<artifactId>ghost4j</artifactId>
 	<packaging>jar</packaging>
-	<version>0.4.7-SNAPSHOT</version>
 	<name>Ghost4J</name>
 	<description>Java wrapper for Ghostscript API</description>
 	<url>http://www.ghost4j.org</url>
@@ -325,6 +324,7 @@
 		</plugins>
 	</build>
 
+	<version>0.5.1-SNAPSHOT</version>
 </project>
 
 
