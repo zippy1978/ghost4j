@@ -7,12 +7,14 @@
 
 package org.ghost4j.analyzer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.ghost4j.Ghostscript;
 import org.ghost4j.document.PDFDocument;
 import org.ghost4j.document.PSDocument;
 
@@ -31,6 +33,7 @@ public class InkAnalyzerTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
 	super.setUp();
+
     }
 
     @Override
@@ -38,98 +41,149 @@ public class InkAnalyzerTest extends TestCase {
 	super.tearDown();
     }
 
+    /**
+     * Test if the current Ghostscript version supports 'inkcov' device. If this
+     * device is not supported, a warning message is issued
+     */
+    private boolean testInkCovDeviceSupport() throws Exception {
+
+	boolean result = false;
+
+	// get Ghostscript instance
+	Ghostscript gs = Ghostscript.getInstance();
+
+	// retrieve available devices
+	try {
+
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+	    String[] gsArgs = { "-dQUIET", "-dNOPAUSE", "-dBATCH",
+		    "-dNODISPLAY" };
+
+	    synchronized (gs) {
+		gs.setStdOut(baos);
+		gs.initialize(gsArgs);
+		gs.runString("devicenames ==");
+		gs.exit();
+	    }
+
+	    // result string
+	    result = (new String(baos.toByteArray())).contains("inkcov");
+
+	} finally {
+	    Ghostscript.deleteInstance();
+	}
+
+	if (!result) {
+	    System.out
+		    .println("WARNING : Ghostscript version does not support inkcov device, skipping InkAnalyzer test");
+	}
+
+	return result;
+    }
+
     public void testAnalyzeWithPDF() throws Exception {
 
-	PDFDocument document = new PDFDocument();
-	document.load(new File("input-2pages.pdf"));
+	if (this.testInkCovDeviceSupport()) {
 
-	InkAnalyzer inkAnalyzer = new InkAnalyzer();
-	List<AnalysisItem> result = inkAnalyzer.analyze(document);
+	    PDFDocument document = new PDFDocument();
+	    document.load(new File("input-2pages.pdf"));
 
-	assertEquals(2, result.size());
-	assertTrue((((InkAnalysisItem) result.get(0)).getC()) > 0);
-	assertTrue((((InkAnalysisItem) result.get(0)).getM()) > 0);
-	assertTrue((((InkAnalysisItem) result.get(0)).getY()) > 0);
-	assertTrue((((InkAnalysisItem) result.get(0)).getK()) > 0);
+	    InkAnalyzer inkAnalyzer = new InkAnalyzer();
+	    List<AnalysisItem> result = inkAnalyzer.analyze(document);
+
+	    assertEquals(2, result.size());
+	    assertTrue((((InkAnalysisItem) result.get(0)).getC()) > 0);
+	    assertTrue((((InkAnalysisItem) result.get(0)).getM()) > 0);
+	    assertTrue((((InkAnalysisItem) result.get(0)).getY()) > 0);
+	    assertTrue((((InkAnalysisItem) result.get(0)).getK()) > 0);
+
+	}
     }
 
     public void testAnalyzeWithPS() throws Exception {
 
-	PSDocument document = new PSDocument();
-	document.load(new File("input-2pages.ps"));
+	if (this.testInkCovDeviceSupport()) {
 
-	InkAnalyzer inkAnalyzer = new InkAnalyzer();
-	List<AnalysisItem> result = inkAnalyzer.analyze(document);
+	    PSDocument document = new PSDocument();
+	    document.load(new File("input-2pages.ps"));
 
-	assertEquals(2, result.size());
-	assertTrue((((InkAnalysisItem) result.get(0)).getC()) > 0);
-	assertTrue((((InkAnalysisItem) result.get(0)).getM()) > 0);
-	assertTrue((((InkAnalysisItem) result.get(0)).getY()) > 0);
-	assertTrue((((InkAnalysisItem) result.get(0)).getK()) > 0);
+	    InkAnalyzer inkAnalyzer = new InkAnalyzer();
+	    List<AnalysisItem> result = inkAnalyzer.analyze(document);
+
+	    assertEquals(2, result.size());
+	    assertTrue((((InkAnalysisItem) result.get(0)).getC()) > 0);
+	    assertTrue((((InkAnalysisItem) result.get(0)).getM()) > 0);
+	    assertTrue((((InkAnalysisItem) result.get(0)).getY()) > 0);
+	    assertTrue((((InkAnalysisItem) result.get(0)).getK()) > 0);
+
+	}
     }
 
     public void testAnalyzeWithPDFMultiProcess() throws Exception {
 
-	final PDFDocument document = new PDFDocument();
-	document.load(new File("input.pdf"));
+	if (this.testInkCovDeviceSupport()) {
 
-	final InkAnalyzer inkAnalyzer = new InkAnalyzer();
-	inkAnalyzer.setMaxProcessCount(2);
+	    final PDFDocument document = new PDFDocument();
+	    document.load(new File("input.pdf"));
 
-	final List<AnalysisItem> result1 = new ArrayList<AnalysisItem>();
-	final List<AnalysisItem> result2 = new ArrayList<AnalysisItem>();
-	final List<AnalysisItem> result3 = new ArrayList<AnalysisItem>();
+	    final InkAnalyzer inkAnalyzer = new InkAnalyzer();
+	    inkAnalyzer.setMaxProcessCount(2);
 
-	Thread thread1 = new Thread() {
-	    @Override
-	    public void run() {
-		try {
-		    System.out.println("START 1 " + Thread.currentThread());
-		    result1.addAll(inkAnalyzer.analyze(document));
-		    System.out.println("END 1 " + Thread.currentThread());
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+	    final List<AnalysisItem> result1 = new ArrayList<AnalysisItem>();
+	    final List<AnalysisItem> result2 = new ArrayList<AnalysisItem>();
+	    final List<AnalysisItem> result3 = new ArrayList<AnalysisItem>();
+
+	    Thread thread1 = new Thread() {
+		@Override
+		public void run() {
+		    try {
+			System.out.println("START 1 " + Thread.currentThread());
+			result1.addAll(inkAnalyzer.analyze(document));
+			System.out.println("END 1 " + Thread.currentThread());
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		};
 	    };
-	};
-	thread1.start();
+	    thread1.start();
 
-	Thread thread2 = new Thread() {
-	    @Override
-	    public void run() {
-		try {
-		    System.out.println("START 2 " + Thread.currentThread());
-		    result2.addAll(inkAnalyzer.analyze(document));
-		    System.out.println("END 2 " + Thread.currentThread());
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+	    Thread thread2 = new Thread() {
+		@Override
+		public void run() {
+		    try {
+			System.out.println("START 2 " + Thread.currentThread());
+			result2.addAll(inkAnalyzer.analyze(document));
+			System.out.println("END 2 " + Thread.currentThread());
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		};
 	    };
-	};
-	thread2.start();
+	    thread2.start();
 
-	// the last one will block until a previous one finishes
-	Thread thread3 = new Thread() {
-	    @Override
-	    public void run() {
-		try {
-		    System.out.println("START 3 " + Thread.currentThread());
-		    result3.addAll(inkAnalyzer.analyze(document));
-		    System.out.println("END 3 " + Thread.currentThread());
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+	    // the last one will block until a previous one finishes
+	    Thread thread3 = new Thread() {
+		@Override
+		public void run() {
+		    try {
+			System.out.println("START 3 " + Thread.currentThread());
+			result3.addAll(inkAnalyzer.analyze(document));
+			System.out.println("END 3 " + Thread.currentThread());
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		};
 	    };
-	};
-	thread3.start();
+	    thread3.start();
 
-	thread1.join();
-	thread2.join();
-	thread3.join();
+	    thread1.join();
+	    thread2.join();
+	    thread3.join();
 
-	assertEquals(1, result1.size());
-	assertEquals(1, result2.size());
-	assertEquals(1, result3.size());
-
+	    assertEquals(1, result1.size());
+	    assertEquals(1, result2.size());
+	    assertEquals(1, result3.size());
+	}
     }
 }
