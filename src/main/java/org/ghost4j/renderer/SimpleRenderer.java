@@ -80,8 +80,7 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
 	String[] gsArgs = { "-dQUIET", "-dNOPAUSE", "-dBATCH", "-dSAFER",
 		"-dFirstPage=" + (begin + 1), "-dLastPage=" + (end + 1),
 		"-sDEVICE=display", "-sDisplayHandle=0",
-		"-dDisplayFormat=16#804", "-r" + this.getResolution(), "-f",
-		diskStore.getFile(inputDiskStoreKey).getAbsolutePath() };
+		"-dDisplayFormat=16#804", "-r" + this.getResolution()};
 
 	// antialiasing
 	if (this.antialiasing != OPTION_ANTIALIASING_NONE) {
@@ -90,6 +89,11 @@ public class SimpleRenderer extends AbstractRemoteRenderer {
 	    gsArgs[gsArgs.length - 1] = "-dGraphicsAlphaBits="
 		    + this.antialiasing;
 	}
+	
+	// add file path args
+	gsArgs = Arrays.copyOf(gsArgs, gsArgs.length + 2);
+	gsArgs[gsArgs.length - 2] = "-f";
+	gsArgs[gsArgs.length - 1] = diskStore.getFile(inputDiskStoreKey).getAbsolutePath();
 
 	// execute and exit interpreter
 	try {

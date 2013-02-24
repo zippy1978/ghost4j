@@ -13,3 +13,6 @@
 target
 /.settings
 /bin
+
+# Mac File System
+.DS_Store
