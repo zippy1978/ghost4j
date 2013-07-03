@@ -10,7 +10,6 @@ package org.ghost4j.analyzer;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +32,6 @@ import org.ghost4j.util.DiskStore;
  * 
  */
 public class InkAnalyzer extends AbstractRemoteAnalyzer implements Analyzer {
-
-    /**
-     * Common DecimalFormat.
-     */
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(
-	    "##,##");
 
     public InkAnalyzer() {
 
@@ -156,8 +149,7 @@ public class InkAnalyzer extends AbstractRemoteAnalyzer implements Analyzer {
      * @throws ParseException
      */
     private double parseValue(String value) throws ParseException {
-
-	return (Double) DECIMAL_FORMAT.parse(value.trim());
+    	return Double.parseDouble(value.trim());
     }
 
     @Override
