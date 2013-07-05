@@ -149,7 +149,7 @@ public class InkAnalyzer extends AbstractRemoteAnalyzer implements Analyzer {
      * @throws ParseException
      */
     private double parseValue(String value) throws ParseException {
-    	return Double.parseDouble(value.trim());
+    	return Double.parseDouble(value.trim().replace(",","."));
     }
 
     @Override
