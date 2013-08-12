@@ -3,7 +3,7 @@ Release notes
 
 #### Snapshot version (0.5.1-SNAPSHOT)
 
-* Nothing new yet
+* Fixed bug with antialiasing on *SimpleRenderer* (Thanks [squallssck](https://github.com/squallssck)).
 
 #### Version 0.5.0 - 25/01/2013
 
