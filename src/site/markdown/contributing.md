@@ -42,7 +42,6 @@ Methods are not tested when:
 
 * There is no logic in it (example: getters and setters).
 * The test cannot be run as a 'black box'. That is when the test cannot run without involving another - uncontrolled - software component.
-* 
 
 ### External libraries 
 
