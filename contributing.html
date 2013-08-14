@@ -221,10 +221,12 @@
         High level API samples</a>
             </li>
                   
-      <li class="active">
+      <li>
     
-            <a href="#"><i class="none"></i>Core API samples</a>
-          </li>
+                          <a href="coreapisamples.html" title="Core API samples">
+          <i class="none"></i>
+        Core API samples</a>
+            </li>
                   
       <li>
     
@@ -269,12 +271,10 @@
         Encoding</a>
             </li>
                   
-      <li>
+      <li class="active">
     
-                          <a href="contributing.html" title="Contributing">
-          <i class="none"></i>
-        Contributing</a>
-            </li>
+            <a href="#"><i class="none"></i>Contributing</a>
+          </li>
                   
       <li>
     
@@ -330,112 +330,21 @@
                 
         <div id="bodyColumn"  class="span9" >
                                   
-            <h1>Core API samples</h1><p>This section shows some code examples of the core API.</p><div class="section"><div class="section"><div class="section"><h4>Convert Postscript file to PDF<a name="Convert_Postscript_file_to_PDF"></a></h4>
-<div class="source"><pre class="prettyprint linenums">package org.ghost4j.example;
-
-import org.ghost4j.Ghostscript;
-import org.ghost4j.GhostscriptException;
-
-/**
- * Example showing how to convert a Postscript file to PDF.
- * @author Gilles Grousset (gi.grousset@gmail.com)
+            <h1>Contributing</h1><p>Anyone can contribute to the project, any new pull request is welcomed: bug fixes, new features or any other contribution of any kind.</p><p>However, if you consider contributing, try to follow the rules described below.</p><div class="section"><div class="section"><h3>Code conventions<a name="Code_conventions"></a></h3><p>As a Java project, Ghost4J must follow the <a class="externalLink" href="http://www.oracle.com/technetwork/java/javase/documentation/codeconvtoc-136057.html">standard Java code convention</a> , other rules are defined below.</p><div class="section"><h4>File headers<a name="File_headers"></a></h4><p>Every source file of the project must include the following header:</p>
+<div class="source"><pre class="prettyprint linenums">/*
+ * Ghost4J: a Java wrapper for Ghostscript API.
+ * 
+ * Distributable under LGPL license.
+ * See terms of license at http://www.gnu.org/licenses/lgpl.html. 
  */
-public class PDFConvertExample {
-
-     public static void main(String[] args) {
-
-        //get Ghostscript instance
-        Ghostscript gs = Ghostscript.getInstance();
-
-        //prepare Ghostscript interpreter parameters
-        //refer to Ghostscript documentation for parameter usage
-        String[] gsArgs = new String[10];
-        gsArgs[0] = &quot;-ps2pdf&quot;;
-        gsArgs[1] = &quot;-dNOPAUSE&quot;;
-        gsArgs[2] = &quot;-dBATCH&quot;;
-        gsArgs[3] = &quot;-dSAFER&quot;;
-        gsArgs[4] = &quot;-sDEVICE=pdfwrite&quot;;
-        gsArgs[5] = &quot;-sOutputFile=output.pdf&quot;;
-        gsArgs[6] = &quot;-c&quot;;
-        gsArgs[7] = &quot;.setpdfwrite&quot;;
-        gsArgs[8] = &quot;-f&quot;;
-        gsArgs[9] = &quot;input.ps&quot;;
-
-        //execute and exit interpreter
-        try {
-
-            gs.initialize(gsArgs);
-            gs.exit();
-
-        } catch (GhostscriptException e) {
-            System.out.println(&quot;ERROR: &quot; + e.getMessage());
-        }
-     }
-
-}
-</pre></div></div><div class="section"><h4>Display callback<a name="Display_callback"></a></h4>
-<div class="source"><pre class="prettyprint linenums">package org.ghost4j.example;
-
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
-import org.ghost4j.Ghostscript;
-import org.ghost4j.GhostscriptException;
-import org.ghost4j.display.ImageWriterDisplayCallback;
-
-/**
- * Example showing how to setup a display callback (to interract with the display) for the Ghostscript interpreter.
- * In this example, a simple ImageWriterDisplayCallback is used as callback: it converts page rasters into images and stores them.
- * @author Gilles Grousset (gi.grousset@gmail.com)
- */
-public class DisplayCallbackExample {
-
-    public static void main(String[] args) {
-
-        //get Ghostscript instance
-        Ghostscript gs = Ghostscript.getInstance();
-
-        //create display callback (capture display output pages as images)
-        ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
-
-        //set display callback
-        gs.setDisplayCallback(displayCallback);
-
-        //prepare Ghostscript interpreter parameters with display device
-        String[] gsArgs = new String[7];
-        gsArgs[0] = &quot;-dQUIET&quot;;
-        gsArgs[1] = &quot;-dNOPAUSE&quot;;
-        gsArgs[2] = &quot;-dBATCH&quot;;
-        gsArgs[3] = &quot;-dSAFER&quot;;
-        gsArgs[4] = &quot;-sDEVICE=display&quot;;
-        gsArgs[5] = &quot;-sDisplayHandle=0&quot;;
-        gsArgs[6] = &quot;-dDisplayFormat=16#804&quot;;
-
-        //run PostScript (also works with PDF) and exit interpreter
-        try {
-
-            gs.initialize(gsArgs);
-            gs.runFile(&quot;input.ps&quot;);
-            gs.exit();
-
-        } catch (GhostscriptException e) {
-            System.out.println(&quot;ERROR: &quot; + e.getMessage());
-        }
-
-        //write images captured by the display callback to the disk in PNG format
-        try {
-            for (int i = 0; i &lt; displayCallback.getImages().size(); i++) {
-                ImageIO.write((RenderedImage) displayCallback.getImages().get(i), &quot;png&quot;, new File((i + 1) + &quot;.png&quot;));
-            }
-        } catch (IOException e) {
-            System.out.println(&quot;ERROR: &quot; + e.getMessage());
-        }
-
-    }
-}
-</pre></div></div></div></div>
+</pre></div></div><div class="section"><h4>Author<a name="Author"></a></h4><p>The initial author of each source file must appear in the class documentation comment. First name, last name and e-mail address of the author must be provided with the @author tag as described below:</p>
+<div class="source"><pre class="prettyprint linenums">@author Gilles Grousset (gi.grousset@gmail.com)
+</pre></div></div><div class="section"><h4>Comments<a name="Comments"></a></h4><p>Javadoc comments must be provided for every method in every class.</p><p>Code comments should be used to detail code logic when necessary (long or complicated method).</p></div><div class="section"><h4>Unit tests<a name="Unit_tests"></a></h4><p>Every testable class added to the project must be tested by a unit test class.</p><p>What is meant by the testable class term is classes where methods logic may lead to different results. In this case, it is important to test at least that the method is working as expected under normal circumstances. Error case tests are not mandatory but are recommended. The choice of error cases to test is left to the developer.</p><p>Methods are not tested when:</p>
+<ul>
+  <li>There is no logic in it (example: getters and setters).</li>
+  <li>The test cannot be run as a black box. That is when the test cannot run without involving another - uncontrolled - software component.</li>
+  <li></li>
+</ul></div></div><div class="section"><h3>External libraries<a name="External_libraries"></a></h3><p>As a library Ghost4J must be as light as possible. To do that, dependencies to other libraries must be kept as low as possible.</p><p>Every new library addition must be discussed by developers.</p></div></div>
                   </div>
             </div>
           </div>

@@ -221,10 +221,12 @@
         High level API samples</a>
             </li>
                   
-      <li class="active">
+      <li>
     
-            <a href="#"><i class="none"></i>Core API samples</a>
-          </li>
+                          <a href="coreapisamples.html" title="Core API samples">
+          <i class="none"></i>
+        Core API samples</a>
+            </li>
                   
       <li>
     
@@ -276,12 +278,10 @@
         Contributing</a>
             </li>
                   
-      <li>
+      <li class="active">
     
-                          <a href="support.html" title="Support">
-          <i class="none"></i>
-        Support</a>
-            </li>
+            <a href="#"><i class="none"></i>Support</a>
+          </li>
                               <li class="nav-header">Project Documentation</li>
                                                                                                                                                           
       <li>
@@ -330,112 +330,12 @@
                 
         <div id="bodyColumn"  class="span9" >
                                   
-            <h1>Core API samples</h1><p>This section shows some code examples of the core API.</p><div class="section"><div class="section"><div class="section"><h4>Convert Postscript file to PDF<a name="Convert_Postscript_file_to_PDF"></a></h4>
-<div class="source"><pre class="prettyprint linenums">package org.ghost4j.example;
-
-import org.ghost4j.Ghostscript;
-import org.ghost4j.GhostscriptException;
-
-/**
- * Example showing how to convert a Postscript file to PDF.
- * @author Gilles Grousset (gi.grousset@gmail.com)
- */
-public class PDFConvertExample {
-
-     public static void main(String[] args) {
-
-        //get Ghostscript instance
-        Ghostscript gs = Ghostscript.getInstance();
-
-        //prepare Ghostscript interpreter parameters
-        //refer to Ghostscript documentation for parameter usage
-        String[] gsArgs = new String[10];
-        gsArgs[0] = &quot;-ps2pdf&quot;;
-        gsArgs[1] = &quot;-dNOPAUSE&quot;;
-        gsArgs[2] = &quot;-dBATCH&quot;;
-        gsArgs[3] = &quot;-dSAFER&quot;;
-        gsArgs[4] = &quot;-sDEVICE=pdfwrite&quot;;
-        gsArgs[5] = &quot;-sOutputFile=output.pdf&quot;;
-        gsArgs[6] = &quot;-c&quot;;
-        gsArgs[7] = &quot;.setpdfwrite&quot;;
-        gsArgs[8] = &quot;-f&quot;;
-        gsArgs[9] = &quot;input.ps&quot;;
-
-        //execute and exit interpreter
-        try {
-
-            gs.initialize(gsArgs);
-            gs.exit();
-
-        } catch (GhostscriptException e) {
-            System.out.println(&quot;ERROR: &quot; + e.getMessage());
-        }
-     }
-
-}
-</pre></div></div><div class="section"><h4>Display callback<a name="Display_callback"></a></h4>
-<div class="source"><pre class="prettyprint linenums">package org.ghost4j.example;
-
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
-import org.ghost4j.Ghostscript;
-import org.ghost4j.GhostscriptException;
-import org.ghost4j.display.ImageWriterDisplayCallback;
-
-/**
- * Example showing how to setup a display callback (to interract with the display) for the Ghostscript interpreter.
- * In this example, a simple ImageWriterDisplayCallback is used as callback: it converts page rasters into images and stores them.
- * @author Gilles Grousset (gi.grousset@gmail.com)
- */
-public class DisplayCallbackExample {
-
-    public static void main(String[] args) {
-
-        //get Ghostscript instance
-        Ghostscript gs = Ghostscript.getInstance();
-
-        //create display callback (capture display output pages as images)
-        ImageWriterDisplayCallback displayCallback = new ImageWriterDisplayCallback();
-
-        //set display callback
-        gs.setDisplayCallback(displayCallback);
-
-        //prepare Ghostscript interpreter parameters with display device
-        String[] gsArgs = new String[7];
-        gsArgs[0] = &quot;-dQUIET&quot;;
-        gsArgs[1] = &quot;-dNOPAUSE&quot;;
-        gsArgs[2] = &quot;-dBATCH&quot;;
-        gsArgs[3] = &quot;-dSAFER&quot;;
-        gsArgs[4] = &quot;-sDEVICE=display&quot;;
-        gsArgs[5] = &quot;-sDisplayHandle=0&quot;;
-        gsArgs[6] = &quot;-dDisplayFormat=16#804&quot;;
-
-        //run PostScript (also works with PDF) and exit interpreter
-        try {
-
-            gs.initialize(gsArgs);
-            gs.runFile(&quot;input.ps&quot;);
-            gs.exit();
-
-        } catch (GhostscriptException e) {
-            System.out.println(&quot;ERROR: &quot; + e.getMessage());
-        }
-
-        //write images captured by the display callback to the disk in PNG format
-        try {
-            for (int i = 0; i &lt; displayCallback.getImages().size(); i++) {
-                ImageIO.write((RenderedImage) displayCallback.getImages().get(i), &quot;png&quot;, new File((i + 1) + &quot;.png&quot;));
-            }
-        } catch (IOException e) {
-            System.out.println(&quot;ERROR: &quot; + e.getMessage());
-        }
-
-    }
-}
-</pre></div></div></div></div>
+            <h1>Support</h1><p>As an open source project, Ghost4J does not provide any official support.</p><p>You may however find answers or ask your own questions there:</p>
+<ul>
+  <li><b><a class="externalLink" href="https://github.com/zippy1978/ghost4j/issues?sort=created&amp;state=open">Github issues</a></b>: Bugs, questions and feature requests.</li>
+  <li><b><a class="externalLink" href="http://stackoverflow.com/search?q=ghost4j">Stackoverflow</a></b>: there are several Q/A about Ghost4J out there.</li>
+  <li><b><a class="externalLink" href="http://zippy1978.tumblr.com/tagged/Ghost4J">The authors blog</a></b>: anouncements and technical articles about Ghost4J.</li>
+</ul>
                   </div>
             </div>
           </div>
