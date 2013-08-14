@@ -72,6 +72,8 @@
 			<item name="Core API" href="coreapi.html" />
 			<item name="Thread safety and multi-threading" href="threadsafetyandmultithreading.html" />
 			<item name="Encoding" href="encoding.html" />
+			<item name="Contributing" href="contributing.html" />
+			<item name="Support" href="support.html" />
 		</menu>
 
 		<menu ref="reports" />
