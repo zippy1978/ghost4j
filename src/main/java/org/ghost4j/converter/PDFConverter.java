@@ -33,6 +33,7 @@ public class PDFConverter extends AbstractRemoteConverter {
     public static final int OPTION_AUTOROTATEPAGES_NONE = 0;
     public static final int OPTION_AUTOROTATEPAGES_ALL = 1;
     public static final int OPTION_AUTOROTATEPAGES_PAGEBYPAGE = 2;
+    public static final int OPTION_AUTOROTATEPAGES_OFF = 3;
 
     public static final int OPTION_PROCESSCOLORMODEL_RGB = 0;
     public static final int OPTION_PROCESSCOLORMODEL_GRAY = 1;
@@ -46,9 +47,10 @@ public class PDFConverter extends AbstractRemoteConverter {
 
     /**
      * Define auto rotate pages behaviour. Can be OPTION_AUTOROTATEPAGES_NONE,
-     * OPTION_AUTOROTATEPAGES_ALL or OPTION_AUTOROTATEPAGES_PAGEBYPAGE.
+     * OPTION_AUTOROTATEPAGES_ALL, OPTION_AUTOROTATEPAGES_PAGEBYPAGE or
+     * OPTION_AUTOROTATEPAGES_OFF (default).
      */
-    private int autoRotatePages;
+    private int autoRotatePages = OPTION_AUTOROTATEPAGES_OFF;
 
     /**
      * Define process color model. Can be OPTION_PROCESSCOLORMODEL_RGB,
@@ -127,73 +129,97 @@ public class PDFConverter extends AbstractRemoteConverter {
 	String diskStoreKey = diskStore.generateUniqueKey();
 
 	// prepare Ghostscript interpreter parameters
-	String[] gsArgs = new String[16];
+	int argCount = 15;
+	if (autoRotatePages != OPTION_AUTOROTATEPAGES_OFF) {
+	    argCount++;
+	}
+	String[] gsArgs = new String[argCount];
 
 	gsArgs[0] = "-ps2pdf";
 	gsArgs[1] = "-dNOPAUSE";
 	gsArgs[2] = "-dBATCH";
 	gsArgs[3] = "-dSAFER";
 
+	int paramPosition = 3;
+
 	// autorotatepages
 	switch (autoRotatePages) {
 	case OPTION_AUTOROTATEPAGES_NONE:
-	    gsArgs[4] = "-dAutoRotatePages=/None";
+	    paramPosition++;
+	    gsArgs[paramPosition] = "-dAutoRotatePages=/None";
 	    break;
 	case OPTION_AUTOROTATEPAGES_ALL:
-	    gsArgs[4] = "-dAutoRotatePages=/All";
+	    paramPosition++;
+	    gsArgs[paramPosition] = "-dAutoRotatePages=/All";
+	    break;
+	case OPTION_AUTOROTATEPAGES_PAGEBYPAGE:
+	    paramPosition++;
+	    gsArgs[paramPosition] = "-dAutoRotatePages=/PageByPage";
 	    break;
 	default:
-	    gsArgs[4] = "-dAutoRotatePages=/PageByPage";
+	    // nothing
 	    break;
+
 	}
 
 	// processcolormodel
+	paramPosition++;
 	switch (processColorModel) {
 	case OPTION_PROCESSCOLORMODEL_CMYK:
-	    gsArgs[5] = "-dProcessColorModel=/DeviceCMYK";
+	    gsArgs[paramPosition] = "-dProcessColorModel=/DeviceCMYK";
 	    break;
 	case OPTION_PROCESSCOLORMODEL_GRAY:
-	    gsArgs[5] = "-dProcessColorModel=/DeviceGray";
+	    gsArgs[paramPosition] = "-dProcessColorModel=/DeviceGray";
 	    break;
 	default:
-	    gsArgs[5] = "-dProcessColorModel=/DeviceRGB";
+	    gsArgs[paramPosition] = "-dProcessColorModel=/DeviceRGB";
 	}
 
 	// pdf settings
+	paramPosition++;
 	switch (PDFSettings) {
 	case OPTION_PDFSETTINGS_EBOOK:
-	    gsArgs[6] = "-dPDFSETTINGS=/ebook";
+	    gsArgs[paramPosition] = "-dPDFSETTINGS=/ebook";
 	    break;
 	case OPTION_PDFSETTINGS_SCREEN:
-	    gsArgs[6] = "-dPDFSETTINGS=/screen";
+	    gsArgs[paramPosition] = "-dPDFSETTINGS=/screen";
 	    break;
 	case OPTION_PDFSETTINGS_PRINTER:
-	    gsArgs[6] = "-dPDFSETTINGS=/printer";
+	    gsArgs[paramPosition] = "-dPDFSETTINGS=/printer";
 	    break;
 	case OPTION_PDFSETTINGS_PREPRESS:
-	    gsArgs[6] = "-dPDFSETTINGS=/prepress";
+	    gsArgs[paramPosition] = "-dPDFSETTINGS=/prepress";
 	    break;
 	default:
-	    gsArgs[6] = "-dPDFSETTINGS=/default";
+	    gsArgs[paramPosition] = "-dPDFSETTINGS=/default";
 	}
 
 	// compatibilitylevel
-	gsArgs[7] = "-dCompatibilityLevel=" + compatibilityLevel;
+	paramPosition++;
+	gsArgs[paramPosition] = "-dCompatibilityLevel=" + compatibilityLevel;
 
 	// PDFX
-	gsArgs[8] = "-dPDFX=" + PDFX;
+	paramPosition++;
+	gsArgs[paramPosition] = "-dPDFX=" + PDFX;
 
 	// papersize
-	gsArgs[9] = "-dDEVICEWIDTHPOINTS=" + paperSize.getWidth();
-	gsArgs[10] = "-dDEVICEHEIGHTPOINTS=" + paperSize.getHeight();
+	paramPosition++;
+	gsArgs[paramPosition] = "-dDEVICEWIDTHPOINTS=" + paperSize.getWidth();
+	paramPosition++;
+	gsArgs[paramPosition] = "-dDEVICEHEIGHTPOINTS=" + paperSize.getHeight();
 
-	gsArgs[11] = "-sDEVICE=pdfwrite";
+	paramPosition++;
+	gsArgs[paramPosition] = "-sDEVICE=pdfwrite";
 	// output to file, as stdout redirect does not work properly
-	gsArgs[12] = "-sOutputFile="
+	paramPosition++;
+	gsArgs[paramPosition] = "-sOutputFile="
 		+ diskStore.addFile(diskStoreKey).getAbsolutePath();
-	gsArgs[13] = "-q";
-	gsArgs[14] = "-f";
-	gsArgs[15] = "-";
+	paramPosition++;
+	gsArgs[paramPosition] = "-q";
+	paramPosition++;
+	gsArgs[paramPosition] = "-f";
+	paramPosition++;
+	gsArgs[paramPosition] = "-";
 
 	InputStream is = new ByteArrayInputStream(document.getContent());
 
