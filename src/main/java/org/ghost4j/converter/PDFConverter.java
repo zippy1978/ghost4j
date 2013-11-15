@@ -25,7 +25,7 @@ import org.ghost4j.util.DiskStore;
 
 /**
  * PDF converter.
- * 
+ *
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class PDFConverter extends AbstractRemoteConverter {
@@ -82,6 +82,11 @@ public class PDFConverter extends AbstractRemoteConverter {
      */
     private PaperSize paperSize = PaperSize.LETTER;
 
+    /**
+     * The arguments sent to Ghostscript.
+     */
+    private String[] gsArgs;
+
     public PDFConverter() {
 
 	// set supported classes
@@ -91,7 +96,7 @@ public class PDFConverter extends AbstractRemoteConverter {
 
     /**
      * Main method used to start the converter in standalone 'slave mode'.
-     * 
+     *
      * @param args
      * @throws ConverterException
      */
@@ -102,7 +107,7 @@ public class PDFConverter extends AbstractRemoteConverter {
 
     /**
      * Run method called to perform the actual process of the converter.
-     * 
+     *
      * @param document
      * @param outputStream
      * @throws IOException
@@ -133,7 +138,7 @@ public class PDFConverter extends AbstractRemoteConverter {
 	if (autoRotatePages != OPTION_AUTOROTATEPAGES_OFF) {
 	    argCount++;
 	}
-	String[] gsArgs = new String[argCount];
+	gsArgs = new String[argCount];
 
 	gsArgs[0] = "-ps2pdf";
 	gsArgs[1] = "-dNOPAUSE";
@@ -321,6 +326,10 @@ public class PDFConverter extends AbstractRemoteConverter {
 	if (found != null) {
 	    this.setPaperSize(found);
 	}
+    }
+
+    public String[] getGsArgs() {
+        return gsArgs;
     }
 
 }
