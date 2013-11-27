@@ -35,7 +35,7 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 	<dependency>
 		<groupId>org.ghost4j</groupId>
 		<artifactId>ghost4j</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.1</version>
 	</dependency>
 	
 	or ...
@@ -43,7 +43,7 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 	<dependency>
 		<groupId>org.ghost4j</groupId>
 		<artifactId>ghost4j</artifactId>
-		<version>0.5.1-SNAPSHOT</version>
+		<version>0.5.2-SNAPSHOT</version>
 	</dependency>
 	...
 	
