@@ -1,7 +1,11 @@
 Release notes
 =============
 
-#### Snapshot version (0.5.1-SNAPSHOT)
+#### Snapshot version (0.5.2-SNAPSHOT)
+
+* Nothing yet !
+
+#### Version 0.5.1 - 27/11/2013
 
 * Fixed bug with antialiasing on *SimpleRenderer* (Thanks [squallssck](https://github.com/squallssck)).
 * Fixed default autorotation of pages behavior in PDFConverter: by default no autorotage parameter is set anymore (Thanks [jmkgreen](https://github.com/jmkgreen)).

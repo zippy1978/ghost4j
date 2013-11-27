@@ -9,6 +9,7 @@ The following packages contain the library jar file and dependencies.
 
 <table>
 <tr><th>Version</th><th>Release date</th><th>Link</th></tr>
+<tr><td>0.5.1</td><td>27/11/2013</td><td><a class="externalLink dlLink" target="_blank" href="http://dl.ghost4j.org/ghost4j-0.5.1.zip">ghost4j-0.5.1.zip</a></td></tr>
 <tr><td>0.5.0</td><td>25/01/2013</td><td><a class="externalLink dlLink" target="_blank" href="http://dl.ghost4j.org/ghost4j-0.5.0.zip">ghost4j-0.5.0.zip</a></td></tr>
 <tr><td>0.4.6</td><td>30/12/2012</td><td><a class="externalLink dlLink" target="_blank" href="http://dl.ghost4j.org/ghost4j-0.4.6.zip">ghost4j-0.4.6.zip</a></td></tr>
 <tr><td>0.4.5</td><td>15/02/2012</td><td><a class="externalLink dlLink" target="_blank" href="http://dl.ghost4j.org/ghost4j-0.4.5.zip">ghost4j-0.4.5.zip</a></td></tr>
