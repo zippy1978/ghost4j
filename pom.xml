@@ -6,7 +6,7 @@
 	<groupId>org.ghost4j</groupId>
 	<artifactId>ghost4j</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5.2-SNAPSHOT</version>
+	<version>0.6.0-SNAPSHOT</version>
 	
 	<name>Ghost4J</name>
 	<description>Java wrapper for Ghostscript API</description>
@@ -23,6 +23,7 @@
 		<connection>scm:git:https://github.com/zippy1978/ghost4j.git</connection>
 		<developerConnection>scm:git:https://github.com/zippy1978/ghost4j.git</developerConnection>
 		<url>http://www.github.com/zippy1978/ghost4j</url>
+		<tag>HEAD</tag>
 	</scm>
 
         <issueManagement>
