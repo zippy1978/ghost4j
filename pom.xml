@@ -73,38 +73,6 @@
         	</contributor>
 	</contributors>
 
-
-	<repositories>
-		<repository>
-			<releases />
-			<snapshots />
-			<id>jboss</id>
-			<url>http://repository.jboss.com/maven2</url>
-		</repository>
-		<repository>
-			<releases />
-			<snapshots />
-			<id>central</id>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<releases />
-			<snapshots />
-			<id>java</id>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>com.anasoft.os.repository.releases</id>
-			<name>ANASOFT OpenSource releases</name>
-			<url>http://anasoft-os-repo.googlecode.com/svn/repository/releases</url>
-		</repository>
-		<repository>
-			<id>com.anasoft.os.repository.snapshots</id>
-			<name>ANASOFT OpenSource snapshots</name>
-			<url>http://anasoft-os-repo.googlecode.com/svn/repository/snapshots</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
