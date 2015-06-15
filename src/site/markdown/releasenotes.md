@@ -1,9 +1,9 @@
 Release notes
 =============
 
-#### Snapshot version (0.5.2-SNAPSHOT)
+#### Version 1.0.0 - 16/06/2015
 
-* Nothing yet !
+ * Artifact is now available from the Central Maven Repository.
 
 #### Version 0.5.1 - 27/11/2013
 

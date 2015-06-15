@@ -52,19 +52,13 @@ If you do not wish to use Maven, binary distributions are available in the [Down
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.ghost4j&lt;/groupId&gt;
 		&lt;artifactId&gt;ghost4j&lt;/artifactId&gt;
-		&lt;version&gt;0.5.1&lt;/version&gt;
-	&lt;/dependency&gt;
-	
-	... or
-	
-	&lt;dependency&gt;
-		&lt;groupId&gt;org.ghost4j&lt;/groupId&gt;
-		&lt;artifactId&gt;ghost4j&lt;/artifactId&gt;
-		&lt;version&gt;0.5.2-SNAPSHOT&lt;/version&gt;
+		&lt;version&gt;1.0.0&lt;/version&gt;
 	&lt;/dependency&gt;
 	...
 &lt;/dependencies&gt;
 </code></pre>
+
+Note: since version 1.0.0, artifacts are available from the Maven Central Repository. Private repositories are not needed anymore.
 
 ### Where to go next ?
 
