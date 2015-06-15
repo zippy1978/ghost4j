@@ -9,6 +9,24 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 ### Maven configuration
 
 ```xml
+<dependencies>
+
+	...
+
+	<dependency>
+		<groupId>org.ghost4j</groupId>
+		<artifactId>ghost4j</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+	
+	...
+	
+</dependencies>
+```
+
+If you want to use an older release (before 1.0.0), add the following repositories as well:
+
+```xml
 <repositories>
 
 	...
@@ -25,29 +43,8 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 	</repository>
 	
 	...
-	
+
 </repositories>
-
-<dependencies>
-
-	...
-	
-	<dependency>
-		<groupId>org.ghost4j</groupId>
-		<artifactId>ghost4j</artifactId>
-		<version>0.5.1</version>
-	</dependency>
-	
-	or ...
-	
-	<dependency>
-		<groupId>org.ghost4j</groupId>
-		<artifactId>ghost4j</artifactId>
-		<version>0.5.2-SNAPSHOT</version>
-	</dependency>
-	...
-	
-</dependencies>
 ```
 
 ### A simple example (PS to PDF conversion)
