@@ -11,7 +11,18 @@
     <name>Ghost4J</name>
     <description>Java wrapper for Ghostscript API</description>
     <url>http://www.ghost4j.org</url>
-
+    
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+  
     <licenses>
         <license>
             <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
@@ -171,6 +182,7 @@
                 <version>2.8</version>
                 <configuration>
                     <stylesheet>maven</stylesheet>
+                    <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
             </plugin>
         </plugins>
