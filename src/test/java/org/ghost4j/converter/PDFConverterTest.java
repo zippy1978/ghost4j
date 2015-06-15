@@ -40,7 +40,7 @@ public class PDFConverterTest extends TestCase {
     public void testConvertWithPS() throws Exception {
 
 	PSDocument document = new PSDocument();
-	document.load(new File("input.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -55,7 +55,7 @@ public class PDFConverterTest extends TestCase {
     public void testConvertWithPSMultiProcess() throws Exception {
 
 	final PSDocument document = new PSDocument();
-	document.load(new File("input.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	final ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
 	final ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
@@ -121,7 +121,7 @@ public class PDFConverterTest extends TestCase {
     public void testConvertWithUnsupportedDocument() throws Exception {
 
 	PDFDocument document = new PDFDocument();
-	document.load(new File("input.pdf"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 
 	ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

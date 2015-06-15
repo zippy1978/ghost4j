@@ -41,7 +41,7 @@ public class SimpleRendererTest extends TestCase {
     public void testRenderWithPDF() throws Exception {
 
 	PDFDocument document = new PDFDocument();
-	document.load(new File("input.pdf"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 
 	SimpleRenderer simpleRenderer = new SimpleRenderer();
 	List<Image> result = simpleRenderer.render(document);
@@ -52,7 +52,7 @@ public class SimpleRendererTest extends TestCase {
     public void testRenderWithPS() throws Exception {
 
 	PSDocument document = new PSDocument();
-	document.load(new File("input.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	SimpleRenderer simpleRenderer = new SimpleRenderer();
 	List<Image> result = simpleRenderer.render(document);
@@ -63,7 +63,7 @@ public class SimpleRendererTest extends TestCase {
     public void testRenderWithPSMultiProcess() throws Exception {
 
 	final PSDocument document = new PSDocument();
-	document.load(new File("input.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	final SimpleRenderer simpleRenderer = new SimpleRenderer();
 	simpleRenderer.setMaxProcessCount(2);

@@ -41,10 +41,10 @@ public class SafeAppenderModifierTest extends TestCase {
     public void testModifyWithPSAppendToPS() throws Exception {
 
 	PSDocument source = new PSDocument();
-	source.load(new File("input.ps"));
+	source.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	PSDocument append = new PSDocument();
-	append.load(new File("input.ps"));
+	append.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	Map<String, Serializable> parameters = new HashMap<String, Serializable>();
 	parameters.put(SafeAppenderModifier.PARAMETER_APPEND_DOCUMENT, append);
@@ -59,10 +59,10 @@ public class SafeAppenderModifierTest extends TestCase {
     public void testModifyWithPSAppendToMultiProcess() throws Exception {
 
 	final PSDocument source = new PSDocument();
-	source.load(new File("input.ps"));
+	source.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	final PSDocument append = new PSDocument();
-	append.load(new File("input.ps"));
+	append.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
 	parameters.put(SafeAppenderModifier.PARAMETER_APPEND_DOCUMENT, append);

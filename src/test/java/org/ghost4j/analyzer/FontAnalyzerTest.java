@@ -40,7 +40,7 @@ public class FontAnalyzerTest extends TestCase {
     public void testAnalyzeWithPDF() throws Exception {
 
 	PDFDocument document = new PDFDocument();
-	document.load(new File("input.pdf"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 
 	FontAnalyzer fontAnalyzer = new FontAnalyzer();
 	List<AnalysisItem> result = fontAnalyzer.analyze(document);
@@ -51,7 +51,7 @@ public class FontAnalyzerTest extends TestCase {
     public void testAnalyzeWithPDFMultiProcess() throws Exception {
 
 	final PDFDocument document = new PDFDocument();
-	document.load(new File("input.pdf"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 
 	final FontAnalyzer fontAnalyzer = new FontAnalyzer();
 	fontAnalyzer.setMaxProcessCount(2);

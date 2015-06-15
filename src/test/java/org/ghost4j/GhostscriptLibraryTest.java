@@ -13,6 +13,9 @@ import junit.framework.TestCase;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import org.apache.commons.io.IOUtils;
 
 /**
  * GhostscriptLibrary tests.
@@ -32,11 +35,16 @@ public class GhostscriptLibraryTest extends TestCase {
 
     protected void setUp() throws Exception {
 	super.setUp();
+        
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("input.ps");
+        IOUtils.copy(in, new FileOutputStream("input.ps"));
 
     }
 
     protected void tearDown() throws Exception {
 	super.tearDown();
+        
+        new File("input.ps").delete();
     }
 
     /**

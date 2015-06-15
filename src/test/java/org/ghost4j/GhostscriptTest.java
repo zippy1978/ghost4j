@@ -8,11 +8,14 @@ package org.ghost4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import junit.framework.TestCase;
+import org.apache.commons.io.IOUtils;
 
 import org.ghost4j.display.ImageWriterDisplayCallback;
 
@@ -30,6 +33,9 @@ public class GhostscriptTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
 	super.setUp();
+        
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("input.ps");
+        IOUtils.copy(in, new FileOutputStream("input.ps"));
 
     }
 
@@ -39,6 +45,8 @@ public class GhostscriptTest extends TestCase {
 
 	// delete loaded Ghostscript instance after each test
 	Ghostscript.deleteInstance();
+        
+        new File("input.ps").delete();
     }
 
     /**

@@ -87,7 +87,7 @@ public class InkAnalyzerTest extends TestCase {
 	if (this.testInkCovDeviceSupport()) {
 
 	    PDFDocument document = new PDFDocument();
-	    document.load(new File("input-2pages.pdf"));
+	    document.load(this.getClass().getClassLoader().getResourceAsStream("input-2pages.pdf"));
 
 	    InkAnalyzer inkAnalyzer = new InkAnalyzer();
 	    List<AnalysisItem> result = inkAnalyzer.analyze(document);
@@ -106,7 +106,7 @@ public class InkAnalyzerTest extends TestCase {
 	if (this.testInkCovDeviceSupport()) {
 
 	    PSDocument document = new PSDocument();
-	    document.load(new File("input-2pages.ps"));
+	    document.load(this.getClass().getClassLoader().getResourceAsStream("input-2pages.ps"));
 
 	    InkAnalyzer inkAnalyzer = new InkAnalyzer();
 	    List<AnalysisItem> result = inkAnalyzer.analyze(document);
@@ -125,7 +125,7 @@ public class InkAnalyzerTest extends TestCase {
 	if (this.testInkCovDeviceSupport()) {
 
 	    final PDFDocument document = new PDFDocument();
-	    document.load(new File("input.pdf"));
+	    document.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 
 	    final InkAnalyzer inkAnalyzer = new InkAnalyzer();
 	    inkAnalyzer.setMaxProcessCount(2);

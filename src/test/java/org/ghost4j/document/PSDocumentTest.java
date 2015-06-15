@@ -38,7 +38,7 @@ public class PSDocumentTest extends TestCase {
 
 	// load document
 	PSDocument document = new PSDocument();
-	document.load(new File("input.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	// test
 	assertEquals(1, document.getPageCount());
@@ -49,7 +49,7 @@ public class PSDocumentTest extends TestCase {
 	// load document (PDF when PS expected)
 	try {
 	    PSDocument document = new PSDocument();
-	    document.load(new File("input.pdf"));
+	    document.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 	    fail("Test failed");
 	} catch (IOException e) {
 	    assertEquals("PostScript document is not valid", e.getMessage());
@@ -60,7 +60,7 @@ public class PSDocumentTest extends TestCase {
 
 	// load document (2 pages)
 	PSDocument document = new PSDocument();
-	document.load(new File("input-2pages.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input-2pages.ps"));
 
 	// extract first page
 	Document extracted = document.extract(1, 1);
@@ -73,11 +73,11 @@ public class PSDocumentTest extends TestCase {
 
 	// load document (1 page)
 	PSDocument document = new PSDocument();
-	document.load(new File("input.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input.ps"));
 
 	// load second document (2 pages)
 	PSDocument document2 = new PSDocument();
-	document2.load(new File("input-2pages.ps"));
+	document2.load(this.getClass().getClassLoader().getResourceAsStream("input-2pages.ps"));
 
 	// append
 	document.append(document2);
@@ -91,11 +91,11 @@ public class PSDocumentTest extends TestCase {
 
 	// load document (2 pages)
 	PSDocument document = new PSDocument();
-	document.load(new File("input-2pages.ps"));
+	document.load(this.getClass().getClassLoader().getResourceAsStream("input-2pages.ps"));
 
 	// load second document but of different type (1 page)
 	PDFDocument document2 = new PDFDocument();
-	document2.load(new File("input.pdf"));
+	document2.load(this.getClass().getClassLoader().getResourceAsStream("input.pdf"));
 
 	// append
 	try {
