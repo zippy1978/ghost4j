@@ -37,8 +37,8 @@ public class AbstractComponentTest extends TestCase {
 	AbstractComponent component = new AbstractComponent() {
 	};
 
-	// pswrite should be available in every Ghostscript version
-	assertTrue(component.isDeviceSupported("pswrite"));
+	// pdfwrite should be available in every Ghostscript version
+	assertTrue(component.isDeviceSupported("pdfwrite"));
     }
 
     public void testIsDeviceSupportedWithNonExistingDevice() throws Exception {
