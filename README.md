@@ -16,7 +16,7 @@ It also provides a high-level API to handle PDF and Postscript documents with ob
 	<dependency>
 		<groupId>org.ghost4j</groupId>
 		<artifactId>ghost4j</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</dependency>
 	
 	...

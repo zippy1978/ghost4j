@@ -1,6 +1,10 @@
 Release notes
 =============
 
+#### Version 1.0.1 - 14/03/2016
+
+ * Upgraded JNA to 4.1.0.
+
 #### Version 1.0.0 - 16/06/2015
 
  * Artifact is now available from the Central Maven Repository.
