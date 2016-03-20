@@ -2,16 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-	
+
     <groupId>org.ghost4j</groupId>
     <artifactId>ghost4j</artifactId>
     <packaging>jar</packaging>
     <version>1.0.1</version>
-	
+
     <name>Ghost4J</name>
     <description>Java wrapper for Ghostscript API</description>
     <url>http://www.ghost4j.org</url>
-    
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -22,7 +22,7 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-  
+
     <licenses>
         <license>
             <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
@@ -253,7 +253,8 @@
                 <version>0.8</version>
                 <configuration>
                     <description>Official ${project.name} build of the
-                        ${project.version} release</description>
+                        ${project.version} release
+                    </description>
                     <message>Official ${project.name} build</message>
                     <server>github.com</server>
                     <repositoryName>${git.name}</repositoryName>
@@ -318,7 +319,7 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
-                        
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
