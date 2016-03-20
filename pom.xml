@@ -257,7 +257,7 @@
                     </description>
                     <message>Official ${project.name} build</message>
                     <server>github.com</server>
-                    <repositoryName>${git.name}</repositoryName>
+                    <repositoryName>${project.artifactId}</repositoryName>
                     <repositoryOwner>zippy1978</repositoryOwner>
                 </configuration>
                 <executions>
