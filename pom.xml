@@ -9,7 +9,9 @@
     <version>1.0.1</version>
 
     <name>Ghost4J</name>
-    <description>Java wrapper for Ghostscript API</description>
+    <description>Java wrapper for Ghostscript API. Official ${project.name} build of the
+        ${project.version} release
+    </description>
     <url>http://www.ghost4j.org</url>
 
     <distributionManagement>
@@ -252,9 +254,6 @@
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.8</version>
                 <configuration>
-                    <description>Official ${project.name} build of the
-                        ${project.version} release
-                    </description>
                     <message>Official ${project.name} build</message>
                     <server>github.com</server>
                     <repositoryName>${project.artifactId}</repositoryName>
