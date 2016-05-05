@@ -8,10 +8,13 @@ package org.ghost4j.util;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.util.Enumeration;
 import java.util.Map;
 
 /**
@@ -25,6 +28,7 @@ public class JavaFork implements Runnable {
     private static final String JAVA_COMMAND;
     private static final String PATH_SEPARATOR = System
 	    .getProperty("path.separator");
+	private static final String FILE_SEPARATOR = File.separator;
 
     static {
 	if (System.getProperty("os.name").toLowerCase().contains("windows")) {
@@ -169,27 +173,82 @@ public class JavaFork implements Runnable {
 
     private String getCurrentClasspath() {
 	StringBuilder cpBuilder = new StringBuilder();
-	URL[] urls = ((URLClassLoader) Thread.currentThread()
-		.getContextClassLoader()).getURLs();
+	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+	
+	if(classLoader instanceof URLClassLoader) {
+		URL[] urls = ((URLClassLoader) classLoader).getURLs();
+	
+		for (int i = 0; i < urls.length; i++) {
+			// need to do some conversion to get the paths right
+			// otherwise paths get broken on windows
+			String s = urls[i].toExternalForm();
 
-	for (int i = 0; i < urls.length; i++) {
-	    // need to do some conversion to get the paths right
-	    // otherwise paths get broken on windows
-	    String s = urls[i].toExternalForm();
+			try {
+			s = URLDecoder.decode(s, "UTF-8");
+			urls[i] = new URL(s);
+			s = new File(urls[i].getFile()).getAbsolutePath();
+			cpBuilder.append(s);
+			if (i < urls.length - 1)
+				cpBuilder.append(PATH_SEPARATOR);
+			} catch (UnsupportedEncodingException e) {
+			// should never happen as we pass supported encoding UTF-8
+			} catch (MalformedURLException e) {
+			// should also never happen at this point, but who knows ;-)
+			}
+		}
+	} else if (classLoader.getClass().getName().equals("org.jboss.modules.ModuleClassLoader")) {
+		// This branch is for JBoss 7 & JBoss EAP 6 support.  Not sure about Wildfly
+		try {
+			Enumeration<URL> urls2 =  classLoader.getResources("/");	 
+			
+			while (urls2.hasMoreElements()) {
+				URL path = urls2.nextElement();
+				String s = path.toExternalForm();
+				if(s.startsWith("vfs:")) {
+                    if(s.contains(".jar")) {
+						URLConnection conn = new URL(URLDecoder.decode(s, "UTF-8")).openConnection();
+						Object vf = conn.getContent();
+						// Use reflection to call getPhysicalFile() method org.jboss.vfs.VirtualFile
+						// This eliminates the dependency on JBoss specific jar files 
+						Method getPhysicalFile = vf.getClass().getDeclaredMethod("getPhysicalFile");
+						getPhysicalFile.setAccessible(true);
+						File physicalFile = (File)getPhysicalFile.invoke(vf);
+						String jarVFSPath = physicalFile.getAbsolutePath();
 
-	    try {
-		s = URLDecoder.decode(s, "UTF-8");
-		urls[i] = new URL(s);
-		s = new File(urls[i].getFile()).getAbsolutePath();
-		cpBuilder.append(s);
-		if (i < urls.length - 1)
-		    cpBuilder.append(PATH_SEPARATOR);
-	    } catch (UnsupportedEncodingException e) {
-		// should never happen as we pass supported encoding UTF-8
-	    } catch (MalformedURLException e) {
-		// should also never happen at this point, but who knows ;-)
-	    }
-	}
+                        int idxJarExt = jarVFSPath.lastIndexOf(".jar");
+                        int idxSlashAfterJar = jarVFSPath.indexOf(FILE_SEPARATOR, idxJarExt);
+                        int idxSlashBeforeJar = jarVFSPath.substring(0,idxJarExt).lastIndexOf(FILE_SEPARATOR);
+
+                        String jarFileName2 = jarVFSPath.substring(idxSlashBeforeJar + 1, idxJarExt + 4);
+                        String jarFolder = jarVFSPath.substring(0, idxSlashAfterJar);
+                        String jarFullPath = jarFolder + FILE_SEPARATOR + jarFileName2;
+						
+                        cpBuilder.append(jarFullPath);
+						if (urls2.hasMoreElements()) {
+							cpBuilder.append(PATH_SEPARATOR);
+						}
+                    } else if(s.contains("classes")) {
+						URLConnection conn = new URL(URLDecoder.decode(s, "UTF-8")).openConnection();
+						Object vf = conn.getContent();
+						// Use reflection to call getPhysicalFile() method org.jboss.vfs.VirtualFile
+						// This eliminates the dependency on JBoss specific jar files 
+						Method getPhysicalFile = vf.getClass().getDeclaredMethod("getPhysicalFile");
+						getPhysicalFile.setAccessible(true);
+						File physicalFile = (File)getPhysicalFile.invoke(vf);
+						String jarVFSPath = physicalFile.getAbsolutePath();
+						cpBuilder.append(jarVFSPath);
+						if (urls2.hasMoreElements()) {
+							cpBuilder.append(PATH_SEPARATOR);
+						}
+                    }
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+    } else {
+    	throw new RuntimeException("Found unknown ClassLoader type, cannot scan classes: " + classLoader.getClass().getName());
+    }
 
 	String cp = cpBuilder.toString();
 
