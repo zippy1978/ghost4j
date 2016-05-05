@@ -1,6 +1,10 @@
 Release notes
 =============
 
+#### Version 1.0.2 - ??/??/????
+
+ * Multi-threading support for JBoos EAP 6.X and JBoss 7.x (Thanks [HighTechBull](https://github.com/HighTechBull)).
+
 #### Version 1.0.1 - 14/03/2016
 
  * Upgraded JNA to 4.1.0.
