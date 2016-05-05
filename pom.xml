@@ -2,16 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-	
+
     <groupId>org.ghost4j</groupId>
     <artifactId>ghost4j</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1</version>
-	
+    <version>1.0.1-SNAPSHOT</version>
+
     <name>Ghost4J</name>
-    <description>Java wrapper for Ghostscript API</description>
+    <description>Java wrapper for Ghostscript API. Official ${project.name} build of the
+        ${project.version} release
+    </description>
     <url>http://www.ghost4j.org</url>
-    
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -22,7 +24,7 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-  
+
     <licenses>
         <license>
             <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
@@ -164,7 +166,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.0.1</version>
+                <version>2.4</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -179,7 +181,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8</version>
+                <version>2.10.3</version>
                 <configuration>
                     <stylesheet>maven</stylesheet>
                     <additionalparam>-Xdoclint:none</additionalparam>
@@ -205,8 +207,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -252,11 +254,9 @@
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.12</version>
                 <configuration>
-                    <description>Official ${project.name} build of the
-                        ${project.version} release</description>
                     <message>Official ${project.name} build</message>
                     <server>github.com</server>
-                    <repositoryName>${git.name}</repositoryName>
+                    <repositoryName>${project.artifactId}</repositoryName>
                     <repositoryOwner>zippy1978</repositoryOwner>
                 </configuration>
                 <executions>
@@ -282,7 +282,7 @@
                     <dependency>
                         <groupId>org.apache.maven.doxia</groupId>
                         <artifactId>doxia-module-markdown</artifactId>
-                        <version>1.3</version>
+                        <version>1.7</version>
                     </dependency>
                 </dependencies>
                 <configuration>
@@ -318,7 +318,7 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
-                        
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
