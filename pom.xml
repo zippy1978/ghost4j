@@ -6,7 +6,7 @@
     <groupId>org.ghost4j</groupId>
     <artifactId>ghost4j</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <name>Ghost4J</name>
     <description>Java wrapper for Ghostscript API. Official ${project.name} build of the
@@ -125,12 +125,12 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.2</version>
+            <version>1.9.3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>xmlgraphics-commons</artifactId>
-            <version>1.4</version>
+            <version>2.3</version>
         </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>

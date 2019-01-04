@@ -29,6 +29,8 @@ import java.util.List;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public interface GhostscriptLibrary extends Library {
+    
+    final int GS_ARG_ENCODING_UTF8 = 1;
 
     /**
      * Static instance of the library itself.
@@ -327,6 +329,23 @@ public interface GhostscriptLibrary extends Library {
      * @return 0 if everything is OK, < 0 otherwise
      */
     public int gsapi_exit(Pointer instance);
+    
+    /**
+     * Set the encoding used for the interpretation of all subsequent args
+     * supplied via the gsapi interface on this instance. By default we expect
+     * args to be in encoding 0 (the 'local' encoding for this OS). On Windows
+     * this means "the currently selected codepage". On Linux this typically
+     * means utf8. This means that omitting to call this function will leave
+     * Ghostscript running exactly as it always has. Please note that use of the
+     * 'local' encoding is now deprecated and should be avoided in new code.
+     * This must be called after gsapi_new_instance() and before
+     * gsapi_init_with_args().
+     *
+     * @param instance
+     * @param encoding
+     * @return
+     */
+    public int gsapi_set_arg_encoding(Pointer instance, int encoding);
 
     /**
      * Initialise the interpreter. This calls gs_main_init_with_args() in

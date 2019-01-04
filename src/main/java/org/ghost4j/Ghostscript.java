@@ -346,6 +346,7 @@ public class Ghostscript {
 	}
 
 	// init
+        result = GhostscriptLibrary.instance.gsapi_set_arg_encoding(getNativeInstanceByRef().getValue(), GhostscriptLibrary.GS_ARG_ENCODING_UTF8);
 	if (args != null) {
 	    result = GhostscriptLibrary.instance.gsapi_init_with_args(
 		    getNativeInstanceByRef().getValue(), args.length, args);
