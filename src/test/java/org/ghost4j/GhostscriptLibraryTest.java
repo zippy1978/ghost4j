@@ -13,9 +13,6 @@ import junit.framework.TestCase;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import org.apache.commons.io.IOUtils;
 
 /**
  * GhostscriptLibrary tests.
@@ -23,6 +20,8 @@ import org.apache.commons.io.IOUtils;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class GhostscriptLibraryTest extends TestCase {
+    
+    private final String testResourcesPath = "target/test-classes";
 
     private GhostscriptLibrary ghostscriptLibrary;
 
@@ -35,16 +34,10 @@ public class GhostscriptLibraryTest extends TestCase {
 
     protected void setUp() throws Exception {
 	super.setUp();
-        
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("input.ps");
-        IOUtils.copy(in, new FileOutputStream("input.ps"));
-
     }
 
     protected void tearDown() throws Exception {
 	super.tearDown();
-        
-        new File("input.ps").delete();
     }
 
     /**
@@ -133,7 +126,8 @@ public class GhostscriptLibraryTest extends TestCase {
 	args[6] = "-c";
 	args[7] = ".setpdfwrite";
 	args[8] = "-f";
-	args[9] = "input.ps";
+        File file = new File(testResourcesPath, "input.ps");
+	args[9] = file.getPath();
 	int result = ghostscriptLibrary.gsapi_init_with_args(
 		instanceByRef.getValue(), args.length, args);
 
@@ -265,7 +259,8 @@ public class GhostscriptLibraryTest extends TestCase {
 
 	// run command
 	IntByReference exitCode = new IntByReference();
-	ghostscriptLibrary.gsapi_run_file(instanceByRef.getValue(), "input.ps",
+        File file = new File(testResourcesPath, "input.ps");
+	ghostscriptLibrary.gsapi_run_file(instanceByRef.getValue(), file.getPath(),
 		0, exitCode);
 	// test result
 	assertEquals(0, exitCode.getValue());
