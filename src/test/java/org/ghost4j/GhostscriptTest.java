@@ -10,12 +10,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import junit.framework.TestCase;
-import org.apache.commons.io.IOUtils;
 
 import org.ghost4j.display.ImageWriterDisplayCallback;
 
@@ -25,6 +23,8 @@ import org.ghost4j.display.ImageWriterDisplayCallback;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public class GhostscriptTest extends TestCase {
+    
+    private final String testResourcesPath = "target/test-classes";
 
     public GhostscriptTest(String testName) {
 	super(testName);
@@ -33,10 +33,6 @@ public class GhostscriptTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
 	super.setUp();
-        
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("input.ps");
-        IOUtils.copy(in, new FileOutputStream("input.ps"));
-
     }
 
     @Override
@@ -45,8 +41,6 @@ public class GhostscriptTest extends TestCase {
 
 	// delete loaded Ghostscript instance after each test
 	Ghostscript.deleteInstance();
-        
-        new File("input.ps").delete();
     }
 
     /**
@@ -149,7 +143,8 @@ public class GhostscriptTest extends TestCase {
 
 	// run file
 	try {
-	    gs.runFile("input.ps");
+            File file = new File(testResourcesPath, "input.ps");
+	    gs.runFile(file.getPath());
 	} catch (GhostscriptException e) {
 	    fail(e.getMessage());
 	}
@@ -173,8 +168,8 @@ public class GhostscriptTest extends TestCase {
 
 	// initialize
 	try {
-
-	    is = new FileInputStream("input.ps");
+            File file = new File(testResourcesPath, "input.ps");
+	    is = new FileInputStream(file);
 
 	    gs.setStdIn(is);
 
@@ -301,8 +296,9 @@ public class GhostscriptTest extends TestCase {
 	    };
 
 	    gs.initialize(args);
-
-	    gs.runFile("input.ps");
+            
+            File file = new File(testResourcesPath, "inpút.ps");
+	    gs.runFile(file.getPath());
 
 	    gs.exit();
 
