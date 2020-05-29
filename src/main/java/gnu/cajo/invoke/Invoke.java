@@ -36,7 +36,7 @@ package gnu.cajo.invoke;
  * @version 1.0, 01-Nov-99  Initial release
  * @author John Catherino
  */
-public interface Invoke extends java.io.Serializable {
+public interface Invoke extends java.io.Serializable, java.rmi.Remote {
    /**
     * Used by other objects to pass data into this object, and receive
     * synchronous data responses from it, if any. The invocation may, or may
