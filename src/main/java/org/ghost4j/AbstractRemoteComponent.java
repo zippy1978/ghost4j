@@ -26,10 +26,9 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractRemoteComponent extends AbstractComponent {
 
     /**
-     * Slf4j logger used to log messages.
+     * Logger used to log messages.
      */
     private Logger logger = LoggerFactory.getLogger(AbstractRemoteComponent.class.getName());
-    //private Logger logger = LogManager.getLogger(AbstractRemoteComponent.class.getName());
 
     /**
      * Maximum number of parallel processes allowed for the converter.
