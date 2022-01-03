@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.ghost4j.util.JavaFork;
 import org.ghost4j.util.NetworkUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract remote converter component. Used as base class for remote
@@ -26,9 +26,10 @@ import org.ghost4j.util.NetworkUtil;
 public abstract class AbstractRemoteComponent extends AbstractComponent {
 
     /**
-     * Log4J logger used to log messages.
+     * Slf4j logger used to log messages.
      */
-    private Logger logger = LogManager.getLogger(AbstractRemoteComponent.class.getName());
+    private Logger logger = LoggerFactory.getLogger(AbstractRemoteComponent.class.getName());
+    //private Logger logger = LogManager.getLogger(AbstractRemoteComponent.class.getName());
 
     /**
      * Maximum number of parallel processes allowed for the converter.
