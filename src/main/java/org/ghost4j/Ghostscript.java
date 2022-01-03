@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.ghost4j.display.DisplayCallback;
 import org.ghost4j.display.DisplayData;
 
