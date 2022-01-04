@@ -10,11 +10,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 /**
- * Class used to wrap Ghostscript interpreter log messages in Log4J messages.
+ * Class used to wrap Ghostscript interpreter log messages in Slf4j messages.
  * 
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
@@ -36,12 +37,12 @@ public class GhostscriptLoggerOutputStream extends OutputStream {
     private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     /**
-     * Log4J logger used to log messages.
+     * Logger used to log messages.
      */
     private Logger logger;
 
     /**
-     * Log level used when outputing messages to the Log4J logger.
+     * Log level used when outputing messages to the logger.
      */
     private Level level;
 
@@ -52,15 +53,14 @@ public class GhostscriptLoggerOutputStream extends OutputStream {
      *            Defines the log level of outputed messages.
      */
     public GhostscriptLoggerOutputStream(Level level) {
-
-	logger = Logger.getLogger(LOGGER_NAME);
+    logger = LoggerFactory.getLogger(LOGGER_NAME);
 	baos = new ByteArrayOutputStream();
 	this.level = level;
     }
 
     /**
      * Write method that stores data to write in the ByteArrayOutputStream and
-     * sends messages to the Log4J logger when a line ends.
+     * sends messages to the logger when a line ends.
      * 
      * @param b
      *            Byte to write
@@ -69,7 +69,11 @@ public class GhostscriptLoggerOutputStream extends OutputStream {
     public void write(int b) throws IOException {
 
 	if (b == LINE_END) {
-	    logger.log(level, baos.toString());
+	    if (level == Level.INFO) {
+            logger.info(baos.toString());
+        } else if (level == Level.ERROR) {
+            logger.error(baos.toString());
+        }
 	    baos.reset();
 	} else {
 	    baos.write(b);

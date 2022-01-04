@@ -12,12 +12,12 @@ import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.apache.log4j.Level;
 import org.ghost4j.display.DisplayCallback;
 import org.ghost4j.display.DisplayData;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
+import org.slf4j.event.Level;
 
 /**
  * Class representing the Ghostscript interpreter.
