@@ -6,7 +6,7 @@
  */
 package org.ghost4j;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Class used to carry Ghostscript revision data.
@@ -15,52 +15,52 @@ import java.util.Date;
  */
 public class GhostscriptRevision {
 
-    /**
-     * Product name.
-     */
-    private String product;
-    /**
-     * Copyright.
-     */
-    private String copyright;
-    /**
-     * Revision number.
-     */
-    private String number;
-    /**
-     * Revision date.
-     */
-    private Date revisionDate;
+	/**
+	 * Product name.
+	 */
+	private String product;
+	/**
+	 * Copyright.
+	 */
+	private String copyright;
+	/**
+	 * Revision number.
+	 */
+	private String number;
+	/**
+	 * Revision date.
+	 */
+	private LocalDate revisionDate;
 
-    public String getProduct() {
-	return product;
-    }
+	public String getProduct() {
+		return product;
+	}
 
-    public void setProduct(String product) {
-	this.product = product;
-    }
+	public void setProduct(String product) {
+		this.product = product;
+	}
 
-    public String getCopyright() {
-	return copyright;
-    }
+	public String getCopyright() {
+		return copyright;
+	}
 
-    public void setCopyright(String copyright) {
-	this.copyright = copyright;
-    }
+	public void setCopyright(String copyright) {
+		this.copyright = copyright;
+	}
 
-    public Date getRevisionDate() {
-	return revisionDate;
-    }
+	public LocalDate getRevisionDate() {
+		return revisionDate;
+	}
 
-    public void setRevisionDate(Date revisionDate) {
-	this.revisionDate = revisionDate;
-    }
+	public void setRevisionDate(LocalDate revisionDate) {
+		this.revisionDate = revisionDate;
+	}
 
-    public String getNumber() {
-	return number;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public void setNumber(String number) {
-	this.number = number;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 }

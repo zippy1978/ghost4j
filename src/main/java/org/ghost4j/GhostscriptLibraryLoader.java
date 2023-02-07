@@ -16,27 +16,27 @@ import com.sun.jna.Platform;
  */
 public class GhostscriptLibraryLoader {
 
-    /**
-     * Load native library according to host OS.
-     * 
-     * @return The loaded library.
-     */
-    protected static GhostscriptLibrary loadLibrary() {
+	/**
+	 * Load native library according to host OS.
+	 * 
+	 * @return The loaded library.
+	 */
+	protected static GhostscriptLibrary loadLibrary() {
 
-	// library name
-	String libName = "gs";
+		// library name
+		String libName = "gs";
 
-	// on Windows: library has a different name according to the
-	// architecture
-	if (Platform.isWindows()) {
-	    // architecture
-	    String arch = System.getProperty("sun.arch.data.model");
+		// on Windows: library has a different name according to the
+		// architecture
+		if (Platform.isWindows()) {
+			// architecture
+			String arch = System.getProperty("sun.arch.data.model");
 
-	    libName = "gsdll" + arch;
+			libName = "gsdll" + arch;
 
+		}
+
+		return (GhostscriptLibrary) Native.load(libName,
+				GhostscriptLibrary.class);
 	}
-
-	return (GhostscriptLibrary) Native.loadLibrary(libName,
-		GhostscriptLibrary.class);
-    }
 }

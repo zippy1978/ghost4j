@@ -21,67 +21,67 @@ import org.ghost4j.util.ImageUtil;
  */
 public class ImageWriterDisplayCallback implements DisplayCallback {
 
-    /**
-     * Holds document images.
-     */
-    private List<Image> images;
+	/**
+	 * Holds document images.
+	 */
+	private List<Image> images;
 
-    /**
-     * Constructor.
-     */
-    public ImageWriterDisplayCallback() {
-	images = new ArrayList<Image>();
-    }
+	/**
+	 * Constructor.
+	 */
+	public ImageWriterDisplayCallback() {
+		images = new ArrayList<Image>();
+	}
 
-    public void displayOpen() throws GhostscriptException {
+	public void displayOpen() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayPreClose() throws GhostscriptException {
+	public void displayPreClose() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayClose() throws GhostscriptException {
+	public void displayClose() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayPreSize(int width, int height, int raster, int format)
-	    throws GhostscriptException {
+	public void displayPreSize(int width, int height, int raster, int format)
+			throws GhostscriptException {
 
-    }
+	}
 
-    public void displaySize(int width, int height, int raster, int format)
-	    throws GhostscriptException {
+	public void displaySize(int width, int height, int raster, int format)
+			throws GhostscriptException {
 
-    }
+	}
 
-    public void displaySync() throws GhostscriptException {
+	public void displaySync() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayPage(int width, int height, int raster, int format,
-	    int copies, int flush, byte[] imageData)
-	    throws GhostscriptException {
+	public void displayPage(int width, int height, int raster, int format,
+			int copies, int flush, byte[] imageData)
+					throws GhostscriptException {
 
-	// create new raster
-	PageRaster pageRaster = new PageRaster();
-	pageRaster.setWidth(width);
-	pageRaster.setHeight(height);
-	pageRaster.setRaster(raster);
-	pageRaster.setFormat(format);
-	pageRaster.setData(imageData);
+		// create new raster
+		PageRaster pageRaster = new PageRaster();
+		pageRaster.setWidth(width);
+		pageRaster.setHeight(height);
+		pageRaster.setRaster(raster);
+		pageRaster.setFormat(format);
+		pageRaster.setData(imageData);
 
-	// convert to image and add to list
-	images.add(ImageUtil.converterPageRasterToImage(pageRaster));
+		// convert to image and add to list
+		images.add(ImageUtil.converterPageRasterToImage(pageRaster));
 
-    }
+	}
 
-    public void displayUpdate(int x, int y, int width, int height)
-	    throws GhostscriptException {
+	public void displayUpdate(int x, int y, int width, int height)
+			throws GhostscriptException {
 
-    }
+	}
 
-    public List<Image> getImages() {
-	return images;
-    }
+	public List<Image> getImages() {
+		return images;
+	}
 }

@@ -14,11 +14,11 @@ package org.ghost4j.converter;
  */
 public interface RemoteConverter extends Converter {
 
-    /**
-     * Sets max parallel conversion processes allowed for the converter
-     * 
-     * @param maxProcessCount
-     */
-    public void setMaxProcessCount(int maxProcessCount);
+	/**
+	 * Sets max parallel conversion processes allowed for the converter
+	 * 
+	 * @param maxProcessCount
+	 */
+	public void setMaxProcessCount(int maxProcessCount);
 
 }

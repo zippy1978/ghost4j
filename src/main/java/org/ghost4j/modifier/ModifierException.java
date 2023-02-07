@@ -15,24 +15,24 @@ package org.ghost4j.modifier;
  */
 public class ModifierException extends Exception {
 
-    /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = 2810773454523525125L;
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = 2810773454523525125L;
 
-    public ModifierException() {
-	super();
-    }
+	public ModifierException() {
+		super();
+	}
 
-    public ModifierException(String message) {
-	super(message);
-    }
+	public ModifierException(String message) {
+		super(message);
+	}
 
-    public ModifierException(Throwable cause) {
-	super(cause);
-    }
+	public ModifierException(Throwable cause) {
+		super(cause);
+	}
 
-    public ModifierException(String message, Throwable cause) {
-	super(message, cause);
-    }
+	public ModifierException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

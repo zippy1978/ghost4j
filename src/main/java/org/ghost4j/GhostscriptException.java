@@ -13,25 +13,24 @@ package org.ghost4j;
  */
 public class GhostscriptException extends Exception {
 
-    /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = -3901110749568935981L;
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -3901110749568935981L;
 
-    public GhostscriptException() {
-	super();
-    }
+	public GhostscriptException() {
+		super();
+	}
 
-    public GhostscriptException(String message) {
-	super(message);
-    }
+	public GhostscriptException(String message) {
+		super(message);
+	}
 
-    public GhostscriptException(Throwable cause) {
-	super(cause);
-    }
+	public GhostscriptException(Throwable cause) {
+		super(cause);
+	}
 
-    public GhostscriptException(String message, Throwable cause) {
-	super(message, cause);
-    }
-
+	public GhostscriptException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

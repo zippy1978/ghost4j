@@ -25,125 +25,125 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractRemoteComponent extends AbstractComponent {
 
-    /**
-     * Logger used to log messages.
-     */
-    private Logger logger = LoggerFactory.getLogger(AbstractRemoteComponent.class.getName());
+	/**
+	 * Logger used to log messages.
+	 */
+	private Logger logger = LoggerFactory.getLogger(AbstractRemoteComponent.class.getName());
 
-    /**
-     * Maximum number of parallel processes allowed for the converter.
-     */
-    protected int maxProcessCount = 0;
-    /**
-     * Number of parallel processes running.
-     */
-    protected int processCount = 0;
+	/**
+	 * Maximum number of parallel processes allowed for the converter.
+	 */
+	protected int maxProcessCount = 0;
+	/**
+	 * Number of parallel processes running.
+	 */
+	protected int processCount = 0;
 
-    /**
-     * Wait for a process to get free.
-     */
-    public void waitForFreeProcess() {
+	/**
+	 * Wait for a process to get free.
+	 */
+	public void waitForFreeProcess() {
 
-	while (processCount >= maxProcessCount) {
-	    try {
-		Thread.sleep(1000);
-	    } catch (Exception e) {
-		// nothing
-	    }
+		while (processCount >= maxProcessCount) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// nothing
+			}
+		}
 	}
-    }
 
-    /**
-     * Checks if the current class has a proper 'main' method declared.
-     * 
-     * @return true id 'main' method was found
-     */
-    public boolean isStandAloneModeSupported() {
+	/**
+	 * Checks if the current class has a proper 'main' method declared.
+	 * 
+	 * @return true id 'main' method was found
+	 */
+	public boolean isStandAloneModeSupported() {
 
-	try {
-	    this.getClass().getMethod("main", String[].class);
-	    return true;
-	} catch (Exception ex) {
-	    return false;
+		try {
+			this.getClass().getMethod("main", String[].class);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
 	}
-    }
 
-    /**
-     * Start a remote component server on a Javafork object.
-     * 
-     * @param fork
-     *            JavaFork used to run the server
-     * @return Port number used by the server
-     * @throws IOException
-     */
-    protected synchronized int startRemoteServer(JavaFork fork)
-	    throws IOException {
+	/**
+	 * Start a remote component server on a Javafork object.
+	 * 
+	 * @param fork
+	 *            JavaFork used to run the server
+	 * @return Port number used by the server
+	 * @throws IOException
+	 */
+	protected synchronized int startRemoteServer(JavaFork fork)
+			throws IOException {
 
-	// get free TCP port to run Cajo server on
-	int cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 5000, 6000);
-	if (cajoPort == 0) {
-	    throw new IOException("No port available to start remote component");
+		// get free TCP port to run Cajo server on
+		int cajoPort = NetworkUtil.findAvailablePort("127.0.0.1", 5000, 6000);
+		if (cajoPort == 0) {
+			throw new IOException("No port available to start remote component");
+		}
+		logger.debug(Thread.currentThread() + " uses " + cajoPort
+				+ " as server port");
+
+		// add extra environment variables to JVM
+		Map<String, String> environment = new HashMap<String, String>();
+		// Cajo port
+		environment.put("cajo.port", String.valueOf(cajoPort));
+		fork.setEnvironment(environment);
+
+		// start new JVM with current converter
+		fork.start();
+
+		// wait for the remote JVM to start
+		NetworkUtil.waitUntilPortListening("127.0.0.1", cajoPort, 10000);
+
+		return cajoPort;
 	}
-	logger.debug(Thread.currentThread() + " uses " + cajoPort
-		+ " as server port");
 
-	// add extra environment variables to JVM
-	Map<String, String> environment = new HashMap<String, String>();
-	// Cajo port
-	environment.put("cajo.port", String.valueOf(cajoPort));
-	fork.setEnvironment(environment);
+	/**
+	 * Get a client proxy of a remote component
+	 * 
+	 * @param serverPort
+	 *            Server port
+	 * @param clazz
+	 *            Interface of the proxy
+	 * @return The proxy object
+	 * @throws Exception
+	 */
+	protected synchronized Object getRemoteComponent(int serverPort,
+			Class<?> clazz) throws Exception {
 
-	// start new JVM with current converter
-	fork.start();
+		return Remote.getItem("//127.0.0.1:" + serverPort + "/"
+				+ clazz.getCanonicalName());
 
-	// wait for the remote JVM to start
-	NetworkUtil.waitUntilPortListening("127.0.0.1", cajoPort, 10000);
+	}
 
-	return cajoPort;
-    }
+	/**
+	 * Create and return a new JavaFork for remote processing.
+	 * 
+	 * @return A JavaFork
+	 */
+	protected JavaFork buildJavaFork() {
 
-    /**
-     * Get a client proxy of a remote component
-     * 
-     * @param serverPort
-     *            Server port
-     * @param clazz
-     *            Interface of the proxy
-     * @return The proxy object
-     * @throws Exception
-     */
-    protected synchronized Object getRemoteComponent(int serverPort,
-	    Class<?> clazz) throws Exception {
+		JavaFork fork = new JavaFork();
+		fork.setRedirectStreams(true);
+		fork.setWaitBeforeExiting(false);
+		fork.setStartClass(this.getClass());
 
-	return Remote.getItem("//127.0.0.1:" + serverPort + "/"
-		+ clazz.getCanonicalName());
+		return fork;
+	}
 
-    }
+	public int getMaxProcessCount() {
+		return maxProcessCount;
+	}
 
-    /**
-     * Create and return a new JavaFork for remote processing.
-     * 
-     * @return A JavaFork
-     */
-    protected JavaFork buildJavaFork() {
+	public void setMaxProcessCount(int maxProcessCount) {
+		this.maxProcessCount = maxProcessCount;
+	}
 
-	JavaFork fork = new JavaFork();
-	fork.setRedirectStreams(true);
-	fork.setWaitBeforeExiting(false);
-	fork.setStartClass(this.getClass());
-
-	return fork;
-    }
-
-    public int getMaxProcessCount() {
-	return maxProcessCount;
-    }
-
-    public void setMaxProcessCount(int maxProcessCount) {
-	this.maxProcessCount = maxProcessCount;
-    }
-
-    public int getProcessCount() {
-	return processCount;
-    }
+	public int getProcessCount() {
+		return processCount;
+	}
 }

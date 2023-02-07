@@ -20,16 +20,16 @@ import org.ghost4j.document.DocumentException;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public abstract class AbstractConverter extends AbstractComponent implements
-	Converter {
+Converter {
 
-    public void convert(Document document, OutputStream outputStream)
-	    throws IOException, ConverterException, DocumentException {
+	public void convert(Document document, OutputStream outputStream)
+			throws IOException, ConverterException, DocumentException {
 
-	// perform actual processing
-	run(document, outputStream);
+		// perform actual processing
+		run(document, outputStream);
 
-    }
+	}
 
-    protected abstract void run(Document document, OutputStream outputStream)
-	    throws IOException, ConverterException, DocumentException;
+	protected abstract void run(Document document, OutputStream outputStream)
+			throws IOException, ConverterException, DocumentException;
 }

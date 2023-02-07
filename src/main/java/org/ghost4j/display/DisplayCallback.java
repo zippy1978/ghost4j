@@ -24,106 +24,106 @@ import org.ghost4j.GhostscriptException;
  */
 public interface DisplayCallback {
 
-    /**
-     * Method called when new device has been opened. This is the first event
-     * from this device.
-     * 
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displayOpen() throws GhostscriptException;
+	/**
+	 * Method called when new device has been opened. This is the first event
+	 * from this device.
+	 * 
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displayOpen() throws GhostscriptException;
 
-    /**
-     * Method called when device is about to be closed. Device will not be
-     * closed until this function returns.
-     * 
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displayPreClose() throws GhostscriptException;
+	/**
+	 * Method called when device is about to be closed. Device will not be
+	 * closed until this function returns.
+	 * 
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displayPreClose() throws GhostscriptException;
 
-    /**
-     * Method called when device has been closed. This is the last event from
-     * this device.
-     * 
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displayClose() throws GhostscriptException;
+	/**
+	 * Method called when device has been closed. This is the last event from
+	 * this device.
+	 * 
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displayClose() throws GhostscriptException;
 
-    /**
-     * Method called when device is about to be resized.
-     * 
-     * @param width
-     *            Width
-     * @param height
-     *            Height
-     * @param raster
-     *            Raster
-     * @param format
-     *            Format
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displayPreSize(int width, int height, int raster, int format)
-	    throws GhostscriptException;
+	/**
+	 * Method called when device is about to be resized.
+	 * 
+	 * @param width
+	 *            Width
+	 * @param height
+	 *            Height
+	 * @param raster
+	 *            Raster
+	 * @param format
+	 *            Format
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displayPreSize(int width, int height, int raster, int format)
+			throws GhostscriptException;
 
-    /**
-     * Method called when device has been resized.
-     * 
-     * @param width
-     *            Width
-     * @param height
-     *            Height
-     * @param raster
-     *            Raster
-     * @param format
-     *            Format
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displaySize(int width, int height, int raster, int format)
-	    throws GhostscriptException;
+	/**
+	 * Method called when device has been resized.
+	 * 
+	 * @param width
+	 *            Width
+	 * @param height
+	 *            Height
+	 * @param raster
+	 *            Raster
+	 * @param format
+	 *            Format
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displaySize(int width, int height, int raster, int format)
+			throws GhostscriptException;
 
-    /**
-     * Method called on page flush.
-     * 
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displaySync() throws GhostscriptException;
+	/**
+	 * Method called on page flush.
+	 * 
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displaySync() throws GhostscriptException;
 
-    /**
-     * Method called on show page.
-     * 
-     * @param width
-     *            Width
-     * @param height
-     *            Height
-     * @param raster
-     *            Raster
-     * @param format
-     *            Format
-     * @param copies
-     *            Copies
-     * @param flush
-     *            Flush
-     * @param imageData
-     *            Byte array representing image data. Data layout and order is
-     *            controlled by the -dDisplayFormat argument.
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displayPage(int width, int height, int raster, int format,
-	    int copies, int flush, byte[] imageData)
-	    throws GhostscriptException;
+	/**
+	 * Method called on show page.
+	 * 
+	 * @param width
+	 *            Width
+	 * @param height
+	 *            Height
+	 * @param raster
+	 *            Raster
+	 * @param format
+	 *            Format
+	 * @param copies
+	 *            Copies
+	 * @param flush
+	 *            Flush
+	 * @param imageData
+	 *            Byte array representing image data. Data layout and order is
+	 *            controlled by the -dDisplayFormat argument.
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displayPage(int width, int height, int raster, int format,
+			int copies, int flush, byte[] imageData)
+					throws GhostscriptException;
 
-    /**
-     * Method called to notify whenever a portion of the raster is updated.
-     * 
-     * @param x
-     *            X coordinate
-     * @param y
-     *            Y coordinate
-     * @param width
-     *            Width
-     * @param height
-     *            Height
-     * @throws org.ghost4j.GhostscriptException
-     */
-    public void displayUpdate(int x, int y, int width, int height)
-	    throws GhostscriptException;
+	/**
+	 * Method called to notify whenever a portion of the raster is updated.
+	 * 
+	 * @param x
+	 *            X coordinate
+	 * @param y
+	 *            Y coordinate
+	 * @param width
+	 *            Width
+	 * @param height
+	 *            Height
+	 * @throws org.ghost4j.GhostscriptException
+	 */
+	public void displayUpdate(int x, int y, int width, int height)
+			throws GhostscriptException;
 }

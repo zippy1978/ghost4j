@@ -21,51 +21,51 @@ import java.io.PrintWriter;
  */
 public class StreamGobbler extends Thread {
 
-    /**
-     * Input stream to read.
-     */
-    InputStream inputStream;
-    /**
-     * Output stream to write.
-     */
-    OutputStream outputStream;
+	/**
+	 * Input stream to read.
+	 */
+	InputStream inputStream;
+	/**
+	 * Output stream to write.
+	 */
+	OutputStream outputStream;
 
-    public StreamGobbler(InputStream inputStream, OutputStream outputStream) {
+	public StreamGobbler(InputStream inputStream, OutputStream outputStream) {
 
-	this.inputStream = inputStream;
-	this.outputStream = outputStream;
-    }
-
-    @Override
-    public void run() {
-
-	try {
-
-	    PrintWriter printWriter = null;
-	    if (outputStream != null) {
-		printWriter = new PrintWriter(outputStream);
-	    }
-
-	    InputStreamReader inputStreamReader = new InputStreamReader(
-		    inputStream);
-	    BufferedReader bufferedReader = new BufferedReader(
-		    inputStreamReader);
-	    String line = null;
-	    while ((line = bufferedReader.readLine()) != null) {
-		if (printWriter != null) {
-		    printWriter.println(line);
-		}
-	    }
-
-	    if (printWriter != null) {
-		printWriter.flush();
-	    }
-
-	} catch (IOException e) {
-
-	    // nothing
-
+		this.inputStream = inputStream;
+		this.outputStream = outputStream;
 	}
 
-    }
+	@Override
+	public void run() {
+
+		try {
+
+			PrintWriter printWriter = null;
+			if (outputStream != null) {
+				printWriter = new PrintWriter(outputStream);
+			}
+
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					inputStream);
+			BufferedReader bufferedReader = new BufferedReader(
+					inputStreamReader);
+			String line = null;
+			while ((line = bufferedReader.readLine()) != null) {
+				if (printWriter != null) {
+					printWriter.println(line);
+				}
+			}
+
+			if (printWriter != null) {
+				printWriter.flush();
+			}
+
+		} catch (IOException e) {
+
+			// nothing
+
+		}
+
+	}
 }

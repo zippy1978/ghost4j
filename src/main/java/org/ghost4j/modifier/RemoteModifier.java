@@ -13,11 +13,11 @@ package org.ghost4j.modifier;
  */
 public interface RemoteModifier extends Modifier {
 
-    /**
-     * Sets max parallel rendering processes allowed for the modifier
-     * 
-     * @param maxProcessCount
-     */
-    public void setMaxProcessCount(int maxProcessCount);
+	/**
+	 * Sets max parallel rendering processes allowed for the modifier
+	 * 
+	 * @param maxProcessCount
+	 */
+	public void setMaxProcessCount(int maxProcessCount);
 
 }

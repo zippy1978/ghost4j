@@ -22,16 +22,16 @@ import org.ghost4j.document.DocumentException;
  * @author Gilles Grousset (gi.grousset@gmail.com)
  */
 public abstract class AbstractModifier extends AbstractComponent implements
-	Modifier {
+Modifier {
 
-    public Document modify(Document source, Map<String, Serializable> parameters)
-	    throws ModifierException, DocumentException, IOException {
+	public Document modify(Document source, Map<String, Serializable> parameters)
+			throws ModifierException, DocumentException, IOException {
 
-	// perform actual processing
-	return run(source, parameters);
-    }
+		// perform actual processing
+		return run(source, parameters);
+	}
 
-    protected abstract Document run(Document source,
-	    Map<String, Serializable> parameters) throws ModifierException,
-	    DocumentException;
+	protected abstract Document run(Document source,
+			Map<String, Serializable> parameters) throws ModifierException,
+	DocumentException;
 }

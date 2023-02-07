@@ -15,24 +15,24 @@ package org.ghost4j.converter;
  */
 public class ConverterException extends Exception {
 
-    /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = -4246261539550729104L;
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -4246261539550729104L;
 
-    public ConverterException() {
-	super();
-    }
+	public ConverterException() {
+		super();
+	}
 
-    public ConverterException(String message) {
-	super(message);
-    }
+	public ConverterException(String message) {
+		super(message);
+	}
 
-    public ConverterException(Throwable cause) {
-	super(cause);
-    }
+	public ConverterException(Throwable cause) {
+		super(cause);
+	}
 
-    public ConverterException(String message, Throwable cause) {
-	super(message, cause);
-    }
+	public ConverterException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

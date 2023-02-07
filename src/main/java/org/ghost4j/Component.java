@@ -17,26 +17,26 @@ import java.util.Map;
  */
 public interface Component {
 
-    /**
-     * Copy settings (object properties except for property 'maxProcessCount')
-     * to the current component
-     * 
-     * @param settings
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     */
-    public void copySettings(Map<String, Object> settings)
-	    throws IllegalAccessException, InvocationTargetException;
+	/**
+	 * Copy settings (object properties except for property 'maxProcessCount')
+	 * to the current component
+	 * 
+	 * @param settings
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
+	 */
+	public void copySettings(Map<String, Object> settings)
+			throws IllegalAccessException, InvocationTargetException;
 
-    /**
-     * Extract settings (object properties except for property
-     * 'maxProcessCount') of the current component
-     * 
-     * @return a Map of settings
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     */
-    public Map<String, Object> extractSettings() throws IllegalAccessException,
-	    InvocationTargetException, NoSuchMethodException;
+	/**
+	 * Extract settings (object properties except for property
+	 * 'maxProcessCount') of the current component
+	 * 
+	 * @return a Map of settings
+	 * @throws NoSuchMethodException
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
+	 */
+	public Map<String, Object> extractSettings() throws IllegalAccessException,
+	InvocationTargetException, NoSuchMethodException;
 }
