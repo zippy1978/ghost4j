@@ -236,11 +236,6 @@ public class PDFConverter extends AbstractRemoteConverter {
 			// execute and exit interpreter
 			synchronized (gs) {
 				Logger logger = LoggerFactory.getLogger(LOGGER_NAME);
-				GhostscriptRevision rev = Ghostscript.getRevision();
-				logger.info(rev.getProduct() + " " + rev.getNumber() + " (" +
-						rev.getRevisionDate().format(DateTimeFormatter.ISO_DATE) +
-						")");
-				logger.info(rev.getCopyright());
 				logger.debug("Arguments to gs:");
 
 				for (String arg : gsArgs) {

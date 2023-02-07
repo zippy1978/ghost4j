@@ -18,6 +18,8 @@ import org.ghost4j.display.DisplayData;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
 /**
@@ -31,6 +33,10 @@ public class Ghostscript {
 	 * Name of the system property used to set the encoding to use for stdin.
 	 */
 	public static final String PROPERTY_NAME_ENCODING = "ghost4j.encoding";
+	/**
+	 * Logger name.
+	 */
+	private static final String LOGGER_NAME = Ghostscript.class.getName();
 	/**
 	 * Holds Ghostscript interpreter native instance (C pointer).
 	 */
@@ -226,8 +232,8 @@ public class Ghostscript {
 		 * revision number of 9550 but this results in 95.5.  Perhaps it would
 		 * be better to simply return 9550?
 		 */
-		result.setNumber(Float.valueOf(revision.revision.floatValue() / 100)
-				.toString());
+		//result.setNumber(Float.valueOf(revision.revision.floatValue() / 100));
+		result.setNumber(revision.revision.longValue());
 		// parse revision date
 		try {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -353,7 +359,22 @@ public class Ghostscript {
 		}
 
 		// init
-		result = GhostscriptLibrary.instance.gsapi_set_arg_encoding(getNativeInstanceByRef().getValue(), GhostscriptLibrary.GS_ARG_ENCODING_UTF8);
+		Logger logger = LoggerFactory.getLogger(LOGGER_NAME);
+		GhostscriptRevision rev = Ghostscript.getRevision();
+		logger.info(rev.getProduct() + " " + rev.getNumber() + " (" +
+				rev.getRevisionDate().format(DateTimeFormatter.ISO_DATE) +
+				")");
+		logger.info(rev.getCopyright());
+
+		/* Ghostscript versions older than 9.08 (at least) do not have the
+		 * gsapi_set_arg_encoding() function call.  On those older versions
+		 * there is no requirement to call it.  So if we detect a version
+		 * older than 9.08 skip the call.
+		 */
+		if (rev.getNumber() > Long.valueOf("9070")) {
+			result = GhostscriptLibrary.instance.gsapi_set_arg_encoding(getNativeInstanceByRef().getValue(), GhostscriptLibrary.GS_ARG_ENCODING_UTF8);
+		}
+
 		if (args != null) {
 			result = GhostscriptLibrary.instance.gsapi_init_with_args(
 					getNativeInstanceByRef().getValue(), args.length, args);
@@ -389,7 +410,8 @@ public class Ghostscript {
 		nativeDisplayCallback = new GhostscriptLibrary.display_callback_s();
 
 		// determine display callback version from Ghostscript version
-		float version = Float.parseFloat(getRevision().getNumber());
+		//float version = getRevision().getNumber();
+		float version = Float.valueOf(getRevision().getNumber() / 100);
 		// some versions report version 8.15 as 815.05
 		if (version < 8.50 || version > 100) {
 			nativeDisplayCallback.version_major = 1;

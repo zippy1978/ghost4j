@@ -26,7 +26,7 @@ public class GhostscriptRevision {
 	/**
 	 * Revision number.
 	 */
-	private String number;
+	private long number;
 	/**
 	 * Revision date.
 	 */
@@ -36,7 +36,7 @@ public class GhostscriptRevision {
 		return product;
 	}
 
-	public void setProduct(String product) {
+	public void setProduct(final String product) {
 		this.product = product;
 	}
 
@@ -44,7 +44,7 @@ public class GhostscriptRevision {
 		return copyright;
 	}
 
-	public void setCopyright(String copyright) {
+	public void setCopyright(final String copyright) {
 		this.copyright = copyright;
 	}
 
@@ -52,15 +52,15 @@ public class GhostscriptRevision {
 		return revisionDate;
 	}
 
-	public void setRevisionDate(LocalDate revisionDate) {
+	public void setRevisionDate(final LocalDate revisionDate) {
 		this.revisionDate = revisionDate;
 	}
 
-	public String getNumber() {
+	public long getNumber() {
 		return number;
 	}
 
-	public void setNumber(String number) {
+	public void setNumber(final long number) {
 		this.number = number;
 	}
 }
