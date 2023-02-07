@@ -7,6 +7,7 @@
 package org.ghost4j;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Class used to carry Ghostscript revision data.
@@ -50,6 +51,14 @@ public class GhostscriptRevision {
 
 	public LocalDate getRevisionDate() {
 		return revisionDate;
+	}
+
+	public String getRevisionDateFormatted() {
+		if (revisionDate != null) {
+			return revisionDate.format(DateTimeFormatter.ISO_DATE);
+		} else {
+			return "unavailable";
+		}
 	}
 
 	public void setRevisionDate(final LocalDate revisionDate) {

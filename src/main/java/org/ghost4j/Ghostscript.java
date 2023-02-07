@@ -362,8 +362,7 @@ public class Ghostscript {
 		Logger logger = LoggerFactory.getLogger(LOGGER_NAME);
 		GhostscriptRevision rev = Ghostscript.getRevision();
 		logger.info(rev.getProduct() + " " + rev.getNumber() + " (" +
-				rev.getRevisionDate().format(DateTimeFormatter.ISO_DATE) +
-				")");
+				rev.getRevisionDateFormatted() + ")");
 		logger.info(rev.getCopyright());
 
 		/* Ghostscript versions older than 9.08 (at least) do not have the
