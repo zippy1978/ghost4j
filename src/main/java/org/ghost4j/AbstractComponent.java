@@ -72,7 +72,6 @@ public abstract class AbstractComponent implements Component {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public Map<String, Object> extractSettings() throws IllegalAccessException,
 	InvocationTargetException, NoSuchMethodException {
 

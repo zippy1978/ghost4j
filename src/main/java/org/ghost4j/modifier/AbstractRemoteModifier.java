@@ -52,7 +52,7 @@ implements RemoteModifier {
 
 			// export modifier
 			RemoteModifier modifierCopy = remoteModifier.getClass()
-					.newInstance();
+					.getDeclaredConstructor().newInstance();
 			remoteModifier.setMaxProcessCount(0);
 
 			Remote.config(null, cajoPort, null, 0);

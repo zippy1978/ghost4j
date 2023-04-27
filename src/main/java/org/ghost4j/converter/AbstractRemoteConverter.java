@@ -50,7 +50,7 @@ implements RemoteConverter {
 
 			// export converter
 			RemoteConverter converterCopy = remoteConverter.getClass()
-					.newInstance();
+					.getDeclaredConstructor().newInstance();
 			converterCopy.setMaxProcessCount(0);
 
 			Remote.config(null, cajoPort, null, 0);
