@@ -31,117 +31,117 @@ import org.ghost4j.util.DiskStore;
  */
 public class SafeAppenderModifier extends AbstractRemoteModifier {
 
-    public static final String PARAMETER_APPEND_DOCUMENT = "APPEND_DOCUMENT";
+	public static final String PARAMETER_APPEND_DOCUMENT = "APPEND_DOCUMENT";
 
-    public SafeAppenderModifier() {
+	public SafeAppenderModifier() {
 
-	// set supported classes
-	supportedDocumentClasses = new Class[] { PSDocument.class,
-		PDFDocument.class };
-    }
-
-    /**
-     * Main method used to start the modifier in standalone 'slave mode'.
-     * 
-     * @param args
-     * @throws ModifierException
-     */
-    public static void main(String args[]) throws ModifierException {
-	startRemoteModifier(new SafeAppenderModifier());
-    }
-
-    @Override
-    protected Document run(Document source, Map<String, Serializable> parameters)
-	    throws ModifierException, DocumentException, IOException {
-
-	// check that document to append is provided as parameter
-	Document append = (Document) parameters.get(PARAMETER_APPEND_DOCUMENT);
-	if (append == null) {
-	    throw new ModifierException(
-		    "No document to append found in parameters map");
+		// set supported classes
+		supportedDocumentClasses = new Class[] { PSDocument.class,
+				PDFDocument.class };
 	}
 
-	// get Ghostscript instance
-	Ghostscript gs = Ghostscript.getInstance();
+	/**
+	 * Main method used to start the modifier in standalone 'slave mode'.
+	 * 
+	 * @param args
+	 * @throws ModifierException
+	 */
+	public static void main(String args[]) throws ModifierException {
+		startRemoteModifier(new SafeAppenderModifier());
+	}
 
-	// generate a unique diskstore key for source and append documents, and
-	// for output file
-	DiskStore diskStore = DiskStore.getInstance();
-	String sourceDiskStoreKey = diskStore.generateUniqueKey();
-	String appendDiskStoreKey = diskStore.generateUniqueKey();
-	String outputDiskStoreKey = diskStore.generateUniqueKey();
+	@Override
+	protected Document run(Document source, Map<String, Serializable> parameters)
+			throws ModifierException, DocumentException, IOException {
 
-	// write source and append to files
-	source.write(diskStore.addFile(sourceDiskStoreKey));
-	append.write(diskStore.addFile(appendDiskStoreKey));
-
-	// guess output device from source document type
-	String deviceName = "pswrite";
-	try {
-	    if (source.getType().equals(Document.TYPE_PDF)) {
-		deviceName = "pdfwrite";
-	    } else {
-		// for Postscript : use ps2write if available
-		if (this.isDeviceSupported("ps2write")) {
-		    deviceName = "ps2write";
-		} else {
-		    deviceName = "pswrite";
+		// check that document to append is provided as parameter
+		Document append = (Document) parameters.get(PARAMETER_APPEND_DOCUMENT);
+		if (append == null) {
+			throw new ModifierException(
+					"No document to append found in parameters map");
 		}
-	    }
-	} catch (GhostscriptException e) {
-	    throw new ModifierException(e);
+
+		// get Ghostscript instance
+		Ghostscript gs = Ghostscript.getInstance();
+
+		// generate a unique diskstore key for source and append documents, and
+		// for output file
+		DiskStore diskStore = DiskStore.getInstance();
+		String sourceDiskStoreKey = diskStore.generateUniqueKey();
+		String appendDiskStoreKey = diskStore.generateUniqueKey();
+		String outputDiskStoreKey = diskStore.generateUniqueKey();
+
+		// write source and append to files
+		source.write(diskStore.addFile(sourceDiskStoreKey));
+		append.write(diskStore.addFile(appendDiskStoreKey));
+
+		// guess output device from source document type
+		String deviceName = "pswrite";
+		try {
+			if (source.getType().equals(Document.TYPE_PDF)) {
+				deviceName = "pdfwrite";
+			} else {
+				// for Postscript : use ps2write if available
+				if (this.isDeviceSupported("ps2write")) {
+					deviceName = "ps2write";
+				} else {
+					deviceName = "pswrite";
+				}
+			}
+		} catch (GhostscriptException e) {
+			throw new ModifierException(e);
+		}
+
+		// prepare args
+		String[] gsArgs = {
+				"-psconv",
+				"-dNOPAUSE",
+				"-dSAFER",
+				"-dBATCH",
+				"-sDEVICE=" + deviceName,
+				"-sOutputFile="
+						+ diskStore.addFile(outputDiskStoreKey)
+						.getAbsolutePath(), "-q", "-f",
+						diskStore.getFile(sourceDiskStoreKey).getAbsolutePath(),
+						diskStore.getFile(appendDiskStoreKey).getAbsolutePath() };
+
+		Document result = null;
+
+		try {
+
+			// execute and exit interpreter
+			synchronized (gs) {
+				gs.initialize(gsArgs);
+				gs.exit();
+			}
+
+			// load obtained document (same type as source document)
+			if (source.getType().equals(Document.TYPE_PDF)) {
+				result = new PDFDocument();
+			} else if (source.getType().equals(Document.TYPE_POSTSCRIPT)) {
+				result = new PSDocument();
+			}
+			result.load(diskStore.getFile(outputDiskStoreKey));
+
+		} catch (GhostscriptException e) {
+
+			throw new ModifierException(e);
+
+		} finally {
+
+			// delete Ghostscript instance
+			try {
+				Ghostscript.deleteInstance();
+			} catch (GhostscriptException e) {
+				throw new ModifierException(e);
+			}
+
+			// remove temporary files
+			diskStore.removeFile(outputDiskStoreKey);
+			diskStore.removeFile(sourceDiskStoreKey);
+			diskStore.removeFile(appendDiskStoreKey);
+		}
+
+		return result;
 	}
-
-	// prepare args
-	String[] gsArgs = {
-		"-psconv",
-		"-dNOPAUSE",
-		"-dSAFER",
-		"-dBATCH",
-		"-sDEVICE=" + deviceName,
-		"-sOutputFile="
-			+ diskStore.addFile(outputDiskStoreKey)
-				.getAbsolutePath(), "-q", "-f",
-		diskStore.getFile(sourceDiskStoreKey).getAbsolutePath(),
-		diskStore.getFile(appendDiskStoreKey).getAbsolutePath() };
-
-	Document result = null;
-
-	try {
-
-	    // execute and exit interpreter
-	    synchronized (gs) {
-		gs.initialize(gsArgs);
-		gs.exit();
-	    }
-
-	    // load obtained document (same type as source document)
-	    if (source.getType().equals(Document.TYPE_PDF)) {
-		result = new PDFDocument();
-	    } else if (source.getType().equals(Document.TYPE_POSTSCRIPT)) {
-		result = new PSDocument();
-	    }
-	    result.load(diskStore.getFile(outputDiskStoreKey));
-
-	} catch (GhostscriptException e) {
-
-	    throw new ModifierException(e);
-
-	} finally {
-
-	    // delete Ghostscript instance
-	    try {
-		Ghostscript.deleteInstance();
-	    } catch (GhostscriptException e) {
-		throw new ModifierException(e);
-	    }
-
-	    // remove temporary files
-	    diskStore.removeFile(outputDiskStoreKey);
-	    diskStore.removeFile(sourceDiskStoreKey);
-	    diskStore.removeFile(appendDiskStoreKey);
-	}
-
-	return result;
-    }
 }

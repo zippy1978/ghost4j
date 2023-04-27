@@ -6,7 +6,8 @@
  */
 package org.ghost4j;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Class used to carry Ghostscript revision data.
@@ -15,52 +16,60 @@ import java.util.Date;
  */
 public class GhostscriptRevision {
 
-    /**
-     * Product name.
-     */
-    private String product;
-    /**
-     * Copyright.
-     */
-    private String copyright;
-    /**
-     * Revision number.
-     */
-    private String number;
-    /**
-     * Revision date.
-     */
-    private Date revisionDate;
+	/**
+	 * Product name.
+	 */
+	private String product;
+	/**
+	 * Copyright.
+	 */
+	private String copyright;
+	/**
+	 * Revision number.
+	 */
+	private long number;
+	/**
+	 * Revision date.
+	 */
+	private LocalDate revisionDate;
 
-    public String getProduct() {
-	return product;
-    }
+	public String getProduct() {
+		return product;
+	}
 
-    public void setProduct(String product) {
-	this.product = product;
-    }
+	public void setProduct(final String product) {
+		this.product = product;
+	}
 
-    public String getCopyright() {
-	return copyright;
-    }
+	public String getCopyright() {
+		return copyright;
+	}
 
-    public void setCopyright(String copyright) {
-	this.copyright = copyright;
-    }
+	public void setCopyright(final String copyright) {
+		this.copyright = copyright;
+	}
 
-    public Date getRevisionDate() {
-	return revisionDate;
-    }
+	public LocalDate getRevisionDate() {
+		return revisionDate;
+	}
 
-    public void setRevisionDate(Date revisionDate) {
-	this.revisionDate = revisionDate;
-    }
+	public String getRevisionDateFormatted() {
+		if (revisionDate != null) {
+			return revisionDate.format(DateTimeFormatter.ISO_DATE);
+		} else {
+			return "unavailable";
+		}
+	}
 
-    public String getNumber() {
-	return number;
-    }
+	public void setRevisionDate(final LocalDate revisionDate) {
+		this.revisionDate = revisionDate;
+	}
 
-    public void setNumber(String number) {
-	this.number = number;
-    }
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(final long number) {
+		this.number = number;
+	}
 }

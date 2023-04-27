@@ -21,62 +21,62 @@ import org.slf4j.event.Level;
  */
 public class GhostscriptLoggerOutputStream extends OutputStream {
 
-    /**
-     * Logger name.
-     */
-    private static final String LOGGER_NAME = Ghostscript.class.getName();
+	/**
+	 * Logger name.
+	 */
+	private static final String LOGGER_NAME = Ghostscript.class.getName();
 
-    /**
-     * Line termination for a log message.
-     */
-    private static final int LINE_END = (int) '\n';
+	/**
+	 * Line termination for a log message.
+	 */
+	private static final int LINE_END = (int) '\n';
 
-    /**
-     * ByteArrayOutputStream used to store outputed messages being written.
-     */
-    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	/**
+	 * ByteArrayOutputStream used to store outputed messages being written.
+	 */
+	private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-    /**
-     * Logger used to log messages.
-     */
-    private Logger logger;
+	/**
+	 * Logger used to log messages.
+	 */
+	private final Logger logger;
 
-    /**
-     * Log level used when outputing messages to the logger.
-     */
-    private Level level;
+	/**
+	 * Log level used when outputing messages to the logger.
+	 */
+	private final Level level;
 
-    /**
-     * Constructor.
-     * 
-     * @param level
-     *            Defines the log level of outputed messages.
-     */
-    public GhostscriptLoggerOutputStream(Level level) {
-    logger = LoggerFactory.getLogger(LOGGER_NAME);
-	baos = new ByteArrayOutputStream();
-	this.level = level;
-    }
-
-    /**
-     * Write method that stores data to write in the ByteArrayOutputStream and
-     * sends messages to the logger when a line ends.
-     * 
-     * @param b
-     *            Byte to write
-     * @throws IOException
-     */
-    public void write(int b) throws IOException {
-
-	if (b == LINE_END) {
-	    if (level == Level.INFO) {
-            logger.info(baos.toString());
-        } else if (level == Level.ERROR) {
-            logger.error(baos.toString());
-        }
-	    baos.reset();
-	} else {
-	    baos.write(b);
+	/**
+	 * Constructor.
+	 * 
+	 * @param level
+	 *            Defines the log level of outputed messages.
+	 */
+	public GhostscriptLoggerOutputStream(final Level level) {
+		logger = LoggerFactory.getLogger(LOGGER_NAME);
+		baos = new ByteArrayOutputStream();
+		this.level = level;
 	}
-    }
+
+	/**
+	 * Write method that stores data to write in the ByteArrayOutputStream and
+	 * sends messages to the logger when a line ends.
+	 * 
+	 * @param b
+	 *            Byte to write
+	 * @throws IOException
+	 */
+	public void write(int b) throws IOException {
+
+		if (b == LINE_END) {
+			if (level == Level.INFO) {
+				logger.info(baos.toString());
+			} else if (level == Level.ERROR) {
+				logger.error(baos.toString());
+			}
+			baos.reset();
+		} else {
+			baos.write(b);
+		}
+	}
 }

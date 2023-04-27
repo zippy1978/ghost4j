@@ -28,48 +28,48 @@ import org.ghost4j.display.PageRaster;
  */
 public class ImageUtil {
 
-    /**
-     * Converts a list of PageRaster objects to a list of Image objects
-     * 
-     * @param rasters
-     *            Page rasters to convert
-     * @return A list of images
-     */
-    public static List<Image> convertPageRastersToImages(
-	    List<PageRaster> rasters) {
+	/**
+	 * Converts a list of PageRaster objects to a list of Image objects
+	 * 
+	 * @param rasters
+	 *            Page rasters to convert
+	 * @return A list of images
+	 */
+	public static List<Image> convertPageRastersToImages(
+			List<PageRaster> rasters) {
 
-	List<Image> result = new ArrayList<Image>();
+		List<Image> result = new ArrayList<Image>();
 
-	for (PageRaster raster : rasters) {
-	    result.add(converterPageRasterToImage(raster));
+		for (PageRaster raster : rasters) {
+			result.add(converterPageRasterToImage(raster));
+		}
+
+		return result;
 	}
 
-	return result;
-    }
+	/**
+	 * Converts a PageRaster object to an Image object. Raster data is supposed
+	 * to hold RGB image data
+	 * 
+	 * @param raster
+	 *            Page raster to convert
+	 * @return An image
+	 */
+	public static Image converterPageRasterToImage(PageRaster raster) {
 
-    /**
-     * Converts a PageRaster object to an Image object. Raster data is supposed
-     * to hold RGB image data
-     * 
-     * @param raster
-     *            Page raster to convert
-     * @return An image
-     */
-    public static Image converterPageRasterToImage(PageRaster raster) {
+		// create raster
+		DataBufferByte dbb = new DataBufferByte(raster.getData(),
+				raster.getData().length);
+		WritableRaster wr = Raster.createInterleavedRaster(dbb,
+				raster.getWidth(), raster.getHeight(), raster.getRaster(), 3,
+				new int[] { 0, 1, 2 }, null);
 
-	// create raster
-	DataBufferByte dbb = new DataBufferByte(raster.getData(),
-		raster.getData().length);
-	WritableRaster wr = Raster.createInterleavedRaster(dbb,
-		raster.getWidth(), raster.getHeight(), raster.getRaster(), 3,
-		new int[] { 0, 1, 2 }, null);
+		// create color space
+		ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+		ColorModel cm = new ComponentColorModel(cs, false, false,
+				Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 
-	// create color space
-	ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-	ColorModel cm = new ComponentColorModel(cs, false, false,
-		Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-
-	// create image and return it
-	return new BufferedImage(cm, wr, false, null);
-    }
+		// create image and return it
+		return new BufferedImage(cm, wr, false, null);
+	}
 }

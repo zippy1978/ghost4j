@@ -19,65 +19,65 @@ import org.ghost4j.GhostscriptException;
  */
 public class PageRasterDisplayCallback implements DisplayCallback {
 
-    private List<PageRaster> rasters;
+	private List<PageRaster> rasters;
 
-    /**
-     * Constructor
-     */
-    public PageRasterDisplayCallback() {
+	/**
+	 * Constructor
+	 */
+	public PageRasterDisplayCallback() {
 
-	rasters = new ArrayList<PageRaster>();
-    }
+		rasters = new ArrayList<PageRaster>();
+	}
 
-    public void displayClose() throws GhostscriptException {
+	public void displayClose() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayOpen() throws GhostscriptException {
+	public void displayOpen() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayPage(int width, int height, int raster, int format,
-	    int copies, int flush, byte[] imageData)
-	    throws GhostscriptException {
+	public void displayPage(int width, int height, int raster, int format,
+			int copies, int flush, byte[] imageData)
+					throws GhostscriptException {
 
-	// prepare new raster
-	PageRaster pageRaster = new PageRaster();
-	pageRaster.setWidth(width);
-	pageRaster.setHeight(height);
-	pageRaster.setRaster(raster);
-	pageRaster.setFormat(format);
-	pageRaster.setData(imageData);
+		// prepare new raster
+		PageRaster pageRaster = new PageRaster();
+		pageRaster.setWidth(width);
+		pageRaster.setHeight(height);
+		pageRaster.setRaster(raster);
+		pageRaster.setFormat(format);
+		pageRaster.setData(imageData);
 
-	// add it to the result list
-	rasters.add(pageRaster);
+		// add it to the result list
+		rasters.add(pageRaster);
 
-    }
+	}
 
-    public void displayPreClose() throws GhostscriptException {
+	public void displayPreClose() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayPreSize(int width, int height, int raster, int format)
-	    throws GhostscriptException {
+	public void displayPreSize(int width, int height, int raster, int format)
+			throws GhostscriptException {
 
-    }
+	}
 
-    public void displaySize(int width, int height, int raster, int format)
-	    throws GhostscriptException {
+	public void displaySize(int width, int height, int raster, int format)
+			throws GhostscriptException {
 
-    }
+	}
 
-    public void displaySync() throws GhostscriptException {
+	public void displaySync() throws GhostscriptException {
 
-    }
+	}
 
-    public void displayUpdate(int x, int y, int width, int height)
-	    throws GhostscriptException {
-    }
+	public void displayUpdate(int x, int y, int width, int height)
+			throws GhostscriptException {
+	}
 
-    public List<PageRaster> getRasters() {
-	return rasters;
-    }
+	public List<PageRaster> getRasters() {
+		return rasters;
+	}
 
 }

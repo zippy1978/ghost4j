@@ -16,53 +16,53 @@ import java.io.Serializable;
  */
 public class PageRaster implements Serializable {
 
-    /**
-     * Serial version UID.
-     */
-    private static final long serialVersionUID = -977080307761838114L;
-    private int width;
-    private int height;
-    private int raster;
-    private int format;
-    private byte[] data;
+	/**
+	 * Serial version UID.
+	 */
+	private static final long serialVersionUID = -977080307761838114L;
+	private int width;
+	private int height;
+	private int raster;
+	private int format;
+	private byte[] data;
 
-    public int getWidth() {
-	return width;
-    }
+	public int getWidth() {
+		return width;
+	}
 
-    public void setWidth(int width) {
-	this.width = width;
-    }
+	public void setWidth(int width) {
+		this.width = width;
+	}
 
-    public int getHeight() {
-	return height;
-    }
+	public int getHeight() {
+		return height;
+	}
 
-    public void setHeight(int height) {
-	this.height = height;
-    }
+	public void setHeight(int height) {
+		this.height = height;
+	}
 
-    public int getRaster() {
-	return raster;
-    }
+	public int getRaster() {
+		return raster;
+	}
 
-    public void setRaster(int raster) {
-	this.raster = raster;
-    }
+	public void setRaster(int raster) {
+		this.raster = raster;
+	}
 
-    public int getFormat() {
-	return format;
-    }
+	public int getFormat() {
+		return format;
+	}
 
-    public void setFormat(int format) {
-	this.format = format;
-    }
+	public void setFormat(int format) {
+		this.format = format;
+	}
 
-    public byte[] getData() {
-	return data;
-    }
+	public byte[] getData() {
+		return data;
+	}
 
-    public void setData(byte[] data) {
-	this.data = data;
-    }
+	public void setData(byte[] data) {
+		this.data = data;
+	}
 }

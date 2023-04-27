@@ -21,16 +21,16 @@ import org.ghost4j.document.DocumentException;
  */
 public interface Modifier {
 
-    /**
-     * Modify a document with optional parameters
-     * 
-     * @param source
-     *            Document to modify
-     * @param parameters
-     *            Modifier parameters
-     * @return Modifier version of the document
-     * @throws ModifierException
-     */
-    public Document modify(Document source, Map<String, Serializable> parameters)
-	    throws ModifierException, DocumentException, IOException;
+	/**
+	 * Modify a document with optional parameters
+	 * 
+	 * @param source
+	 *            Document to modify
+	 * @param parameters
+	 *            Modifier parameters
+	 * @return Modifier version of the document
+	 * @throws ModifierException
+	 */
+	public Document modify(Document source, Map<String, Serializable> parameters)
+			throws ModifierException, DocumentException, IOException;
 }
